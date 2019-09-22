@@ -1,21 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import toast from 'toasted-notes' 
+import ACTIONS from "../redux/action";
+import { isEmpty } from '../utils/helpers';
 import Home from './Home';
+import Loader from '../components/Loader';
+import 'toasted-notes/src/styles.css';
 import '../styles/global.css';
 import '../styles/home.css';
 
 class MainContainer extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { user: {} };
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const { notification, clearNotification } = this.props;
+        if (prevProps.notification !== notification && !isEmpty(notification)) {
+            const { message, options } = notification;
+            toast.notify(message, options);
+            clearNotification();
+        }
     }
 
     render() {
         return (
-            <div className="main-container">
-                <Home />
-            </div>
+            <Loader children={<Home />} />
         );
     }
 }
 
-export default MainContainer;
+const mapStateToProps = state => ({
+    notification: state.notification
+});
+
+const mapDispatchToProps = dispatch => ({
+    clearNotification: () => dispatch(ACTIONS.clearNotification())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

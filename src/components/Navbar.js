@@ -1,70 +1,148 @@
 //eslint-disable jsx-a11y/anchor-is-valid
 import React, { Component } from 'react';
-import { openPage } from '../utils/helpers';
+import { connect } from "react-redux";
+import ACTIONS from "../redux/action";
+import { isLoggedIn } from '../utils/helpers';
 import logo from '../images/athena_logo.png'
+import logoWhite from '../images/athena_logo_long_white.png'
 
 class Navbar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { user: {} };
+    toggleSignOn = (event, title) => {
+        event.preventDefault();
+        const { setSignon, renderForms } = this.props;
+        setSignon(title);
+        if (renderForms) {
+            renderForms(false);
+        }
+    }
+
+    checkPage = (pageName) => {
+        const { page } = this.props;
+        return page === pageName;
+    }
+
+    renderRightMenuItems = () => {
+        if (this.checkPage('accountSelector')) {
+            return;
+        }
+        const LABELS = ['JOB LIST', 'FREELANCERS', 'EMPLOYERS'];
+        const menuItems = LABELS.map((label, index) => {
+            return (
+                <li key={index}>
+                    <a className="browse-tablinks" href="/">{label}</a>
+                </li>
+            );
+        });
+        return menuItems;
+    }
+
+    renderAccountButtons = () => {
+        const { user } = this.props;
+        if (isLoggedIn(user)) {
+            return;
+        }
+        const loginSelectorPageStyles = this.checkPage('accountSelector') ? { color: 'white' } : {};
+        const signUpSelectorPageStyles = this.checkPage('accountSelector') ? { color: 'black', backgroundColor: 'white' } : {};
+        const TITLES = ['Sign In', 'Sign up for free'];
+        const buttons = TITLES.map((title, index) => {
+            const isSignIn = title.toLocaleLowerCase().includes('sign in');
+
+            const styles = isSignIn ? loginSelectorPageStyles : signUpSelectorPageStyles;
+            const label = isSignIn ? 'Login' : 'Sign Up';
+            const classes = `navbar-button ${isSignIn ? 'plain' : 'active'}`;
+
+            return (
+                <li className="margin-left-neg-1" key={index}>
+                    <a href="#/" onClick={event => this.toggleSignOn(event, title)}>
+                        <span className={classes} style={styles}>{label}</span>
+                    </a>
+                </li>
+            );
+        });
+        return buttons;
+    }
+
+    renderNavMenu = (side) => {
+        const { user } = this.props;
+        const rightMenuSelectorPageStyles = this.checkPage('accountSelector') ? { marginRight: '1em' } : {};
+
+        if (this.checkPage('home') && side === "left") {
+            return (
+                <ul className="nav navbar-nav">
+                    <li>
+                        <a id="home-link" className="browse-tablinks active" href="/">HOME</a>
+                    </li>
+                    <li>
+                        <a id="second-home-link" className="browse-tablinks" href="/">HOME ALT</a>
+                    </li>
+                    <li>
+                        <a className="browse-tablinks" href="/">ABOUT US</a>
+                    </li>
+                    <li>
+                        <a className="browse-tablinks" href="/">SERVICES</a>
+                    </li>
+                    <li>
+                        <a className="browse-tablinks" href="/blog" >BLOG</a>
+                    </li>
+                    <li>
+                        <a className="browse-tablinks" href="/">CONTACT</a>
+                    </li>
+                </ul>
+            );
+        } else if ((!isLoggedIn(user) && this.checkPage('accountSelector')) && side === "left") {
+            return (
+                <div className="navbar-header">
+                    <a className="navbar-brand" href="/">
+                        <img className="navbar-brand-img" src={logoWhite} onError={i => i.target.style.display = 'none'} alt="Logo" />
+                    </a>
+                </div>
+            );
+        } else if (this.checkPage('home') && side === "center") {
+            return (
+                <div className="navbar-header display-inline-block float-unset">
+                    <a className="navbar-brand" href="/">
+                        <img className="navbar-brand-img" src={logo} onError={i => i.target.style.display = 'none'} alt="Logo" />
+                    </a>
+                </div>
+            );
+        } else if (side === "right") {
+            return (
+                <ul className="nav navbar-nav navbar-right" style={rightMenuSelectorPageStyles}>
+                    {this.renderRightMenuItems()}
+
+                    {this.renderAccountButtons()}
+                </ul>
+            );
+        }
     }
 
     render() {
+        const { user } = this.props;
+        const navClass = `navbar ${isLoggedIn(user) ? 'navbar-default' : 'navbar-transparent'}`;
+        const navStyle = isLoggedIn(user) ? { background: 'transparent' } : {};
+        const navContainerStyle = `container-fluid center${isLoggedIn(user) ? ' home-nav-padding' : ''}`;
         return (
-            <nav className="navbar navbar-default" style={{background: 'transparent'}}>
-                <div className="container-fluid center home-nav-padding">
-                    <ul className="nav navbar-nav">
-                        <li>
-                            <a id="home-link" onClick={(event) => openPage(event, 'home', 'browse-tablinks', 'tabcontent')} className="browse-tablinks active" href="#/">HOME</a>
-                        </li>
-                        <li>
-                            <a id="second-home-link" onClick={(event) => openPage(event, 'second-home', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">HOME ALT</a>
-                        </li>
-                        <li>
-                            <a onClick={(event) => openPage(event, 'about_us', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">ABOUT US</a>
-                        </li>
-                        <li>
-                            <a onClick={(event) => openPage(event, 'services', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">SERVICES</a>
-                        </li>
-                        <li>
-                            <a className="browse-tablinks" href="/blog" >BLOG</a>
-                        </li>
-                        <li>
-                            <a onClick={(event) => openPage(event, 'contact', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">CONTACT</a>
-                        </li>
-                    </ul>
+            <nav className={navClass} style={navStyle}>
+                <div className={navContainerStyle}>
+                    {this.renderNavMenu('left')}
 
-                    <div className="navbar-header display-inline-block float-unset">
-                        <a className="navbar-brand" href="/">
-                            <img className="navbar-brand-img" src={logo} onError={i => i.target.style.display='none'} alt="Logo"/>
-                        </a>
-                    </div>
+                    {this.renderNavMenu('center')}
 
-                    <ul className="nav navbar-nav navbar-right">
-                        <li>
-                            <a onClick={(event) => openPage(event, 'job_lst', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">JOB LIST</a>
-                        </li>
-                        <li>
-                            <a onClick={(event) => openPage(event, 'freelancers', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">FREELANCERS</a>
-                        </li>
-                        <li>
-                            <a onClick={(event) => openPage(event, 'employers', 'browse-tablinks', 'tabcontent')} className="browse-tablinks" href="#/">EMPLOYERS</a>
-                        </li>
-                        <li className="margin-left-neg-1">
-                            <a href="/login">
-                                <span className="navbar-button plain">Login</span>
-                            </a>
-                        </li>
-                        <li className="margin-left-neg-1">
-                            <a href="/signup">
-                                <span className="navbar-button active">Sign Up</span>
-                            </a>
-                        </li>
-                    </ul>
+                    {this.renderNavMenu('right')}
                 </div>
             </nav>
         );
     }
 }
 
-export default Navbar;
+const mapStateToProps = state => ({
+    user: state.user,
+    title: state.signon
+});
+
+const mapDispatchToProps = dispatch => ({
+    setSignon: signon => dispatch(ACTIONS.setSignon(signon)),
+    removeUser: () => dispatch(ACTIONS.removeUser())
+});
+
+export default connect( mapStateToProps, mapDispatchToProps )(Navbar);
