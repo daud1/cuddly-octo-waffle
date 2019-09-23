@@ -14,6 +14,8 @@ import Footer from '../components/Footer';
 import AccountSelector from '../components/AccountSelector';
 import SigninForm from '../components/SigninForm';
 import SignupForm from '../components/SignupForm';
+import AccountDropDown from '../components/AccountDropDown';
+import PasswordResetForm from '../components/PasswordResetForm';
 
 class Home extends Component {
     constructor(props) {
@@ -28,18 +30,25 @@ class Home extends Component {
     }
 
     renderSignOnForms = () => {
-        const { title, user } = this.props;
-        if (title === 'Sign In') {
+        const { signOn, user } = this.props;
+        if (signOn === 'Sign In') {
             return (
                 <div>
                     <SigninForm user={user} />
                     <Footer />
                 </div>
             );
-        } else if (title === 'Sign up for free') {
+        } else if (signOn === 'Sign up for free') {
             return (
                 <div>
                     <SignupForm />
+                    <Footer />
+                </div>
+            );
+        } else if (signOn === 'Reset Password') {
+            return (
+                <div>
+                    <PasswordResetForm />
                     <Footer />
                 </div>
             );
@@ -48,19 +57,23 @@ class Home extends Component {
 
     renderNavBar = () => {
         const { renderForms } = this.state;
-        const { title } = this.props;
-        if (title && !renderForms) {
+        const { signOn, user } = this.props;
+        if (signOn && !renderForms && signOn !== "Reset Password") {
             return;
         }
-        return <Navbar page='home' renderForms={this.setRenderForms} />;
+        return <Navbar page={`${isLoggedIn(user) ? '' : 'home'}`} renderForms={this.setRenderForms} />;
     }
 
     renderHome = () => {
-        const { user, title } = this.props;
+        const { user, signOn } = this.props;
         const { renderForms } = this.state;
         if (isLoggedIn(user)) {
-            return;
-        } else if (!isLoggedIn(user) && !title) {
+            return(
+                <div>
+                    <AccountDropDown />
+                </div>
+            );
+        } else if (!isLoggedIn(user) && !signOn) {
             return (
                 <div className="home-banner-div">
                     <HomeHeader />
@@ -74,10 +87,11 @@ class Home extends Component {
                     <Footer />
                 </div>
             );
-        } else if (!isLoggedIn(user) && user.accountType && title && renderForms) {
+        } else if (!isLoggedIn(user) && ((user.accountType && signOn && renderForms) || (signOn === "Reset Password"))) {
             return (this.renderSignOnForms());
+        } else if (!isLoggedIn(user)) {
+            return <AccountSelector renderForms={this.setRenderForms} />;
         }
-        return <AccountSelector renderForms={this.setRenderForms} />;
     }
 
     render() {
@@ -92,7 +106,7 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    title: state.signon
+    signOn: state.signOn
 });
 
 

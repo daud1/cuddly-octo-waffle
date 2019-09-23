@@ -44,14 +44,14 @@ class AccountToggle extends Component {
 
     render() {
         const { user } = this.state;
-        const { title } = this.props;
+        const { signOn } = this.props;
         const employerRadioClasses = `radio-button sign-up-radio-buttons ${user.accountType === 'employer' ? 'active' : ''}`
         const freelancerRadioClasses = `radio-button sign-up-radio-buttons ${user.accountType === 'freelancer' ? 'active' : ''}`
 
         return (
             <div style={{ position: 'absolute', top: 0, width: '100%', height: '100%' }} className="display-flex flex-direction-column justify-content-center center">
                 <div className="angled-gradient" style={{ color: 'white', width: '30%', padding: '2em', borderRadius: '0.5em', margin: 'auto' }}>
-                    <span className="center display-block" style={{ fontSize: '34px' }}>{title}</span>
+                    <span className="center display-block" style={{ fontSize: '34px' }}>{signOn}</span>
                     <span className="center display-block font-weight-300" style={{ fontSize: '18px', padding: '0.2em 4em 1em' }}>
                         Join the millions of people using Athena.
                 </span>
@@ -89,7 +89,7 @@ class AccountToggle extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    <a href="#/" onClick={event => this.next(event)}>
+                    <a href="/" onClick={event => this.next(event)}>
                         <span className="navbar-button active font-weight-300 font-size-12 display-block" style={{ backgroundColor: '#242527', padding: '0.8em 5em', margin: '2em 9em' }}>Next</span>
                     </a>
                 </div>
@@ -100,7 +100,7 @@ class AccountToggle extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    title: state.signon
+    signOn: state.signOn
 });
 
 const mapDispatchToProps = dispatch => ({

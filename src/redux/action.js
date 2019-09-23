@@ -18,9 +18,9 @@ const removeUser = () => ({
     type: Types.REMOVE_USER
 });
 
-const setSignon = signon => ({
+const setSignon = signOn => ({
     type: Types.SET_SIGNON,
-    payload: signon
+    payload: signOn
 });
 
 const removeSignon = () => ({

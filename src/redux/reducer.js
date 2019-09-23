@@ -4,15 +4,13 @@ import _ from "lodash";
 
 const defaultState = {
     user: {},
-    signon: '',
+    signOn: '',
     loading: { isLoading: false }
 };
 
 const athenaReducer = (state = defaultState, action) => {
     switch (action.type) {
         case ACTIONS.Types.SET_USER: {
-            console.log(action);
-
             const user = action.payload;
             let newState = _.cloneDeep(state);
             newState.user = user;
@@ -26,23 +24,19 @@ const athenaReducer = (state = defaultState, action) => {
         }
 
         case ACTIONS.Types.SET_SIGNON: {
-            console.log(action);
-
-            let signon = action.payload;
+            let signOn = action.payload;
             let newState = _.cloneDeep(state);
-            newState.signon = signon;
+            newState.signOn = signOn;
             return newState;
         }
 
         case ACTIONS.Types.REMOVE_SIGNON: {
             let newState = _.cloneDeep(state);
-            newState.signon = '';
+            newState.signOn = '';
             return newState;
         }
 
         case ACTIONS.Types.SET_NOTIFICATION: {
-            console.log(action);
-
             let notification = action.payload;
             let newState = _.cloneDeep(state);
             newState.notification = notification;
@@ -56,8 +50,6 @@ const athenaReducer = (state = defaultState, action) => {
         }
 
         case ACTIONS.Types.SET_LOADING: {
-            console.log(action);
-
             const loading = action.payload;
             let newState = _.cloneDeep(state);
             newState.loading = loading;

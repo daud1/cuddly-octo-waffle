@@ -140,14 +140,14 @@ export const renderRatings = () => {
   return;
 }
 
-export const selectRadioButton = (evnt, radioButtonClass, accountType) => {
+export const selectRadioButton = (event, radioButtonClass, accountType) => {
   var i, radioButtons;
   radioButtons = document.getElementsByClassName(radioButtonClass);
   for (i = 0; i < radioButtons.length; i++) {
     radioButtons[i].className = radioButtons[i].className.replace(" active", "");
   }
-  if (evnt) {
-    evnt.currentTarget.className += " active";
+  if (event) {
+    event.currentTarget.className += " active";
   } else {
     var radioButton = document.getElementById('employer_signup-radio-btn') || document.getElementById('employer_signin-radio-btn');
     if (radioButton) {
@@ -171,18 +171,18 @@ export const openAccountPage = () => {
   return;
 }
 
-export const selectSingleRadioButton = (evnt) => {
-  if (evnt.currentTarget.className.includes(' active')) {
-    evnt.currentTarget.className = evnt.currentTarget.className.replace(" active", "");
+export const selectSingleRadioButton = event => {
+  if (event.currentTarget.className.includes(' active')) {
+    event.currentTarget.className = event.currentTarget.className.replace(" active", "");
   } else {
-    evnt.currentTarget.className += " active";
+    event.currentTarget.className += " active";
   }
   return;
 }
 
-export const renderTooltip = (evnt) => {
-  if (evnt) {
-    var elementRect = evnt.currentTarget.getBoundingClientRect(),
+export const renderTooltip = event => {
+  if (event) {
+    var elementRect = event.currentTarget.getBoundingClientRect(),
       bodyRect = document.body.getBoundingClientRect(),
       top = elementRect.top - bodyRect.top,
       left = elementRect.left - bodyRect.left,
@@ -195,16 +195,17 @@ export const renderTooltip = (evnt) => {
   return;
 }
 
-export const showOverlay = (overlayId, evnt = null, linkClass = "") => {
+export const showOverlay = (overlayId, event = null, linkClass = "") => {
+  event.preventDefault();
   document.getElementById(overlayId).style.display = 'block';
-  if (evnt) {
+  if (event) {
     if (linkClass) {
       var tablinks = document.getElementsByClassName(linkClass);
       for (var i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
     }
-    evnt.currentTarget.className += " active";
+    event.currentTarget.className += " active";
   }
 
   if (POPUPS.includes(overlayId)) {
@@ -213,13 +214,14 @@ export const showOverlay = (overlayId, evnt = null, linkClass = "") => {
   return;
 }
 
-export const dismissOverlay = (evnt, overlayIds = null) => {
-  if (evnt) {
-    evnt.currentTarget.style.display = 'none';
+export const dismissOverlay = (event, overlayIds = null) => {
+  if (event) {
+    event.currentTarget.style.display = 'none';
   }
   if (overlayIds) {
     for (var i = 0; i < overlayIds.length; i++) {
-      document.getElementById(overlayIds[i]).style.display = 'none';
+      const overlay = document.getElementById(overlayIds[i]);
+      if (overlay) overlay.style.display = 'none';
       if (POPUPS.includes(overlayIds[i])) {
         $("body").removeClass("modal-open");
       }
@@ -232,16 +234,18 @@ export const dismissOverlay = (evnt, overlayIds = null) => {
   return;
 }
 
-export const stopPropagation = evnt => {
-  if (evnt) {
-    evnt.stopPropagation();
+export const stopPropagation = event => {
+  if (event) {
+    event.stopPropagation();
   }
   return;
 }
 
 export const editSection = (sectionToHide, sectionToShow) => {
-  document.getElementById(sectionToHide).style.display = 'none';
-  document.getElementById(sectionToShow).style.display = 'block';
+  const hide = document.getElementById(sectionToHide);
+  if (hide) hide.style.display = 'none';
+  const show = document.getElementById(sectionToShow);
+  if (show) show.style.display = 'block';
   return;
 }
 
@@ -293,7 +297,7 @@ export const setInputError = (name, message) => {
   }
 }
 
-export const clearInputError = (name) => {
+export const clearInputError = name => {
   const inputWithError = $(`[name="${name}"]`);
   const errorLabel = $(`#${name}-error`);
   inputWithError.css({ 'borderColor': '#ebeced' });
@@ -308,12 +312,12 @@ export const comparePasswords = () => {
   return password === passwordConfirmation;
 }
 
-export const inputHasValue = (name) => {
+export const inputHasValue = name => {
   const value = $(`[name="${name}"]`).val();
   return value !== "";
 }
 
-export const scrollToElement = (name) => {
+export const scrollToElement = name => {
   $([document.documentElement, document.body]).animate({
     scrollTop: $(`[name="${name}"]`).prev().offset().top - 10
   }, 'slow');
@@ -321,10 +325,56 @@ export const scrollToElement = (name) => {
 
 export const showAPIErrors = (error, setNotification) => {
   const { response: { data } } = error;
+  if (typeof data !== 'object'){
+    setNotification({ message: 'Something Went Wrong!' });
+    return;
+  }
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
       const errors = data[key];
+      if (typeof errors === 'string') {
+        setNotification({ message: errors });
+        return;
+      }
       errors.map(resError => setNotification({ message: resError }));
     }
   }
+}
+
+export const getNameFromUser = user => {
+  const newUser = {...user};
+  let { firstName, lastName, email } = newUser;
+
+  if (!firstName && !lastName && email){
+    const emailSplit = email.match(/^([^@]*)@/);
+    const username = emailSplit ? emailSplit[1] : '';
+    const names = username ? username.split(/[^A-Za-z]/) : [];
+
+    for (let i = 0; i < names.length; i++){
+      const currentName = _.capitalize(`${names[i] ? names[i] : ''}`);
+
+      if (!firstName){
+        firstName = currentName;
+      } else {
+        lastName = lastName ? `${lastName} ${currentName}` : ` ${currentName}`;
+      }
+    }
+  }
+  return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
+}
+
+export const getTitleFromUser = user => {
+  const newUser = {...user};
+  let { accountType, companyName } = newUser;
+  if (accountType === "freelancer" || (accountType === "employer" && !companyName)){
+    return _.capitalize(accountType);
+  } else if (accountType && accountType === "employer" && companyName){
+    return `Member ${_.capitalize(companyName)}`;
+  }
+  return '';
+}
+
+export const openRoute = (event, route) => {
+  event.preventDefault();
+  window.location.href = route;
 }

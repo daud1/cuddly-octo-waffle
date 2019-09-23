@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import ACTIONS from "../redux/action";
 import {
-    openPage,
     selectSingleRadioButton,
     validateEmail,
     setInputError,
@@ -29,6 +28,12 @@ class SignupForm extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    toggleSignOn = (event, signOn) => {
+        event.preventDefault();
+        const { setSignon } = this.props;
+        setSignon(signOn);
     }
 
     passwordMismatch = () => {
@@ -84,8 +89,8 @@ class SignupForm extends Component {
                     <div className="grey-box-shadow" style={{ width: '6em', height: '6em', borderRadius: '50%', overflow: 'hidden', position: 'relative', top: '-17em', right: '-23.8em' }}>
                         <img className="center-cropped-6-em" src={bubalusLogo} onError={i => i.target.style.display = 'none'} alt="Logo" />
                     </div>
-                    <span className="font-size-11px display-inline-block" style={{ marginTop: '-12em' }}>
-                        Already User? <span className="bold blue all-links" onClick={event => openPage(event, 'employer_signin', 'tablinks', 'tabcontent')}>Sign in now!</span>
+                    <span className="font-size-11px display-block" style={{ marginTop: '-12em' }}>
+                        Already User? <span className="bold blue all-links" onClick={event => this.toggleSignOn(event, 'Sign In')}>Sign in now!</span>
                     </span>
                 </td>
             );
@@ -105,7 +110,7 @@ class SignupForm extends Component {
                         <img className="center-cropped-6-em" src={profile15} onError={i => i.target.style.display = 'none'} alt="Logo" />
                     </div>
                     <span className="font-size-11px display-inline-block">
-                        Already User? <span className="bold blue all-links" onClick={event => openPage(event, 'freelancer_signin', 'tablinks', 'tabcontent')}>Sign in now!</span>
+                        Already User? <span className="bold blue all-links" onClick={event => this.toggleSignOn(event, 'Sign In')}>Sign in now!</span>
                     </span>
                 </td>
             );
@@ -224,6 +229,7 @@ class SignupForm extends Component {
     }
 
     render() {
+        const { signOn } = this.props;
         return (
             <div id="employer_signup" className="tabcontent gray-top-border" style={{ display: 'block' }}>
                 <div className="container" style={{ padding: '5em 0' }}>
@@ -232,7 +238,7 @@ class SignupForm extends Component {
                             <tr>
                                 {this.renderSideImages()}
                                 <td className="vertical-align-top">
-                                    <span className="display-block" style={{ fontSize: '30px' }}>Sign up for free.</span>
+                                    <span className="display-block" style={{ fontSize: '30px' }}>{signOn}</span>
                                     {this.renderFormHeader()}
                                     {this.renderFormSection1()}
                                     <span className="font-weight-600 font-size-11px display-block">Email Address<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
@@ -270,7 +276,7 @@ class SignupForm extends Component {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="#/" onClick={this.signUp}>
+                                    <a href="/" onClick={this.signUp}>
                                         <button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>
                                             Sign Up
                                     </button>
@@ -283,18 +289,20 @@ class SignupForm extends Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="gray-top-border" include-html="./shared/footer.html"></div>
+                <div className="gray-top-border"></div>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.user,
+    signOn: state.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
     setUser: user => dispatch(ACTIONS.setUser(user)),
+    setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
     setNotification: notification => dispatch(ACTIONS.setNotification(notification)),
     setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
     removeSignon: () => dispatch(ACTIONS.removeSignon())

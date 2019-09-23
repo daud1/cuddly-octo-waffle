@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import toast from 'toasted-notes' 
 import ACTIONS from "../redux/action";
 import { isEmpty } from '../utils/helpers';
-import Home from './Home';
+import RouteHandler from './RouteHandler';
 import Loader from '../components/Loader';
 import 'toasted-notes/src/styles.css';
 import '../styles/global.css';
@@ -21,7 +21,7 @@ class MainContainer extends Component {
 
     render() {
         return (
-            <Loader children={<Home />} />
+            <Loader children={<RouteHandler />} />
         );
     }
 }

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import ACTIONS from "../redux/action";
 import {
-    openPage,
     selectSingleRadioButton,
     validateEmail,
     setInputError,
@@ -18,6 +17,21 @@ class SigninForm extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+    }
+
+    toggleSignOn = (event, signOn) => {
+        event.preventDefault();
+        const { setSignon } = this.props;
+        setSignon(signOn);
+    }
+
+    changeAccountType = (event, accountType) => {
+        event.preventDefault();
+        const { setUser, user } = this.props;
+        const newUser = { ...user };
+        newUser.accountType = accountType;
+        this.setState({ user: newUser })
+        setUser(newUser);
     }
 
     handleInputChange = event => {
@@ -123,10 +137,11 @@ class SigninForm extends Component {
     }
 
     render() {
+        const { user: { accountType }, signOn } = this.props;
         return (
             <div id="employer_signin" className="tabcontent gray-top-border center" style={{ display: 'block' }}>
                 <div style={{ width: '23em', margin: '3em auto' }}>
-                    <span className="display-block" style={{ fontSize: '30px' }}>Sign In</span>
+                    <span className="display-block" style={{ fontSize: '30px' }}>{signOn}</span>
                     {this.renderFormHeader()}
                     <div className="left">
                         <span className="font-weight-600 font-size-11px display-block">{this.getInputText()}<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
@@ -145,42 +160,44 @@ class SigninForm extends Component {
                                         <td>
                                             <span className="font-size-11px display-inline-block" style={{ lineHeight: 1 }}>
                                                 Remember me
-                                        </span>
-                                            <span className="font-size-11px float-right">
+                                            </span>
+                                            <span className="font-size-11px float-right all-links" onClick={event => this.toggleSignOn(event, 'Reset Password')}>
                                                 Forgot password?
-                                        </span>
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <a href="#/" onClick={this.signIn}><button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>Login</button></a>
+                    <a href="/" onClick={this.signIn}><button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>Login</button></a>
                     <span className="font-size-11px display-inline-block" style={{ lineHeight: 2 }}>
-                        Don't have an account?
-                        <span className="blue all-links" onClick={event => openPage(event, 'employer_signup', 'tablinks', 'tabcontent')}>
+                        Don't have an account?&nbsp;
+                        <span className="blue all-links" onClick={event => this.toggleSignOn(event, 'Sign up for free')}>
                             Sign up now!
                         </span>
                     </span>
                     <span className="font-size-11px display-block" style={{ lineHeight: 2 }}>
-                        Sign in as a
-                        <span className="blue all-links" onClick={event => openPage(event, 'freelancer_signin', 'tablinks', 'tabcontent')}>
-                            Freelancer!
+                        Sign in as {accountType === 'freelancer' ? 'an' : 'a'}&nbsp;
+                        <span className="blue all-links" onClick={event => this.changeAccountType(event, `${accountType === 'freelancer' ? 'employer' : 'freelancer'}`)}>
+                            {`${accountType === 'freelancer' ? 'Employer' : 'Freelancer'}!`}
                         </span>
                     </span>
                 </div>
-                <div className="gray-top-border" include-html="./shared/footer.html"></div>
+                <div className="gray-top-border"></div>
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    user: state.user
+    user: state.user,
+    signOn: state.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
     setUser: user => dispatch(ACTIONS.setUser(user)),
+    setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
     setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
     setNotification: notification => dispatch(ACTIONS.setNotification(notification)),
     removeSignon: () => dispatch(ACTIONS.removeSignon())

@@ -2,18 +2,32 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import ACTIONS from "../redux/action";
-import { isLoggedIn } from '../utils/helpers';
-import logo from '../images/athena_logo.png'
-import logoWhite from '../images/athena_logo_long_white.png'
+import { 
+    isLoggedIn, 
+    stopPropagation, 
+    showOverlay, 
+    dismissOverlay, 
+    openRoute
+} from '../utils/helpers';
+import logo from '../images/athena_logo.png';
+import binderIcon from '../images/binder_icon.png';
+import logoWhite from '../images/athena_logo_long_white.png';
+import sampleProfilePic from '../images/sample_profile_pic.jpg';
 
 class Navbar extends Component {
-    toggleSignOn = (event, title) => {
+    toggleSignOn = (event, signOn) => {
         event.preventDefault();
         const { setSignon, renderForms } = this.props;
-        setSignon(title);
+        setSignon(signOn);
         if (renderForms) {
             renderForms(false);
         }
+    }
+
+    clearSignOn = (event) => {
+        event.preventDefault()
+        const { removeSignon } = this.props;
+        removeSignon();
     }
 
     checkPage = (pageName) => {
@@ -44,8 +58,8 @@ class Navbar extends Component {
         const loginSelectorPageStyles = this.checkPage('accountSelector') ? { color: 'white' } : {};
         const signUpSelectorPageStyles = this.checkPage('accountSelector') ? { color: 'black', backgroundColor: 'white' } : {};
         const TITLES = ['Sign In', 'Sign up for free'];
-        const buttons = TITLES.map((title, index) => {
-            const isSignIn = title.toLocaleLowerCase().includes('sign in');
+        const buttons = TITLES.map((signOn, index) => {
+            const isSignIn = signOn.toLocaleLowerCase().includes('sign in');
 
             const styles = isSignIn ? loginSelectorPageStyles : signUpSelectorPageStyles;
             const label = isSignIn ? 'Login' : 'Sign Up';
@@ -53,7 +67,7 @@ class Navbar extends Component {
 
             return (
                 <li className="margin-left-neg-1" key={index}>
-                    <a href="#/" onClick={event => this.toggleSignOn(event, title)}>
+                    <a href="/" onClick={event => this.toggleSignOn(event, signOn)}>
                         <span className={classes} style={styles}>{label}</span>
                     </a>
                 </li>
@@ -66,7 +80,7 @@ class Navbar extends Component {
         const { user } = this.props;
         const rightMenuSelectorPageStyles = this.checkPage('accountSelector') ? { marginRight: '1em' } : {};
 
-        if (this.checkPage('home') && side === "left") {
+        if (!isLoggedIn(user) && this.checkPage('home') && side === "left") {
             return (
                 <ul className="nav navbar-nav">
                     <li>
@@ -89,29 +103,88 @@ class Navbar extends Component {
                     </li>
                 </ul>
             );
-        } else if ((!isLoggedIn(user) && this.checkPage('accountSelector')) && side === "left") {
+        } else if (!isLoggedIn(user) && this.checkPage('accountSelector') && side === "left") {
             return (
                 <div className="navbar-header">
-                    <a className="navbar-brand" href="/">
+                    <a className="navbar-brand" href="/" onClick={event => {this.clearSignOn(event); openRoute(event, '/');}}>
                         <img className="navbar-brand-img" src={logoWhite} onError={i => i.target.style.display = 'none'} alt="Logo" />
                     </a>
                 </div>
             );
-        } else if (this.checkPage('home') && side === "center") {
+        } else if ((this.checkPage('home') && side === "center") || (isLoggedIn(user) && side === "left")) {
             return (
-                <div className="navbar-header display-inline-block float-unset">
-                    <a className="navbar-brand" href="/">
+                <div className={`navbar-header${isLoggedIn(user) ? '' : ' display-inline-block float-unset'}`}>
+                    <a className={`navbar-brand${isLoggedIn(user) ? ' all-links' : ''}`} href="/" onClick={event => {this.clearSignOn(event); openRoute(event, '/');}} >
                         <img className="navbar-brand-img" src={logo} onError={i => i.target.style.display = 'none'} alt="Logo" />
                     </a>
                 </div>
             );
-        } else if (side === "right") {
+        } else if (isLoggedIn(user) && side === "center") {
+            return (
+                <ul className="nav navbar-nav">
+                    <li className="with-separator">
+                        <a href="/" className="main-tablinks">
+                            <img className="navbar-nav-img" id="browse-jobs-link-image" src={binderIcon} onError={i => i.target.style.display = 'none'} alt="Logo" />BROWSE JOBS
+                    </a>
+                    </li>
+                    <li>
+                        <a href="/" className="main-tablinks" onClick={event => {stopPropagation(event); showOverlay('freelancers-dropdown', event, 'main-tablinks'); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'job-feed-dropdown', 'connections-dropdown']);}}>FREELANCERS</a>
+                    </li>
+                    <li>
+                        <a href="/" className="main-tablinks" >EMPLOYERS</a>
+                    </li>
+                    <li>
+                        <a href="/" className="main-tablinks" onClick={event => {stopPropagation(event); showOverlay('connections-dropdown', event, 'main-tablinks'); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'job-feed-dropdown', 'freelancers-dropdown']);}}>CONNECTIONS</a>
+                    </li>
+                    <li>
+                        <a href="/">BLOG</a>
+                    </li>
+                </ul>
+            );
+        } else if (!isLoggedIn(user) && side === "right") {
             return (
                 <ul className="nav navbar-nav navbar-right" style={rightMenuSelectorPageStyles}>
                     {this.renderRightMenuItems()}
 
                     {this.renderAccountButtons()}
                 </ul>
+            );
+        } else if (isLoggedIn(user) && side === "right") {
+            return (
+                <ul className="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">
+                        <span className="glyphicon glyphicon-search navbar-icons"></span>
+                    </a>
+                </li>
+                <li className="with-separator before-separator">
+                    <a href="/" className="main-tab-buttons" >
+                        <span className="navbar-button">Post a job</span>
+                    </a>
+                </li>
+                <li className="after-separator">
+                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('job-feed-dropdown', event); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="all-links">
+                        <i className="fa fa-bolt navbar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('message-dropdown', event); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'job-feed-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="all-links">
+                        <i className="fa fa-wechat navbar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('notification-tray', event); dismissOverlay(null, ['account-dropdown', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="badge" data-badge="99">
+                        <i className="fa fa-bell navbar-icons"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('account-dropdown', event); dismissOverlay(null, ['notification-tray', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="badge-no-data all-links" data-badge="">
+                        <div className="avatar">
+                            <img className="center-cropped" src={sampleProfilePic} onError={i => i.target.style.display = 'none'} alt="Logo" />
+                        </div>
+                    </a>
+                </li>
+            </ul>
             );
         }
     }
@@ -120,7 +193,7 @@ class Navbar extends Component {
         const { user } = this.props;
         const navClass = `navbar ${isLoggedIn(user) ? 'navbar-default' : 'navbar-transparent'}`;
         const navStyle = isLoggedIn(user) ? { background: 'transparent' } : {};
-        const navContainerStyle = `container-fluid center${isLoggedIn(user) ? ' home-nav-padding' : ''}`;
+        const navContainerStyle = `container-fluid${isLoggedIn(user) ? '' : ' center'}`;
         return (
             <nav className={navClass} style={navStyle}>
                 <div className={navContainerStyle}>
@@ -137,12 +210,13 @@ class Navbar extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    title: state.signon
+    signOn: state.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
-    setSignon: signon => dispatch(ACTIONS.setSignon(signon)),
-    removeUser: () => dispatch(ACTIONS.removeUser())
+    setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
+    removeUser: () => dispatch(ACTIONS.removeUser()),
+    removeSignon: () => dispatch(ACTIONS.removeSignon())
 });
 
-export default connect( mapStateToProps, mapDispatchToProps )(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

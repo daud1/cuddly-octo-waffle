@@ -652,7 +652,7 @@ table {
 
 .profile-info-left{
     border-right: 1px solid #F1F1F1;
-    width: 45.5em;
+    width: 56.5em;
 }
 
 .profile-info-right{
@@ -1946,6 +1946,14 @@ input:focus{
 
 button:focus{
     outline: none !important;
+}
+
+.list--side-bar-employers li {
+    cursor: pointer;
+}
+
+.nav.navbar-nav.navbar-right {
+    max-height: 50px;
 }
 
 @media only screen and (min-width: 1498px) {
