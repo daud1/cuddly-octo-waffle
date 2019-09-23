@@ -19,7 +19,7 @@ function HomeSection6() {
                     <tbody>
                         <tr>
                             <td className="center width-16-percent">
-                                <a href="#/" className="badge-with-tiny-text orange-background" data-badge="HOT">
+                                <a href="/" className="badge-with-tiny-text orange-background" data-badge="HOT">
                                     <div className="member-circle">
                                         <img className="center-cropped-medium" style={{padding: 0}} src={talkingDogLogo} onError={i => i.target.style.display = 'none'} alt="Logo"/>
                                     </div>
@@ -31,7 +31,7 @@ function HomeSection6() {
                                 </div>
                             </td>
                             <td className="center width-16-percent">
-                                <a href="#/">
+                                <a href="/">
                                     <div className="member-circle">
                                         <img className="center-cropped-medium" style={{padding: 0}} src={followLogo} onError={i => i.target.style.display = 'none'} alt="Logo"/>
                                     </div>
@@ -43,7 +43,7 @@ function HomeSection6() {
                                 </div>
                             </td>
                             <td className="center width-16-percent">
-                                <a href="#/">
+                                <a href="/">
                                     <div className="member-circle">
                                         <img className="center-cropped-medium" style={{padding: 0}} src={bubalusLogo} onError={i => i.target.style.display = 'none'} alt="Logo"/>
                                     </div>
@@ -55,7 +55,7 @@ function HomeSection6() {
                                 </div>
                             </td>
                             <td className="center width-16-percent">
-                                <a href="#/">
+                                <a href="/">
                                     <div className="member-circle">
                                         <img className="center-cropped-medium" style={{padding: 0}} src={elefontLogo} onError={i => i.target.style.display = 'none'} alt="Logo"/>
                                     </div>
@@ -67,7 +67,7 @@ function HomeSection6() {
                                 </div>
                             </td>
                             <td className="center width-16-percent">
-                                <a href="#/" className="badge-with-tiny-text orange-background" data-badge="HOT">
+                                <a href="/" className="badge-with-tiny-text orange-background" data-badge="HOT">
                                     <div className="member-circle">
                                         <img className="center-cropped-medium" style={{padding: 0}} src={fiveTwentyLogo} onError={i => i.target.style.display = 'none'} alt="Logo"/>
                                     </div>
@@ -79,7 +79,7 @@ function HomeSection6() {
                                 </div>
                             </td>
                             <td className="center width-16-percent">
-                                <a href="#/" className="badge-with-tiny-text" data-badge="NEW">
+                                <a href="/" className="badge-with-tiny-text" data-badge="NEW">
                                     <div className="member-circle">
                                         <img className="center-cropped-medium grayscale" style={{padding: 0}} src={americanStoriesLogo} onError={i => i.target.style.display = 'none'} alt="Logo"/>
                                     </div>

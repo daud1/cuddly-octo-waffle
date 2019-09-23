@@ -1,9 +1,10 @@
 import $ from "jquery";
+import _ from 'lodash';
 
 var ACCOUNT_TYPES = ['employer_signup', 'freelancer_signup', 'employer_signin', 'freelancer_signin'];
 var POPUPS = ['portfolio-upload-modal', 'portfolio-view-modal', 'hire-me-modal'];
 
-export function insertAndExecute(domelement, text) {
+export const insertAndExecute = (domelement, text) => {
   domelement.innerHTML = text;
   var scripts = [];
 
@@ -17,13 +18,12 @@ export function insertAndExecute(domelement, text) {
   for (var script in scripts) {
     evalScript(scripts[script]);
   }
+  return;
 }
 
-export function nodeName(elem, name) {
-  return elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
-}
+export const nodeName = (elem, name) => elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
 
-export function evalScript(elem) {
+export const evalScript = elem => {
   var data = (elem.text || elem.textContent || elem.innerHTML || "");
 
   var head = document.getElementsByTagName("head")[0] || document.documentElement,
@@ -36,9 +36,10 @@ export function evalScript(elem) {
   if (elem.parentNode) {
     elem.parentNode.removeChild(elem);
   }
+  return;
 }
 
-export function includeHTML() {
+export const includeHTML = () => {
   var z, i, elmnt, file, xhttp;
   /*loop through a collection of all HTML elements:*/
   z = document.getElementsByTagName("*");
@@ -67,25 +68,26 @@ export function includeHTML() {
       return;
     }
   }
+  return;
 }
 
-export function openPage(evt, divId, linkClass, contentClass) {
+export const openPage = (evt, divId, linkClass, contentClass) => {
   var i, tabcontent, tablinks, browseJobsImage, divToShow;
-  
+
   tabcontent = document.getElementsByClassName(contentClass);
   if (tabcontent) {
     for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].style.display = "none";
     }
   }
-  
+
   tablinks = document.getElementsByClassName(linkClass);
   if (tablinks) {
     for (i = 0; i < tablinks.length; i++) {
       tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
   }
-  
+
   divToShow = document.getElementById(divId);
   if (divToShow) {
     divToShow.style.display = "block";
@@ -96,7 +98,7 @@ export function openPage(evt, divId, linkClass, contentClass) {
   } else if (divId === "home") {
     document.getElementById('home-link').className += " active";
   }
-  
+
   browseJobsImage = document.getElementById("browse-jobs-link-image");
   if (browseJobsImage) {
     if (linkClass === 'main-tablinks' && divId === 'browse-jobs') {
@@ -105,9 +107,10 @@ export function openPage(evt, divId, linkClass, contentClass) {
       browseJobsImage.src = "../images/binder_icon.png";
     }
   }
+  return;
 }
 
-export function renderRatings() {
+export const renderRatings = () => {
   var ratingContainers = document.getElementsByClassName('rating-container');
   for (var idx = 0; idx < ratingContainers.length; idx++) {
     var score = ratingContainers[idx].getAttribute("score")
@@ -134,16 +137,17 @@ export function renderRatings() {
 
     ratingContainers[idx].innerHTML = fullStars + halfStars + emptyStars
   }
+  return;
 }
 
-export function selectRadioButton(evnt, radioButtonClass, accountType) {
+export const selectRadioButton = (event, radioButtonClass, accountType) => {
   var i, radioButtons;
   radioButtons = document.getElementsByClassName(radioButtonClass);
   for (i = 0; i < radioButtons.length; i++) {
     radioButtons[i].className = radioButtons[i].className.replace(" active", "");
   }
-  if (evnt) {
-    evnt.currentTarget.className += " active";
+  if (event) {
+    event.currentTarget.className += " active";
   } else {
     var radioButton = document.getElementById('employer_signup-radio-btn') || document.getElementById('employer_signin-radio-btn');
     if (radioButton) {
@@ -153,9 +157,10 @@ export function selectRadioButton(evnt, radioButtonClass, accountType) {
   if (accountType) {
     localStorage.ACCOUNT_TYPE = accountType;
   }
+  return;
 }
 
-export function openAccountPage() {
+export const openAccountPage = () => {
   var accountType = localStorage.ACCOUNT_TYPE;
   if (ACCOUNT_TYPES.includes(accountType)) {
     openPage(null, accountType, 'tablinks', 'tabcontent');
@@ -163,19 +168,21 @@ export function openAccountPage() {
   } else {
     openPage(null, 'home', 'tablinks', 'tabcontent');
   }
+  return;
 }
 
-export function selectSingleRadioButton(evnt) {
-  if (evnt.currentTarget.className.includes(' active')) {
-    evnt.currentTarget.className = evnt.currentTarget.className.replace(" active", "");
+export const selectSingleRadioButton = event => {
+  if (event.currentTarget.className.includes(' active')) {
+    event.currentTarget.className = event.currentTarget.className.replace(" active", "");
   } else {
-    evnt.currentTarget.className += " active";
+    event.currentTarget.className += " active";
   }
+  return;
 }
 
-export function renderTooltip(evnt) {
-  if (evnt) {
-    var elementRect = evnt.currentTarget.getBoundingClientRect(),
+export const renderTooltip = event => {
+  if (event) {
+    var elementRect = event.currentTarget.getBoundingClientRect(),
       bodyRect = document.body.getBoundingClientRect(),
       top = elementRect.top - bodyRect.top,
       left = elementRect.left - bodyRect.left,
@@ -185,32 +192,36 @@ export function renderTooltip(evnt) {
     tooltip.style.top = top - 119;
     tooltip.style.left = left - 79;
   }
+  return;
 }
 
-export function showOverlay(overlayId, evnt = null, linkClass = "") {
+export const showOverlay = (overlayId, event = null, linkClass = "") => {
+  event.preventDefault();
   document.getElementById(overlayId).style.display = 'block';
-  if (evnt) {
+  if (event) {
     if (linkClass) {
       var tablinks = document.getElementsByClassName(linkClass);
       for (var i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
     }
-    evnt.currentTarget.className += " active";
+    event.currentTarget.className += " active";
   }
 
   if (POPUPS.includes(overlayId)) {
     $("body").addClass("modal-open");
   }
+  return;
 }
 
-export function dismissOverlay(evnt, overlayIds = null) {
-  if (evnt) {
-    evnt.currentTarget.style.display = 'none';
+export const dismissOverlay = (event, overlayIds = null) => {
+  if (event) {
+    event.currentTarget.style.display = 'none';
   }
   if (overlayIds) {
     for (var i = 0; i < overlayIds.length; i++) {
-      document.getElementById(overlayIds[i]).style.display = 'none';
+      const overlay = document.getElementById(overlayIds[i]);
+      if (overlay) overlay.style.display = 'none';
       if (POPUPS.includes(overlayIds[i])) {
         $("body").removeClass("modal-open");
       }
@@ -220,20 +231,25 @@ export function dismissOverlay(evnt, overlayIds = null) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
+  return;
 }
 
-export function stopPropagation(evnt) {
-  if (evnt) {
-    evnt.stopPropagation();
+export const stopPropagation = event => {
+  if (event) {
+    event.stopPropagation();
   }
+  return;
 }
 
-export function editSection(sectionToHide, sectionToShow) {
-  document.getElementById(sectionToHide).style.display = 'none';
-  document.getElementById(sectionToShow).style.display = 'block';
+export const editSection = (sectionToHide, sectionToShow) => {
+  const hide = document.getElementById(sectionToHide);
+  if (hide) hide.style.display = 'none';
+  const show = document.getElementById(sectionToShow);
+  if (show) show.style.display = 'block';
+  return;
 }
 
-export function editSectionClass(sectionsToHide, sectionsToShow) {
+export const editSectionClass = (sectionsToHide, sectionsToShow) => {
   var hideSections = document.getElementsByClassName(sectionsToHide);
   var showSections = document.getElementsByClassName(sectionsToShow);
   for (let i = 0; i < hideSections.length; i++) {
@@ -242,9 +258,10 @@ export function editSectionClass(sectionsToHide, sectionsToShow) {
   for (let i = 0; i < showSections.length; i++) {
     showSections[i].style.display = 'block';
   }
+  return;
 }
 
-export function toggleVideoPlay(videoId, buttonId) {
+export const toggleVideoPlay = (videoId, buttonId) => {
   var video = document.getElementById(videoId);
   if (!video) {
     return;
@@ -258,4 +275,106 @@ export function toggleVideoPlay(videoId, buttonId) {
     video.removeAttribute("controls");
     $(`#${buttonId}`).fadeIn();
   }
+  return;
+}
+
+export const isEmpty = testCollection => _.isEmpty(testCollection);
+
+export const isLoggedIn = user => user && !isEmpty(user) && user.loggedIn;
+
+export const validateEmail = email => {
+  // eslint-disable-next-line
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
+export const setInputError = (name, message) => {
+  const inputWithError = $(`[name="${name}"]`);
+  const label = inputWithError.prev();
+  inputWithError.css('borderColor', 'red');
+  if ($(`#${name}-error`).length === 0) {
+    label.html(`${label.html()} <span id="${name}-error" style="color: red; float: right;">${message}</span>`);
+  }
+}
+
+export const clearInputError = name => {
+  const inputWithError = $(`[name="${name}"]`);
+  const errorLabel = $(`#${name}-error`);
+  inputWithError.css({ 'borderColor': '#ebeced' });
+  if (errorLabel.length > 0) {
+    errorLabel.remove();
+  }
+}
+
+export const comparePasswords = () => {
+  const password = $(`[name="password"]`).val();
+  const passwordConfirmation = $(`[name="passwordConfirmation"]`).val();
+  return password === passwordConfirmation;
+}
+
+export const inputHasValue = name => {
+  const value = $(`[name="${name}"]`).val();
+  return value !== "";
+}
+
+export const scrollToElement = name => {
+  $([document.documentElement, document.body]).animate({
+    scrollTop: $(`[name="${name}"]`).prev().offset().top - 10
+  }, 'slow');
+}
+
+export const showAPIErrors = (error, setNotification) => {
+  const { response: { data } } = error;
+  if (typeof data !== 'object'){
+    setNotification({ message: 'Something Went Wrong!' });
+    return;
+  }
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) {
+      const errors = data[key];
+      if (typeof errors === 'string') {
+        setNotification({ message: errors });
+        return;
+      }
+      errors.map(resError => setNotification({ message: resError }));
+    }
+  }
+}
+
+export const getNameFromUser = user => {
+  const newUser = {...user};
+  let { firstName, lastName, email } = newUser;
+
+  if (!firstName && !lastName && email){
+    const emailSplit = email.match(/^([^@]*)@/);
+    const username = emailSplit ? emailSplit[1] : '';
+    const names = username ? username.split(/[^A-Za-z]/) : [];
+
+    for (let i = 0; i < names.length; i++){
+      const currentName = _.capitalize(`${names[i] ? names[i] : ''}`);
+
+      if (!firstName){
+        firstName = currentName;
+      } else {
+        lastName = lastName ? `${lastName} ${currentName}` : ` ${currentName}`;
+      }
+    }
+  }
+  return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
+}
+
+export const getTitleFromUser = user => {
+  const newUser = {...user};
+  let { accountType, companyName } = newUser;
+  if (accountType === "freelancer" || (accountType === "employer" && !companyName)){
+    return _.capitalize(accountType);
+  } else if (accountType && accountType === "employer" && companyName){
+    return `Member ${_.capitalize(companyName)}`;
+  }
+  return '';
+}
+
+export const openRoute = (event, route) => {
+  event.preventDefault();
+  window.location.href = route;
 }

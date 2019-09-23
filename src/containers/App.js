@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MainContainer from './MainContainer';
-import '../styles/app.css';
+import { Provider as ReduxProvider } from "react-redux";
+import { PersistGate } from 'redux-persist/integration/react'
+import configureStore from "../redux/store";
 
-function App() {
-  return (
-    <div>
-      <MainContainer />
-    </div>
-  );
+// const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
+const { store, persistor} = configureStore();
+
+class App extends Component {
+  render() {
+    return (
+      <ReduxProvider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <MainContainer />
+        </PersistGate>
+      </ReduxProvider>
+    );
+  }
 }
 
 export default App;

@@ -1,5 +1,6 @@
 html{
     min-width: 1416px;
+    height: 100%;
 }
 
 body {
@@ -7,6 +8,15 @@ body {
     font-weight: normal;
     overflow-y: auto;
     min-width: 1416px;
+    height: 100%;
+}
+
+#root, ._loading_overlay_wrapper, ._loading_overlay_overlay {
+    height: 100%;
+}
+
+._loading_overlay_wrapper--active {
+    overflow: hidden;
 }
 
 @media only screen and (max-width: 1415px) {
@@ -642,7 +652,7 @@ table {
 
 .profile-info-left{
     border-right: 1px solid #F1F1F1;
-    width: 45.5em;
+    width: 56.5em;
 }
 
 .profile-info-right{
@@ -900,7 +910,7 @@ table {
     display: inline-block;
 }
 
-.navbar-default .navbar-nav>li>a {
+.navbar-default .navbar-nav>li>a, .navbar-nav>li>a {
     color: #2A2C2E;
 }
 
@@ -1569,7 +1579,7 @@ table {
 }
 
 .border-radio-button.active span{
-    display: inline-block;
+    display: block;
     width: 0.4em;
     height: 0.4em;
     background: #534CF9;
@@ -1580,7 +1590,7 @@ table {
 .border-radio-button{
     display: inline-block;
     width: 0.9em;
-    height: 0.9em;
+    height: 0.95em;
     border: 2px solid #534CF9;
     border-radius: 10em;
 }
@@ -1922,6 +1932,28 @@ body.modal-open{
     height: 6em;
     object-fit: cover;
     border: 1px solid #EBEBEB
+}
+
+.Toaster__alert_close {
+    top: 0 !important;
+}
+
+input:focus{
+    border-color: rgb(119, 145, 243) !important;
+    outline: none !important;
+    box-shadow: 0px 10px 48px -4px rgba(43, 43, 43, 0.44) !important;
+}
+
+button:focus{
+    outline: none !important;
+}
+
+.list--side-bar-employers li {
+    cursor: pointer;
+}
+
+.nav.navbar-nav.navbar-right {
+    max-height: 50px;
 }
 
 @media only screen and (min-width: 1498px) {
