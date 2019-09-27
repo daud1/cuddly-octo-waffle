@@ -324,11 +324,12 @@ export const scrollToElement = name => {
 }
 
 export const showAPIErrors = (error, setNotification) => {
-  const { response: { data } } = error;
-  if (typeof data !== 'object'){
+  if (!error || !error.response || !error.response.data || typeof error.response.data !== 'object') {
     setNotification({ message: 'Something Went Wrong!' });
     return;
   }
+  const { response: { data } } = error;
+
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
       const errors = data[key];
