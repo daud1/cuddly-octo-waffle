@@ -376,6 +376,13 @@ export const getTitleFromUser = user => {
 }
 
 export const openRoute = (event, route) => {
-  event.preventDefault();
+  if (event) event.preventDefault();
   window.location.href = route;
+}
+
+export const getUrlParameter = (name) => {
+  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  var results = regex.exec(document.location.search);
+  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
