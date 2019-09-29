@@ -84,7 +84,7 @@ class PasswordResetForm extends Component {
             return;
         }
 
-        const { setLoading, setNotification } = this.props;
+        const { setLoading, setNotification, user, setUser } = this.props;
         const data = { email: emailAddress };
 
         setLoading({ isLoading: true, loadingText: "Requesting instructions..." });
@@ -96,8 +96,11 @@ class PasswordResetForm extends Component {
                 }
                 const { data } = res;
                 if (data.status === "OK") {
+                    const newUser = {...user}; 
                     setNotification({ message: `Instructions sent to ${emailAddress}` });
                     this.setState({ emailSent: true, emailAddress });
+                    newUser.email = emailAddress;
+                    setUser(newUser);
                 }
             })
             .catch((error) => {

@@ -14,6 +14,8 @@ import {
     openRoute
 } from '../utils/helpers';
 import { API_URL } from '../utils/constants';
+import Footer from '../components/Footer';
+import NavBar from '../components/Navbar';
 
 class PasswordResetConfirmation extends Component {
     constructor(props) {
@@ -51,7 +53,7 @@ class PasswordResetConfirmation extends Component {
         }
     }
 
-    sendEmail = (event) => {
+    resetPassword = (event) => {
         event.preventDefault()
         const errorFields = [];
         const {
@@ -82,8 +84,12 @@ class PasswordResetConfirmation extends Component {
         }
 
         const token = getUrlParameter('token');
-        const { setLoading, setNotification, setSignon } = this.props;
+        const { setLoading, setNotification, setSignon, user } = this.props;
         const data = { password, token };
+
+        if (user && user.email){
+            data.email = user.email;
+        }
 
         setLoading({ isLoading: true, loadingText: "Resetting password..." });
         axios.post(`${API_URL}/auth/reset_password/`, data)
@@ -106,21 +112,25 @@ class PasswordResetConfirmation extends Component {
 
     render() {
         return (
-            <div id="employer_signin" className="tabcontent gray-top-border center" style={{ display: 'block' }}>
-                <div style={{ width: '23em', margin: '3em auto' }}>
-                    <span className="display-block" style={{ fontSize: '30px' }}>Set New Password</span>
-                    <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>
-                        Set password to use from now on. 
+            <div>
+                <NavBar />
+                <div id="employer_signin" className="tabcontent gray-top-border center" style={{ display: 'block' }}>
+                    <div style={{ width: '23em', margin: '3em auto' }}>
+                        <span className="display-block" style={{ fontSize: '30px' }}>Set New Password</span>
+                        <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>
+                            Set password to use from now on.
                     </span>
-                    <div className="left">
-                        <span className="font-weight-600 font-size-11px display-block">New Password<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
-                        <input onChange={this.handleInputChange} name="password" type="password" placeholder="New Password" className="full-rounded-input" style={{ fontSize: '10px', padding: '1em 2em', margin: '1em 0 2em 0', borderColor: '#EBECED' }} />
-                        <span className="font-weight-600 font-size-11px display-block">Confirm New Password<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
-                        <input onChange={this.handleInputChange} name="passwordConfirmation" type="password" placeholder="Retype New Password" className="full-rounded-input" style={{ fontSize: '10px', padding: '1em 2em', margin: '1em 0 2em 0', borderColor: '#EBECED' }} />
+                        <div className="left">
+                            <span className="font-weight-600 font-size-11px display-block">New Password<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
+                            <input onChange={this.handleInputChange} name="password" type="password" placeholder="New Password" className="full-rounded-input" style={{ fontSize: '10px', padding: '1em 2em', margin: '1em 0 2em 0', borderColor: '#EBECED' }} />
+                            <span className="font-weight-600 font-size-11px display-block">Confirm New Password<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
+                            <input onChange={this.handleInputChange} name="passwordConfirmation" type="password" placeholder="Retype New Password" className="full-rounded-input" style={{ fontSize: '10px', padding: '1em 2em', margin: '1em 0 2em 0', borderColor: '#EBECED' }} />
+                        </div>
+                        <a href="/" onClick={this.resetPassword}><button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>Submit</button></a>
                     </div>
-                    <a href="/" onClick={this.sendEmail}><button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>Submit</button></a>
+                    <div className="gray-top-border"></div>
                 </div>
-                <div className="gray-top-border"></div>
+                <Footer />
             </div>
         );
     }
