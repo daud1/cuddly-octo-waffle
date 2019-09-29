@@ -15,7 +15,9 @@ import { API_URL } from '../utils/constants';
 class PasswordResetForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            emailSent: false
+        };
     }
 
     handleInputChange = event => {
@@ -33,7 +35,38 @@ class PasswordResetForm extends Component {
         }
     }
 
-    signIn = (event) => {
+    renderResetForm = () => {
+        const { emailSent, emailAddress } = this.state;
+        const { signOn } = this.props;
+
+        if (emailSent) {
+            return (
+                <div style={{ width: '23em', margin: '3em auto', minHeight: '19em', display: 'table' }}>
+                    <div style={{ display: 'table-cell', verticalAlign: 'middle' }}>
+                        <span className="display-block" style={{ fontSize: '30px' }}>Email Sent!</span>
+                        <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>
+                            {`Instructions sent to ${emailAddress}`}
+                        </span>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <div style={{ width: '23em', margin: '3em auto' }}>
+                <span className="display-block" style={{ fontSize: '30px' }}>{signOn}</span>
+                <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>
+                    Set email address to receive instructions
+                </span>
+                <div className="left">
+                    <span className="font-weight-600 font-size-11px display-block">Email Address<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
+                    <input onChange={this.handleInputChange} name="emailAddress" placeholder="Email Address" className="full-rounded-input" style={{ fontSize: '10px', padding: '1em 2em', margin: '1em 0 2em 0', borderColor: '#EBECED' }} />
+                </div>
+                <a href="/" onClick={this.sendEmail}><button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>Submit</button></a>
+            </div>
+        );
+    }
+
+    sendEmail = (event) => {
         event.preventDefault()
         const errorFields = [];
         const {
@@ -55,10 +88,17 @@ class PasswordResetForm extends Component {
         const data = { email: emailAddress };
 
         setLoading({ isLoading: true, loadingText: "Requesting instructions..." });
-        axios.post(`${API_URL}/auth/password/reset/`, data)
+        axios.post(`${API_URL}/auth/reset_password/`, data)
             .then(res => {
+                setLoading({ isLoading: false });
+                if (!res.data) {
+                    setNotification({ message: 'Data missing' });
+                }
                 const { data } = res;
-                console.log("RESPONSE DATA ------> ", data);
+                if (data.status === "OK") {
+                    setNotification({ message: `Instructions sent to ${emailAddress}` });
+                    this.setState({ emailSent: true, emailAddress });
+                }
             })
             .catch((error) => {
                 setLoading({ isLoading: false });
@@ -67,20 +107,9 @@ class PasswordResetForm extends Component {
     }
 
     render() {
-        const { signOn } = this.props;
         return (
             <div id="employer_signin" className="tabcontent gray-top-border center" style={{ display: 'block' }}>
-                <div style={{ width: '23em', margin: '3em auto' }}>
-                    <span className="display-block" style={{ fontSize: '30px' }}>{signOn}</span>
-                    <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>
-                        Set email address to receive instructions
-                    </span>
-                    <div className="left">
-                        <span className="font-weight-600 font-size-11px display-block">Email Address<sup title="Required" style={{ color: 'red', fontSize: '1em' }}>*</sup></span>
-                        <input onChange={this.handleInputChange} name="emailAddress" placeholder="Email Address" className="full-rounded-input" style={{ fontSize: '10px', padding: '1em 2em', margin: '1em 0 2em 0', borderColor: '#EBECED' }} />    
-                    </div>
-                    <a href="/" onClick={this.signIn}><button className="full-rounded-button gradient" style={{ margin: '1em 0 2em 0', width: '100%', padding: '1em' }}>Submit</button></a> 
-                </div>
+                {this.renderResetForm()}
                 <div className="gray-top-border"></div>
             </div>
         );

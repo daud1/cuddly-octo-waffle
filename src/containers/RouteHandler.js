@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { isLoggedIn } from '../utils/helpers';
 import Home from './Home';
 import Settings from '../components/Settings';
+import PasswordResetConfirmation from '../components/PasswordResetConfirmation';
 
 class RouteHandler extends Component {
     render() {
@@ -18,7 +19,11 @@ class RouteHandler extends Component {
         return (
             <Router>
                 <Switch>
+                    {/* Open Routes */}
                     <Route exact path='/' component={Home} />
+                    <Route path='/auth/reset-password/' component={PasswordResetConfirmation} />
+
+                    {/* Authorized Routes */}
                     <PrivateRoute path='/settings' component={Settings} />
                 </Switch>
             </Router>

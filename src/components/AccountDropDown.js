@@ -24,7 +24,7 @@ function AccountDropDown(props) {
             'content-type': 'application/json',
             'Authorization': `Token ${user.key}`
         };
-        axios.get(`${API_URL}/auth/logout/`, { headers })
+        axios.post(`${API_URL}/auth/logout/`, { headers })
             .then(res => {
                 const { data: { detail } } = res;
                 setLoading({ isLoading: false });
