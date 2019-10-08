@@ -343,18 +343,18 @@ export const showAPIErrors = (error, setNotification) => {
 }
 
 export const getNameFromUser = user => {
-  const newUser = {...user};
+  const newUser = { ...user };
   let { firstName, lastName, email } = newUser;
 
-  if (!firstName && !lastName && email){
+  if (!firstName && !lastName && email) {
     const emailSplit = email.match(/^([^@]*)@/);
     const username = emailSplit ? emailSplit[1] : '';
     const names = username ? username.split(/[^A-Za-z]/) : [];
 
-    for (let i = 0; i < names.length; i++){
+    for (let i = 0; i < names.length; i++) {
       const currentName = _.capitalize(`${names[i] ? names[i] : ''}`);
 
-      if (!firstName){
+      if (!firstName) {
         firstName = currentName;
       } else {
         lastName = lastName ? `${lastName} ${currentName}` : ` ${currentName}`;
@@ -365,11 +365,11 @@ export const getNameFromUser = user => {
 }
 
 export const getTitleFromUser = user => {
-  const newUser = {...user};
+  const newUser = { ...user };
   let { accountType, companyName } = newUser;
-  if (accountType === "freelancer" || (accountType === "employer" && !companyName)){
+  if (accountType === "freelancer" || (accountType === "employer" && !companyName)) {
     return _.capitalize(accountType);
-  } else if (accountType && accountType === "employer" && companyName){
+  } else if (accountType && accountType === "employer" && companyName) {
     return `Member ${_.capitalize(companyName)}`;
   }
   return '';
@@ -386,4 +386,14 @@ export const getUrlParameter = (name) => {
   var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
   var results = regex.exec(document.location.search);
   return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+
+export const isLocalHost = () => {
+  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+}
+
+export const forceHTTPS = () => {
+  if (window.location.protocol != 'https:' && !isLocalHost()) {
+    window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+  }
 }
