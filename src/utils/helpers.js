@@ -393,7 +393,7 @@ export const isLocalHost = () => {
 }
 
 export const forceHTTPS = () => {
-  if (window.location.protocol != 'https:' && !isLocalHost()) {
+  if (window.location.protocol !== 'https:' && !isLocalHost()) {
     window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
   }
 }
