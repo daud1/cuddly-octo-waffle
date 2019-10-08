@@ -9,7 +9,7 @@ import { forceHTTPS } from "../utils/helpers";
 const { store, persistor} = configureStore();
 
 class App extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     forceHTTPS();
   }
 

@@ -68,7 +68,7 @@ class SigninForm extends Component {
                             <i className="fa fa-facebook" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Facebook
                         </button>
                         <button className="full-rounded-button" style={{ background: '#DA4538', padding: '0.8em 2em', margin: '0em 0em 0em 0.25em' }}>
-                            <i className="fa fa-google-plus" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Google +
+                            <i className="fa fa-google" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Google
                         </button>
                     </div>
                     <span className="display-block" style={{ fontSize: '12px', margin: '2em 0 2em' }}>Or sign in using your email address</span>
@@ -137,7 +137,8 @@ class SigninForm extends Component {
     }
 
     render() {
-        const { user: { accountType }, signOn } = this.props;
+        const { user: { accountType }, signOn, setRememberMe, rememberMe } = this.props;
+        const rememberMeClasses = `border-radio-button ${rememberMe ? 'active': ''}`;
         return (
             <div id="employer_signin" className="tabcontent gray-top-border center" style={{ display: 'block' }}>
                 <div style={{ width: '23em', margin: '3em auto' }}>
@@ -153,7 +154,7 @@ class SigninForm extends Component {
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <span className="border-radio-button" onClick={event => selectSingleRadioButton(event)}>
+                                            <span className={rememberMeClasses} onClick={event => selectSingleRadioButton(event, setRememberMe)}>
                                                 <span></span>
                                             </span>
                                         </td>
@@ -192,7 +193,8 @@ class SigninForm extends Component {
 
 const mapStateToProps = state => ({
     user: state.user,
-    signOn: state.signOn
+    signOn: state.signOn,
+    rememberMe: state.rememberMe
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -200,7 +202,8 @@ const mapDispatchToProps = dispatch => ({
     setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
     setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
     setNotification: notification => dispatch(ACTIONS.setNotification(notification)),
-    removeSignon: () => dispatch(ACTIONS.removeSignon())
+    removeSignon: () => dispatch(ACTIONS.removeSignon()),
+    setRememberMe: rememberMe => dispatch(ACTIONS.setRememberMe(rememberMe)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);
