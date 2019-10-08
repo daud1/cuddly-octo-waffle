@@ -27,7 +27,7 @@ import bubalusLogo from '../images/bubalus.png';
 class SignupForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { agreed: false };
     }
 
     toggleSignOn = (event, signOn) => {
@@ -136,7 +136,7 @@ class SignupForm extends Component {
                             <i className="fa fa-facebook" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Facebook
                         </button>
                         <button className="full-rounded-button" style={{ background: '#DA4538', padding: '0.8em 2em' }}>
-                            <i className="fa fa-google-plus" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Google +
+                            <i className="fa fa-google" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Google
                         </button>
                     </div>
                     <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>Or sign up using your email address</span>
@@ -173,6 +173,10 @@ class SignupForm extends Component {
         }
     }
 
+    toggleTermsAndConditions = (agreed) => {
+        this.setState({ agreed });
+    }
+
     signUp = (event) => {
         event.preventDefault()
         const errorFields = [];
@@ -180,7 +184,9 @@ class SignupForm extends Component {
             emailAddress,
             password,
             passwordConfirmation,
+            agreed
         } = this.state;
+        const { setNotification } = this.props;
 
         if (!emailAddress) {
             const name = "emailAddress";
@@ -201,7 +207,11 @@ class SignupForm extends Component {
             scrollToElement(errorFields[0]);
             return;
         }
-        const { user, setLoading, setNotification, setUser, removeSignon } = this.props;
+        if (!agreed) {
+            setNotification({ message: 'Please agree with the Privacy Policy, Terms and Conditions to continue' });
+            return;
+        }
+        const { user, setLoading, setUser, removeSignon } = this.props;
         const data = {
             email: emailAddress,
             password1: password,
@@ -230,6 +240,8 @@ class SignupForm extends Component {
 
     render() {
         const { signOn } = this.props;
+        const { agreed } = this.state;
+        const TCClasses = `border-radio-button ${agreed ? 'active': ''}`;
         return (
             <div id="employer_signup" className="tabcontent gray-top-border" style={{ display: 'block' }}>
                 <div className="container" style={{ padding: '5em 0' }}>
@@ -263,7 +275,7 @@ class SignupForm extends Component {
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <span className="border-radio-button" onClick={event => selectSingleRadioButton(event)}>
+                                                        <span className={TCClasses} onClick={event => selectSingleRadioButton(event, this.toggleTermsAndConditions)}>
                                                             <span></span>
                                                         </span>
                                                     </td>

@@ -19,6 +19,16 @@ class MainContainer extends Component {
         }
     }
 
+    componentDidMount() {
+        window.addEventListener('beforeunload', event => {
+          event.preventDefault();
+          const { rememberMe, removeUser } = this.props;
+          if (!rememberMe) {
+            removeUser();
+          }
+        });
+    }
+
     render() {
         return (
             <Loader children={<RouteHandler />} />
@@ -27,11 +37,13 @@ class MainContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-    notification: state.notification
+    notification: state.notification,
+    rememberMe: state.rememberMe
 });
 
 const mapDispatchToProps = dispatch => ({
-    clearNotification: () => dispatch(ACTIONS.clearNotification())
+    clearNotification: () => dispatch(ACTIONS.clearNotification()),
+    removeUser: () => dispatch(ACTIONS.removeUser())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

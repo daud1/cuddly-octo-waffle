@@ -101,7 +101,10 @@ class Settings extends Component {
                 const { data: { detail } } = res;
                 setLoading({ isLoading: false });
                 setNotification({ message: detail });
-                if (settingName === "Password") removeUser();
+                if (settingName === "Password") {
+                    setNotification({ message: 'Password changed successfully!' });
+                    setTimeout(function(){ removeUser(); }, 3000);
+                }
             })
             .catch((error) => {
                 setLoading({ isLoading: false });

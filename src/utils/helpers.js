@@ -171,11 +171,13 @@ export const openAccountPage = () => {
   return;
 }
 
-export const selectSingleRadioButton = event => {
+export const selectSingleRadioButton = (event, callback = null) => {
   if (event.currentTarget.className.includes(' active')) {
     event.currentTarget.className = event.currentTarget.className.replace(" active", "");
+    if (callback) callback(false);
   } else {
     event.currentTarget.className += " active";
+    if (callback) callback(true);
   }
   return;
 }

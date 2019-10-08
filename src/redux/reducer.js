@@ -5,7 +5,8 @@ import _ from "lodash";
 const defaultState = {
     user: {},
     signOn: '',
-    loading: { isLoading: false }
+    loading: { isLoading: false },
+    rememberMe: false
 };
 
 const athenaReducer = (state = defaultState, action) => {
@@ -53,6 +54,13 @@ const athenaReducer = (state = defaultState, action) => {
             const loading = action.payload;
             let newState = _.cloneDeep(state);
             newState.loading = loading;
+            return newState;
+        }
+
+        case ACTIONS.Types.SET_REMEMBER_ME: {
+            const rememberMe = action.payload;
+            let newState = _.cloneDeep(state);
+            newState.rememberMe = rememberMe;
             return newState;
         }
 

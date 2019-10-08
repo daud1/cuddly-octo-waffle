@@ -101,7 +101,8 @@ class PasswordResetConfirmation extends Component {
                 const { data } = res;
                 if (data.status === "OK") {
                     setSignon('Sign In');
-                    openRoute(null, '/');
+                    setNotification({ message: 'Password reset successfully!' });
+                    setTimeout(function(){ openRoute(null, '/'); }, 3000);
                 }
             })
             .catch((error) => {

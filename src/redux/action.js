@@ -6,7 +6,8 @@ const Types = {
     REMOVE_SIGNON: "REMOVE_SIGNON",
     SET_NOTIFICATION: "SET_NOTIFICATION",
     CLEAR_NOTIFICATION: "CLEAR_NOTIFICATION",
-    SET_LOADING: "SET_LOADING"
+    SET_LOADING: "SET_LOADING",
+    SET_REMEMBER_ME: "SET_REMEMBER_ME"
 };
 // actions
 const setUser = user => ({
@@ -41,6 +42,11 @@ const setLoading = loading => ({
     payload: loading
 });
 
+const setRememberMe = rememberMe => ({
+    type: Types.SET_REMEMBER_ME,
+    payload: rememberMe
+});
+
 export default {
     setUser,
     removeUser,
@@ -49,5 +55,6 @@ export default {
     setNotification,
     clearNotification,
     setLoading,
+    setRememberMe,
     Types
 };
