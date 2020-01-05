@@ -1,5 +1,6 @@
 import $ from "jquery";
 import _ from 'lodash';
+import sampleProfilePic from '../images/sample_profile_pic.jpg';
 
 var ACCOUNT_TYPES = ['employer_signup', 'freelancer_signup', 'employer_signin', 'freelancer_signin'];
 var POPUPS = ['portfolio-upload-modal', 'portfolio-view-modal', 'hire-me-modal'];
@@ -345,6 +346,9 @@ export const showAPIErrors = (error, setNotification) => {
 }
 
 export const getNameFromUser = user => {
+  const { name } = user;
+  if (name) return name;
+
   const newUser = { ...user };
   let { firstName, lastName, email } = newUser;
 
@@ -398,4 +402,48 @@ export const forceHTTPS = () => {
   if (window.location.protocol !== 'https:' && !isLocalHost()) {
     window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
   }
+}
+
+export const getUserImage = (user) => {
+  const { image } = user;
+  if (image) return image;
+  return sampleProfilePic;
+}
+
+export const setSocialSignOn = (profile, accessToken, type, props) => {
+  const { setNotification, user, setUser, removeSignon } = props;
+  const { email, name, image } = profile;
+  if (!accessToken) {
+      setNotification({ message: 'Something Went Wrong!' });
+      return;
+  }
+  const newUser = { ...user };
+  newUser.loggedIn = true;
+  newUser.key = accessToken;
+  newUser.email = email;
+  newUser.name = name;
+  newUser.image = image;
+  newUser.signOnType = type;
+  setUser(newUser);
+  removeSignon();
+}
+
+export const facebookSignOn = (response, props) => {
+  const { email, accessToken, name, userID } = response;
+  const profile = {
+      email,
+      name,
+      image: 'https://graph.facebook.com/' + userID + '/picture?height=512&width=512'
+  };
+  setSocialSignOn(profile, accessToken, 'facebook', props);
+}
+
+export const googleSignOn = (response, props) => {
+  const { profileObj: { email, name, imageUrl }, accessToken } = response;
+  const profile = {
+      email,
+      name,
+      image: imageUrl.replace('=s96', '=s512')
+  };
+  setSocialSignOn(profile, accessToken, 'google', props);
 }
