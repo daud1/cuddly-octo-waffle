@@ -1584,7 +1584,7 @@ table {
     height: 0.4em;
     background: #534CF9;
     border-radius: 10em;
-    margin: 0.13em;
+    margin: 0.13em auto;
 }
 
 .border-radio-button{
