@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from 'axios';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import GoogleLogin from 'react-google-login';
 import ACTIONS from "../redux/action";
 import {
     selectSingleRadioButton,
@@ -11,9 +13,11 @@ import {
     inputHasValue,
     isEmpty,
     scrollToElement,
-    showAPIErrors
+    showAPIErrors,
+    facebookSignOn,
+    googleSignOn
 } from '../utils/helpers';
-import { API_URL } from '../utils/constants';
+import { API_URL, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from '../utils/constants';
 import cover from '../images/sample_cover_pic.jpg';
 import logo from '../images/athena_logo_image.jpg';
 import profile12 from '../images/sample_profile_pic_12.jpg';
@@ -132,12 +136,27 @@ class SignupForm extends Component {
                         Choose one of the following sign up methods
                     </span>
                     <div>
-                        <button className="full-rounded-button" style={{ background: '#3A5999', padding: '0.8em 2em' }}>
-                            <i className="fa fa-facebook" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Facebook
-                        </button>
-                        <button className="full-rounded-button" style={{ background: '#DA4538', padding: '0.8em 2em' }}>
-                            <i className="fa fa-google" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Google
-                        </button>
+                        <FacebookLogin
+                            appId={FACEBOOK_APP_ID}
+                            fields="name,email,picture"
+                            callback={(response) => facebookSignOn(response, this.props)}
+                            render={renderProps => (
+                                <button onClick={renderProps.onClick} className="full-rounded-button" style={{ background: '#3A5999', padding: '0.8em 2em' }}>
+                                    <i className="fa fa-facebook" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Facebook
+                                </button>
+                            )}
+                        />
+                        <GoogleLogin
+                            clientId={GOOGLE_CLIENT_ID}
+                            buttonText="LOGIN WITH GOOGLE"
+                            onSuccess={(response) => googleSignOn(response, this.props)}
+                            onFailure={(response) => googleSignOn(response, this.props)}
+                            render={renderProps => (
+                                <button onClick={renderProps.onClick} className="full-rounded-button" style={{ background: '#DA4538', padding: '0.8em 2em' }}>
+                                    <i className="fa fa-google" style={{ fontSize: '14px', margin: '0 1em 0 0' }}></i>With Google
+                                </button>
+                            )}
+                        />
                     </div>
                     <span className="display-block" style={{ fontSize: '12px', margin: '1em 0 2em' }}>Or sign up using your email address</span>
                 </div>
@@ -208,7 +227,7 @@ class SignupForm extends Component {
             return;
         }
         if (!agreed) {
-            setNotification({ message: 'Please agree with the Privacy Policy, Terms and Conditions to continue' });
+            setNotification({ message: 'Please agree with the Privacy Policy and Terms of Use to continue' });
             return;
         }
         const { user, setLoading, setUser, removeSignon } = this.props;
@@ -241,7 +260,7 @@ class SignupForm extends Component {
     render() {
         const { signOn } = this.props;
         const { agreed } = this.state;
-        const TCClasses = `border-radio-button ${agreed ? 'active': ''}`;
+        const TCClasses = `border-radio-button ${agreed ? 'active' : ''}`;
         return (
             <div id="employer_signup" className="tabcontent gray-top-border" style={{ display: 'block' }}>
                 <div className="container" style={{ padding: '5em 0' }}>

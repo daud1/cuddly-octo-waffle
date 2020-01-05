@@ -7,9 +7,9 @@ import {
     getNameFromUser, 
     getTitleFromUser, 
     showAPIErrors, 
-    openRoute
+    openRoute,
+    getUserImage
 } from '../utils/helpers';
-import sampleProfilePic from '../images/sample_profile_pic.jpg';
 import sampleCoverPic from '../images/sample_cover_pic.jpg';
 import { API_URL } from '../utils/constants';
 
@@ -20,6 +20,14 @@ function AccountDropDown(props) {
         event.preventDefault();
 
         setLoading({ isLoading: true, loadingText: "Signing out..." });
+
+        if (['facebook', 'google'].includes(user.signOnType)){
+            setLoading({ isLoading: false });
+            removeUser();
+            setNotification({ message: 'Successfully Signed Out!' });
+            return;
+        }
+        
         const headers = {
             'content-type': 'application/json',
             'Authorization': `Token ${user.key}`
@@ -46,7 +54,7 @@ function AccountDropDown(props) {
                 </div>
                 <div className="center">
                     <div className="avatar" style={{ display: 'inline-block', border: '3px solid white', width: '5em', height: '5em', margin: '-2.5em auto 0.4em' }}>
-                        <img className="center-cropped" style={{ width: '5em', height: '5em' }} src={sampleProfilePic} onError={i => i.target.style.display = 'none'} alt="Profile" />
+                        <img className="center-cropped" style={{ width: '5em', height: '5em' }} src={getUserImage(user)} onError={i => i.target.style.display = 'none'} alt="Profile" />
                     </div>
                     <span className="font-size-12 bold blue display-block">{getNameFromUser(user)}</span>
                     <span className="font-size-11px light-grey display-block">{getTitleFromUser(user)}</span>

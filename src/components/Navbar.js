@@ -7,12 +7,12 @@ import {
     stopPropagation, 
     showOverlay, 
     dismissOverlay, 
-    openRoute
+    openRoute,
+    getUserImage
 } from '../utils/helpers';
 import logo from '../images/athena_logo.png';
 import binderIcon from '../images/binder_icon.png';
 import logoWhite from '../images/athena_logo_long_white.png';
-import sampleProfilePic from '../images/sample_profile_pic.jpg';
 
 class Navbar extends Component {
     toggleSignOn = (event, signOn) => {
@@ -180,7 +180,7 @@ class Navbar extends Component {
                 <li>
                     <a href="/" onClick={event => {stopPropagation(event); showOverlay('account-dropdown', event); dismissOverlay(null, ['notification-tray', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="badge-no-data all-links" data-badge="">
                         <div className="avatar">
-                            <img className="center-cropped" src={sampleProfilePic} onError={i => i.target.style.display = 'none'} alt="Logo" />
+                            <img className="center-cropped" src={getUserImage(user)} onError={i => i.target.style.display = 'none'} alt="Logo" />
                         </div>
                     </a>
                 </li>
