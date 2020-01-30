@@ -14,7 +14,7 @@ import {
 } from '../utils/helpers';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import AccountDropDown from '../components/AccountDropDown';
+import AccountDropDown from '../auth/AccountDropDown';
 import sampleProfilePic from '../images/sample_profile_pic.jpg';
 import { API_URL } from '../utils/constants';
 

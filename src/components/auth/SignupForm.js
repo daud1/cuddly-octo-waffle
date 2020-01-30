@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import axios from 'axios';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
-import ACTIONS from "../redux/action";
+import ACTIONS from "../../redux/action";
 import {
     selectSingleRadioButton,
     validateEmail,
@@ -16,8 +16,8 @@ import {
     showAPIErrors,
     facebookSignOn,
     googleSignOn
-} from '../utils/helpers';
-import { API_URL, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from '../utils/constants';
+} from '../../utils/helpers';
+import { API_URL, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from '../../utils/constants';
 import cover from '../images/sample_cover_pic.jpg';
 import logo from '../images/athena_logo_image.jpg';
 import profile12 from '../images/sample_profile_pic_12.jpg';

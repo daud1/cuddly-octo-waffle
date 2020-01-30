@@ -3,8 +3,15 @@ import CreateJobForm from "../components/CreateJobForm";
 
 class EmployerDashboard extends Component {
   render() {
-    return <CreateJobForm />;
+    const { data } = this.props;
+    return (
+      <div>
+        <Modal>
+          <CreateJobForm />
+        </Modal>
+        <JobList data={data} />
+      </div>
+    );
   }
 }
-
 export default EmployerDashboard;

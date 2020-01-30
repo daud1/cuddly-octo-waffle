@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import * as yup from "yup";
 import { Formik, Form, Field, useField } from "formik";
-import { API_URL } from "../utils/constants";
+import { API_URL } from "../../utils/constants";
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);

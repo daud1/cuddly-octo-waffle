@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
+import Navbar from '../components/Navbar';
 import AccountToggle from './AccountToggle';
-import Footer from './Footer';
+import Footer from '../components/Footer';
 
 class AccountSelector extends Component {
   proceed = () => {
