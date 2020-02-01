@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  BrowserRouter as Router,
-  Switch,
+  Redirect,
   Route,
-  Redirect
+  BrowserRouter as Router,
+  Switch
 } from "react-router-dom";
-import { isLoggedIn } from "../utils/helpers";
-import Home from "./Home";
-import Settings from "../components/Settings";
-import PasswordResetConfirmation from "../components/PasswordResetConfirmation";
+
 import EmployerDashboard from "../containers/EmployerDashboard";
+import Home from "./Home";
+import PasswordResetConfirmation from "../components/auth/PasswordResetConfirmation";
+import Settings from "../components/Settings";
+import { isLoggedIn } from "../utils/helpers";
 
 class RouteHandler extends Component {
   render() {
@@ -19,7 +20,11 @@ class RouteHandler extends Component {
       <Route
         {...rest}
         render={props =>
-          isLoggedIn(user) ? (<Component {...props} />) : (<Redirect to={{ pathname: "/" }} />)
+          isLoggedIn(user) ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to={{ pathname: "/" }} />
+          )
         }
       />
     );
@@ -29,7 +34,10 @@ class RouteHandler extends Component {
         <Switch>
           {/* Open Routes */}
           <Route exact path="/" component={Home} />
-          <Route path="/auth/reset-password/" component={PasswordResetConfirmation} />
+          <Route
+            path="/auth/reset-password/"
+            component={PasswordResetConfirmation}
+          />
           <Route path="/employer" component={EmployerDashboard} />
 
           {/* Authorized Routes */}

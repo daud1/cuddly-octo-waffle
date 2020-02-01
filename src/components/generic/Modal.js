@@ -1,13 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-const Modal = props => {
-  const { children, onClose } = props;
 
-  return <div>{children}</div>;
+const Modal = props => {
+  const { children, isOpen, onClose } = props;
+
+  return isOpen ? (
+    <div>
+      <span onClick={onClose}>X</span>
+      {children}
+    </div>
+  ) : null;
 };
 
 Modal.propTypes = {
-  onClose: PropTypes.function,
+  onClose: PropTypes.func,
   isOpen: PropTypes.bool,
   children: PropTypes.node
 };

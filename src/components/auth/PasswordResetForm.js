@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import axios from 'axios';
-import ACTIONS from "../redux/action";
+import ACTIONS from "../../redux/action";
 import {
     validateEmail,
     setInputError,
@@ -9,8 +9,8 @@ import {
     scrollToElement,
     isEmpty,
     showAPIErrors
-} from '../utils/helpers';
-import { API_URL } from '../utils/constants';
+} from '../../utils/helpers';
+import { API_URL } from '../../utils/constants';
 
 class PasswordResetForm extends Component {
     constructor(props) {
