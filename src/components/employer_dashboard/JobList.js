@@ -4,7 +4,8 @@ import JobItem from "./JobItem";
 const JobList = props => {
   const { data } = props;
   return (
-    <div>
+    <div className="container">
+      <h3>Trending Jobs</h3>
       {data.map((job, index) => (
         <JobItem
           title={job.title}

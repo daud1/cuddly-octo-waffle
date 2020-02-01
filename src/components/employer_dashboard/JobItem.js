@@ -2,36 +2,71 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import athenaLogo from "../../images/athena_logo.png";
+import athenaLogo from "../../images/sample_profile_pic.jpg";
 
 const Container = styled.div`
   display: flex;
-  flex-direction: row;
+  height: 140px;
+  border-bottom: solid 1px #f1f1f1;
+  margin: 20px 0;
+  padding: 15px 0;
 `;
 
-const JobDetails = styled.div`
+const ImageContainer = styled.div`
+  width: 90px;
+`;
+
+const Avatar = styled.img`
+  width: 75px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+`;
+
+const DetailsContainer = styled.div`
+  width: 70%;
   display: flex;
   flex-direction: column;
 `;
 
-const Avatar = styled.img`
-  width: 3.5em;
-  height: 3.5em;
-  object-fit: cover;
+const DetailsRow = styled.div`
+  width: 100%;
+  margin-bottom: 7px;
+`;
+
+const GrayTxt = styled.span`
+  color: #aeafae;
+`;
+
+const Title = styled.span`
+  color: #7a70fa;
+  font-size: 16px;
 `;
 
 const JobItem = props => {
   const { title, company, salary_range, location } = props;
   return (
     <Container>
-      <Avatar src={athenaLogo} alt="logo" />
-      <JobDetails>
-        <span>{title}</span>
-        <span>{company}</span>
-        <span>{salary_range}</span>
-        <span>{location}</span>
-      </JobDetails>
-      <hr />
+      <ImageContainer>
+        <Avatar src={athenaLogo} alt="logo" />
+      </ImageContainer>
+      <DetailsContainer>
+        <DetailsRow>
+          <Title>{title}</Title>
+        </DetailsRow>
+        <DetailsRow>
+          <GrayTxt>In {company}</GrayTxt>
+        </DetailsRow>
+        <DetailsRow>
+          <span>{salary_range}</span>
+        </DetailsRow>
+        <DetailsRow>
+          <GrayTxt>
+            <i class="fa fa-map-marker"></i>&nbsp;&nbsp;
+            {location}
+          </GrayTxt>
+        </DetailsRow>
+      </DetailsContainer>
     </Container>
   );
 };
