@@ -62,7 +62,7 @@ const JobItem = props => {
         </DetailsRow>
         <DetailsRow>
           <GrayTxt>
-            <i class="fa fa-map-marker"></i>&nbsp;&nbsp;
+            <i className="fa fa-map-marker"></i>&nbsp;&nbsp;
             {location}
           </GrayTxt>
         </DetailsRow>

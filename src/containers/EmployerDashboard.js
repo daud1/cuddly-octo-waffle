@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
 import JobList from "../components/employer_dashboard/JobList";
 import Modal from "../components/generic/Modal";
+import Tabs from "../components/Tabs";
 import Footer from "../components/Footer";
 
 class EmployerDashboard extends Component {
@@ -36,14 +37,24 @@ class EmployerDashboard extends Component {
     // const { data } = this.props;
     return (
       <div>
-        <Modal>
-          <CreateJobForm />
-        </Modal>
-        <JobList data={seed} />
+        <Tabs>
+          <div label="Dashboard">
+            <JobList data={seed} />
+          </div>
+          <div label="My Projects">
+            <JobList data={seed} />
+            <Modal>
+              <CreateJobForm />
+            </Modal>
+          </div>
+          <div label="Profile"></div>
+          <div label="Inbox"></div>
+          <div label="Feedback"></div>
+        </Tabs>
         <Footer />
       </div>
     );
-  }
+  }1
 }
 
 export default EmployerDashboard;
