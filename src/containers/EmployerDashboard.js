@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 
+import NavBar from '../components/Navbar';
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
 import JobList from "../components/employer_dashboard/JobList";
 import Profile from "../components/employer_dashboard/Profile";
 import Modal from "../components/generic/Modal";
-import Tabs from "../components/Tabs";
+import Tabs from "../components/generic/Tabs";
 import Footer from "../components/Footer";
 
 class EmployerDashboard extends Component {
@@ -38,6 +39,7 @@ class EmployerDashboard extends Component {
     // const { data } = this.props;
     return (
       <div>
+        <NavBar />
         <Tabs>
           <div label="Dashboard">
             <JobList data={seed} />

@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   height: 140px;
   border-bottom: solid 1px #f1f1f1;
-  margin: 20px 0;
+  margin: 10px 0;
   padding: 15px 0;
 `;
 
@@ -17,8 +17,8 @@ const ImageContainer = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 75px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 5px;
 `;
@@ -31,7 +31,7 @@ const DetailsContainer = styled.div`
 
 const DetailsRow = styled.div`
   width: 100%;
-  margin-bottom: 7px;
+  margin-bottom: 5px;
 `;
 
 const GrayTxt = styled.span`
