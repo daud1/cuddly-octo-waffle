@@ -40,7 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier \"*.@(js|json|md)\" \"@(components|lib|pages|scripts|server|test)/**/*.@(js|json|md)\"",
+    "prettier": "prettier \"*.@(js|json|md|css)\" \"@(src)/**/*.@(js|json|md|css)\"",
     "prettier:write": "yarn run prettier --write"
   },
   "eslintConfig": {

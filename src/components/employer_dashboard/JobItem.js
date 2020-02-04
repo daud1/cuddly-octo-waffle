@@ -39,7 +39,7 @@ const GrayTxt = styled.span`
 `;
 
 const Title = styled.span`
-  color: #7a70fa;
+  color: #5847f9;
   font-size: 16px;
 `;
 
