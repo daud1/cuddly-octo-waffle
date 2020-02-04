@@ -2167,3 +2167,12 @@ button:focus{
     cursor: pointer;
 }
   
+.active-tab-item{
+    border-bottom: solid 2px #6B85F2;
+}
+
+.tab-list li:hover {
+    border-bottom: solid 2px #6B85F2;
+    font-size: 13px;
+    font-weight: bold;
+ }
