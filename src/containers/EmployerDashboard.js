@@ -4,6 +4,7 @@ import styled from "styled-components";
 import NavBar from '../components/Navbar';
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
 import JobList from "../components/employer_dashboard/JobList";
+import Profile from "../components/employer_dashboard/Profile";
 import Modal from "../components/generic/Modal";
 import Tabs from "../components/generic/Tabs";
 import Footer from "../components/Footer";
@@ -54,14 +55,17 @@ class EmployerDashboard extends Component {
               <CreateJobForm />
             </Modal>
           </div>
-          <div label="Profile"></div>
+          <div label="Profile">
+            <Profile />
+          </div>
           <div label="Inbox"></div>
           <div label="Feedback"></div>
         </Tabs>
         <Footer />
       </Container>
     );
-  }1
+  }
+  1;
 }
 
 export default EmployerDashboard;

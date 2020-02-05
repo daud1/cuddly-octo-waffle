@@ -4,7 +4,11 @@ import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { connect } from "react-redux";
 
-import { API_URL, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from "../../utils/constants";
+import {
+  API_URL,
+  FACEBOOK_APP_ID,
+  GOOGLE_CLIENT_ID
+} from "../../utils/constants";
 import {
   clearInputError,
   facebookSignOn,

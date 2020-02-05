@@ -9,7 +9,7 @@ import {
   showAPIErrors,
   stopPropagation
 } from "../../utils/helpers";
-import ACTIONS from "../../redux/action"
+import ACTIONS from "../../redux/action";
 import { API_URL } from "../../utils/constants";
 import { connect } from "react-redux";
 import sampleCoverPic from "../../images/sample_cover_pic.jpg";
