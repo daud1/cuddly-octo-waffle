@@ -2166,7 +2166,7 @@ button:focus{
     background-position: center;
     cursor: pointer;
 }
-  
+  /* naki was here */
 .active-tab-item{
     border-bottom: solid 2px #6B85F2;
 }
@@ -2175,4 +2175,8 @@ button:focus{
     border-bottom: solid 2px #6B85F2;
     font-size: 13px;
     font-weight: bold;
- }
+}
+
+.listContainer div:nth-child(2)  { 
+    border-top: 0;
+}

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 
 import NavBar from '../components/Navbar';
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
@@ -6,6 +7,10 @@ import JobList from "../components/employer_dashboard/JobList";
 import Modal from "../components/generic/Modal";
 import Tabs from "../components/generic/Tabs";
 import Footer from "../components/Footer";
+
+const Container = styled.div`
+  font-size: 13px;
+`;
 
 class EmployerDashboard extends Component {
   render() {
@@ -37,7 +42,7 @@ class EmployerDashboard extends Component {
     ];
     // const { data } = this.props;
     return (
-      <div>
+      <Container>
         <NavBar />
         <Tabs>
           <div label="Dashboard">
@@ -54,7 +59,7 @@ class EmployerDashboard extends Component {
           <div label="Feedback"></div>
         </Tabs>
         <Footer />
-      </div>
+      </Container>
     );
   }1
 }
