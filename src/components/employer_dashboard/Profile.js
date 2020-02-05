@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import sample_cover_pic from "../../images/sample_cover_pic.jpg";
 import athenaLogo from "../../images/sample_profile_pic.jpg";
+import Review from "../Review.js";
 
 class Profile extends React.Component {
   state = {
@@ -9,6 +10,9 @@ class Profile extends React.Component {
     showEditSocialForm: false
   };
 
+  static propTypes = {
+    profile: PropTypes.shape({})
+  };
   toggleModal = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
@@ -37,12 +41,12 @@ class Profile extends React.Component {
       // skipped some sections pending discussion and feedback from client
       <div className="employer-profile">
         <div className="cover-image">
-          <img src={sample_cover_pic} />
+          <img src={sample_cover_pic} alt="cover" />
           <span>Edit Cover Picture</span>
           {/* Consider using an icon instead of the text for editing cover image*/}
         </div>
         <div className="profile-image">
-          <img src={athenaLogo} />
+          <img src={athenaLogo} alt="profile" />
           <i></i> {/* Icon for editing profile picture*/}
         </div>
         <div className="profile-summary">
@@ -81,12 +85,10 @@ class Profile extends React.Component {
             with a team of professional, experienced and expert developers,
             offers end-to-end mobile/web/game applications development services
             for various platforms including Android, iOS and Windows platform.
-            FIELDS web Services, Design Services
-            EMPLOYEES 25
-            INTERESTED IN CANDIDATES FOR UI/UX Design Web Design Mobile App Design
-            SALARY RANGE $1000 - $1700 USD/month
-            WEBSITE www.moontheme.net
-            PHONE NUMBER 084 52315 3445 LOCATION Hanoi, Vietnam
+            FIELDS web Services, Design Services EMPLOYEES 25 INTERESTED IN
+            CANDIDATES FOR UI/UX Design Web Design Mobile App Design SALARY
+            RANGE $1000 - $1700 USD/month WEBSITE www.moontheme.net PHONE NUMBER
+            084 52315 3445 LOCATION Hanoi, Vietnam
           </pre>
         </div>
         <div className="awards"></div>
