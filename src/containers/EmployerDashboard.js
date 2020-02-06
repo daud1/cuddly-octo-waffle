@@ -4,10 +4,11 @@ import styled from "styled-components";
 import NavBar from '../components/Navbar';
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
 import JobList from "../components/employer_dashboard/JobList";
-import Profile from "../components/employer_dashboard/Profile";
+// import Profile from "../components/employer_dashboard/Profile";
 import Modal from "../components/generic/Modal";
 import Tabs from "../components/generic/Tabs";
 import Footer from "../components/Footer";
+import TestProfile from '../components/employer_dashboard/TestProfile';
 
 const Container = styled.div`
   font-size: 13px;
@@ -56,7 +57,8 @@ class EmployerDashboard extends Component {
             </Modal>
           </div>
           <div label="Profile">
-            <Profile />
+            {/* <Profile /> */}
+            <TestProfile />
           </div>
           <div label="Inbox"></div>
           <div label="Feedback"></div>
