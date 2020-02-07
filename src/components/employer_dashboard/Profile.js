@@ -13,6 +13,7 @@ class Profile extends React.Component {
   static propTypes = {
     profile: PropTypes.shape({})
   };
+
   toggleModal = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
@@ -85,9 +86,12 @@ class Profile extends React.Component {
             with a team of professional, experienced and expert developers,
             offers end-to-end mobile/web/game applications development services
             for various platforms including Android, iOS and Windows platform.
-            FIELDS web Services, Design Services EMPLOYEES 25 INTERESTED IN
-            CANDIDATES FOR UI/UX Design Web Design Mobile App Design SALARY
-            RANGE $1000 - $1700 USD/month WEBSITE www.moontheme.net PHONE NUMBER
+            FIELDS web Services, Design Services
+            EMPLOYEES 25 
+            INTERESTED IN CANDIDATES FOR UI/UX Design Web Design Mobile App Design 
+            SALARY_RANGE $1000 - $1700 USD/month 
+            WEBSITE www.moontheme.net 
+            PHONE NUMBER
             084 52315 3445 LOCATION Hanoi, Vietnam
           </pre>
         </div>

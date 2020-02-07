@@ -1,57 +1,70 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import NavBar from '../components/Navbar';
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
-import JobList from "../components/employer_dashboard/JobList";
-import Profile from "../components/employer_dashboard/Profile";
-import Modal from "../components/generic/Modal";
-import Tabs from "../components/generic/Tabs";
 import Footer from "../components/Footer";
+import JobList from "../components/employer_dashboard/JobList";
+import Modal from "../components/generic/Modal";
+import NavBar from "../components/Navbar";
+import Profile from "../components/employer_dashboard/Profile";
+import Tabs from "../components/generic/Tabs";
 
 class EmployerDashboard extends Component {
   render() {
-    const seed = [
+    const profile = {
+      company_name: "KanzuCode",
+      location: "Kampala, Uganda",
+      description:
+        "loremipsumdolormet loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+      industry: "Engineering as a Service",
+      number_of_employees: "50-100"
+    };
+
+    const reviews = [
       {
-        title: "Software Engineer",
-        company: "KanzuCode",
-        salary_range: "1,200,000 - 2,300,000",
-        location: "Kampala"
+        title: "Quick Response Time",
+        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        rating: 4,
+        author: { name: "Ssajjalyabeene Margaret" },
+        date_posted: "23/03/2019"
       },
       {
-        title: "Personal Assistant",
-        company: "ADU Limited",
-        salary_range: "600,000 - 1,300,000",
-        location: "Mbale"
+        title: "Excellent Support",
+        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        rating: 5,
+        author: { name: "Nakanjako Miriam" },
+        date_posted: "15/04/2009"
       },
       {
-        title: "Lab Assistant",
-        company: "Lancet Laboratories Inc. ",
-        salary_range: "1,600,000 - 2,600,000",
-        location: "Jinja, Uganda"
+        title: "Well Organized.",
+        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        rating: 3,
+        author: { name: "Mbulakyaalo Kirabo" },
+        date_posted: "21/12/2019"
       },
       {
-        title: "Teaching Assistant",
-        company: "International School of Uganda",
-        salary_range: "1,800,000 - 2,900,000",
-        location: "Lubowa, Entebbe"
+        title: "Pay your workers",
+        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        rating: 1,
+        author: { name: "Jean de la Croix Mujawimaana" },
+        date_posted: "3/01/2029"
       }
     ];
-    // const { data } = this.props;
     return (
       <div>
         <NavBar />
         <Tabs>
           <div label="Dashboard">
-            <JobList data={seed} />
+            <JobList />
           </div>
           <div label="My Projects">
-            <JobList data={seed} />
+            <JobList />
             <Modal>
               <CreateJobForm />
             </Modal>
           </div>
           <div label="Profile">
-            <Profile />
+            <Profile profile={profile} reviews={reviews} />
           </div>
           <div label="Inbox"></div>
           <div label="Feedback"></div>
@@ -63,4 +76,10 @@ class EmployerDashboard extends Component {
   1;
 }
 
-export default EmployerDashboard;
+const mapStateToProps = state => ({
+  profile: state.profile,
+  reviews: state.reviews
+});
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmployerDashboard);

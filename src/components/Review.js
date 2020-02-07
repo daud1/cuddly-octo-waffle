@@ -25,7 +25,7 @@ Review.propTypes = {
     author: PropTypes.shape({
       name: PropTypes.string.isRequired // add remaining properties
     }),
-    date_posted: PropTypes.string.isRequired //fix data type
+    date_posted: PropTypes.string.isRequired //check data type
   })
 };
 
