@@ -47,8 +47,14 @@ const setRememberMe = rememberMe => ({
   payload: rememberMe
 });
 
+const getJobs = jobs => ({
+  type: "GET_JOBS",
+  payload: jobs
+});
+
 export default {
   setUser,
+  getJobs,
   removeUser,
   setSignon,
   removeSignon,

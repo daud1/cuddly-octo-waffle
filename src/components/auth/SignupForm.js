@@ -1,10 +1,9 @@
+import axios from "axios";
+import { connect } from "react-redux";
 import React, { Component } from "react";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import GoogleLogin from "react-google-login";
 
-import {
-  API_URL,
-  FACEBOOK_APP_ID,
-  GOOGLE_CLIENT_ID
-} from "../../utils/constants";
 import {
   clearInputError,
   comparePasswords,
@@ -18,13 +17,14 @@ import {
   showAPIErrors,
   validateEmail
 } from "../../utils/helpers";
+import {
+  API_URL,
+  FACEBOOK_APP_ID,
+  GOOGLE_CLIENT_ID
+} from "../../utils/constants";
 
 import ACTIONS from "../../redux/action";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import GoogleLogin from "react-google-login";
-import axios from "axios";
 import bubalusLogo from "../../images/bubalus.png";
-import { connect } from "react-redux";
 import cover from "../../images/sample_cover_pic.jpg";
 import followLogo from "../../images/follow_logo.jpg";
 import logo from "../../images/athena_logo_image.jpg";

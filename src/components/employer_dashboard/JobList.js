@@ -1,9 +1,12 @@
 import React from "react";
-import styled from "styled-components";
-
+import axios from "axios";
+import { connect } from "react-redux";
 import JobItem from "./JobItem";
+import PropTypes from "prop-types";
+import { API_URL } from "../../utils/constants";
+import ACTIONS from "../../redux/action";
+import styled from "styled-components";
 import BriefProfile from "./BriefProfile";
-
 import { Container } from "./CommonStyles";
 
 const Sticker = styled.div`
@@ -27,65 +30,110 @@ const TrendingContainer = styled(Container)`
   width: 50%;
 `;
 
-const JobList = props => {
-  const { data } = props;
-  return (
-    <Container bb>
-      <Container className="container">
-        {/* left content */}
-        <Container columns width="73%" br>
-          <Container mt="30px" mb="30px">
-            <h4>Connect with people you may know</h4>
-          </Container>
-          <Container>
-            <Container width="50%">
-              <BriefProfile />
+class JobList extends React.Component {
+  static propTypes = {
+    user: PropTypes.shape({
+      key: PropTypes.string,
+      loggedIn: PropTypes.bool,
+      email: PropTypes.string
+    }),
+    jobs: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string,
+        company: PropTypes.string,
+        salary_range: PropTypes.string,
+        location: PropTypes.string
+      })
+    )
+  };
+
+  componentDidMount() {
+    const { user, getJobs } = this.props;
+    const url = `${API_URL}/jobs/`;
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${user.key}`
+    };
+
+    axios
+      .get(url, headers)
+      .then(response => {
+        getJobs(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  render() {
+    const { jobs } = this.props;
+    return (
+      <Container bb>
+        <Container className="container">
+          {/* left content */}
+          <Container columns width="73%" br>
+            <Container mt="30px" mb="30px">
+              <h4>Connect with people you may know</h4>
             </Container>
-            <Container width="50%">
-              <BriefProfile />
-            </Container>
-          </Container>
-          <Container xCenter yCenter bb height="100px">
-            View more
-          </Container>
-          <Container columns className="listContainer">
-            <Container mt="30px">
+            <Container>
               <Container width="50%">
-                <h4>Trending Jobs</h4>
+                <BriefProfile />
               </Container>
-              <TrendingContainer>
-                <Sticker> trending</Sticker>
-              </TrendingContainer>
+              <Container width="50%">
+                <BriefProfile />
+              </Container>
             </Container>
-            {data.map((job, index) => (
-              <JobItem
-                title={job.title}
-                company={job.company}
-                salary_range={job.salary_range}
-                location={job.location}
-                key={index}
-              />
-            ))}
+            <Container xCenter yCenter bb height="100px">
+              View more
+            </Container>
+            <Container columns className="listContainer">
+              <Container mt="30px">
+                <Container width="50%">
+                  <h4>Trending Jobs</h4>
+                </Container>
+                <TrendingContainer>
+                  <Sticker> trending</Sticker>
+                </TrendingContainer>
+              </Container>
+              {jobs.map((job, index) => (
+                <JobItem
+                  title={job.title}
+                  company={job.company}
+                  salary_range={job.salary_range}
+                  location={job.location}
+                  key={index}
+                />
+              ))}
+            </Container>
+            <Container xCenter mt="70px" mb="30px">
+              View more
+            </Container>
           </Container>
-          <Container xCenter mt="70px" mb="30px">
-            View more
-          </Container>
-        </Container>
-        {/* Right content */}
-        <Container columns width="27%">
-          <Container height="30vh" pd="25px">
-            Welcome back
-          </Container>
-          <Container height="30vh" pd="25px" bt bb>
-            Connections
-          </Container>
-          <Container height="30vh" pd="25px">
-            Who viewed me
+          {/* Right content */}
+          <Container columns width="27%">
+            <Container height="30vh" pd="25px">
+              Welcome back
+            </Container>
+            <Container height="30vh" pd="25px" bt bb>
+              Connections
+            </Container>
+            <Container height="30vh" pd="25px">
+              Who viewed me
+            </Container>
           </Container>
         </Container>
       </Container>
-    </Container>
-  );
-};
+    );
+  }
+}
 
-export default JobList;
+const mapStateToProps = state => ({
+  jobs: state.jobs,
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  getJobs: jobs => dispatch(ACTIONS.getJobs(jobs))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(JobList);

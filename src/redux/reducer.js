@@ -3,6 +3,7 @@ import _ from "lodash";
 
 const defaultState = {
   user: {},
+  jobs: [],
   signOn: "",
   loading: { isLoading: false },
   rememberMe: false
@@ -63,6 +64,12 @@ const athenaReducer = (state = defaultState, action) => {
       return newState;
     }
 
+    case "GET_JOBS": {
+      const jobs = action.payload;
+      let newState = _.cloneDeep(state);
+      newState.jobs = jobs;
+      return newState;
+    }
     default:
       return state;
   }
