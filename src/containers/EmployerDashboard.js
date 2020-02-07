@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
 import Footer from "../components/Footer";
@@ -8,6 +9,10 @@ import Modal from "../components/generic/Modal";
 import NavBar from "../components/Navbar";
 import Profile from "../components/employer_dashboard/Profile";
 import Tabs from "../components/generic/Tabs";
+
+const Container = styled.div`
+  font-size: 13px;
+`;
 
 class EmployerDashboard extends Component {
   render() {
@@ -51,7 +56,7 @@ class EmployerDashboard extends Component {
       }
     ];
     return (
-      <div>
+      <Container>
         <NavBar />
         <Tabs>
           <div label="Dashboard">
@@ -70,7 +75,7 @@ class EmployerDashboard extends Component {
           <div label="Feedback"></div>
         </Tabs>
         <Footer />
-      </div>
+      </Container>
     );
   }
   1;
