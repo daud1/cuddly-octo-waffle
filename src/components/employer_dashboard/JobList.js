@@ -7,7 +7,7 @@ import { API_URL } from "../../utils/constants";
 import ACTIONS from "../../redux/action";
 import styled from "styled-components";
 import BriefProfile from "./BriefProfile";
-import { Container } from "./CommonStyles";
+import { Container } from "./Common";
 
 const Sticker = styled.div`
   background-color: #a476f5;

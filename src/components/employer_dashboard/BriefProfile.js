@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Avatar, Title, GrayTxt, Button } from "./CommonStyles";
+import { Container, Avatar, Title, GrayTxt, Button } from "./Common";
 import profileImage from "../../images/sample_profile_pic.jpg";
 
 export const BriefProfile = props => {

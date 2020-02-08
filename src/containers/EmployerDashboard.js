@@ -9,7 +9,6 @@ import Modal from "../components/generic/Modal";
 import NavBar from "../components/Navbar";
 import Profile from "../components/employer_dashboard/Profile";
 import Tabs from "../components/generic/Tabs";
-import TestProfile from '../components/employer_dashboard/TestProfile';
 
 const Container = styled.div`
   font-size: 13px;
@@ -21,7 +20,7 @@ class EmployerDashboard extends Component {
       company_name: "KanzuCode",
       location: "Kampala, Uganda",
       description:
-        "loremipsumdolormet loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        "Fast response! My app was ready next day. I would hire again! Thanks!",
       industry: "Engineering as a Service",
       number_of_employees: "50-100"
     };
@@ -36,7 +35,8 @@ class EmployerDashboard extends Component {
       },
       {
         title: "Excellent Support",
-        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        description:
+          "He's really good and finished my project in record time. Definitely would hire him again",
         rating: 5,
         author: { name: "Nakanjako Miriam" },
         date_posted: "15/04/2009"
@@ -70,7 +70,6 @@ class EmployerDashboard extends Component {
             </Modal>
           </div>
           <div label="Profile">
-            {/* <TestProfile /> */}
             <Profile profile={profile} reviews={reviews} />
           </div>
           <div label="Inbox"></div>

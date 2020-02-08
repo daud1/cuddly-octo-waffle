@@ -1,19 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
-import athenaLogo from "../images/sample_profile_pic.jpg";
+import samplePic from "../images/sample_profile_pic.jpg";
+
+import { Avatar, Container } from "./employer_dashboard/Common";
 
 const Review = props => {
   const { title, author, rating, description, date_posted } = props.review;
   return (
-    <div className="review">
-      <img src={athenaLogo} alt="profile" />
-      <span>{title}</span>
-      <span>{rating}</span>
-      {/* The rating is supposed to be a series of star icons */}
-      <span>{description}</span>
-      <span>By: {author.name}</span>
-      <span>{date_posted}</span>
-    </div>
+    <Container mb="30px">
+      <Container>
+        <Avatar
+          src={samplePic}
+          alt="profile"
+          rounded
+          width="80px"
+          height="80px"
+        />
+      </Container>
+      <Container ml="20px" columns>
+        <span>{title}</span>
+        <span>{rating}</span>
+        {/* The rating is supposed to be a series of star icons */}
+        <span>"{description}"</span>
+        <span>By: {author.name}</span>
+        <span>{date_posted}</span>
+      </Container>
+    </Container>
   );
 };
 

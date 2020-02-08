@@ -4,7 +4,7 @@ import styled from "styled-components";
 import bannerImage from "../../images/sample_cover_pic.jpg";
 import profilePic from "../../images/sample_profile_pic.jpg";
 
-import { Avatar, Container } from "./CommonStyles";
+import { Avatar, Container } from "./Common";
 
 const BannerContainer = styled(Container)`
   position: relative;
