@@ -36,7 +36,7 @@ const JobItem = props => {
 JobItem.propTypes = {
   title: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
-  salary_range: PropTypes.string.isRequired,
+  salary_range: PropTypes.string,
   location: PropTypes.string.isRequired
 };
 
