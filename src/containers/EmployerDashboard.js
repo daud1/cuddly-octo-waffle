@@ -69,7 +69,7 @@ class EmployerDashboard extends Component {
               <CreateJobForm />
             </Modal>
           </div>
-          <div label="Profile">
+          <div label="My Profile">
             <Profile profile={profile} reviews={reviews} />
           </div>
           <div label="Inbox"></div>

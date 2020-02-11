@@ -1,22 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 
-import bannerImage from "../../images/sample_cover_pic.jpg";
+import coverPhoto from "../../images/sample_cover_pic.jpg";
 import profilePic from "../../images/sample_profile_pic.jpg";
 
-import { Avatar, Container } from "./Common";
+import { Avatar, Container, CameraIcon } from "./Common";
 
 const BannerContainer = styled(Container)`
   position: relative;
 `;
 
-const BannerImage = styled.img`
+const CoverPhoto = styled.img`
   width: 100%;
   height: 55vh;
   object-fit: cover;
 `;
 
-const ImageContainer = styled(Container)`
+const FlexContainer = styled(Container)`
   display: flex;
   justify-content: center;
 `;
@@ -27,26 +27,44 @@ const ProfilePic = styled(Avatar)`
   bottom: -60px;
 `;
 
-const EditButton = styled.button`
-    position: absolute;
-    bottom: 30px;
-    right: 30px;
-    width: 160px;
-    height: 35px;
-    color: white;
-    background-color: black;
-    border-radius: 25px;
-    border: 0;
+const CoverPhotoButton = styled.button`
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  width: 160px;
+  height: 35px;
+  color: white;
+  background-color: black;
+  border-radius: 25px;
+  border: 0;
+`;
+
+const ProfilePicButton = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #534cf9;
+  color: #fff;
+  border: 0;
+  position: absolute;
+  bottom: 30px;
+  left: calc(50% + 20px);
 `;
 
 function ProfileBanner() {
   return (
     <BannerContainer columns>
-      <BannerImage src={bannerImage} />
-      <ImageContainer>
+      <CoverPhoto src={coverPhoto} />
+      <FlexContainer>
         <ProfilePic src={profilePic} rounded width="120px" height="120px" />
-      </ImageContainer>
-      <EditButton>Edit Cover Picture</EditButton>
+      </FlexContainer>
+      <ProfilePicButton>
+        <CameraIcon className="fa fa-camera-retro"></CameraIcon>
+      </ProfilePicButton>
+      <CoverPhotoButton>
+        <CameraIcon className="fa fa-camera-retro" small mr="10px"></CameraIcon>Edit Cover
+        Picture
+      </CoverPhotoButton>
     </BannerContainer>
   );
 }
