@@ -55,17 +55,16 @@ export const Container = styled.div`
 `;
 
 export const Relative = styled(Container)`
-    position: relative;
+  position: relative;
 `;
 
 export const Absolute = styled(Container)`
-    position: absolute;
-    top: ${props => props.top};
-    bottom: ${props => props.bottom};
-    left: ${props => props.left};
-    right: ${props => props.right};
+  position: absolute;
+  top: ${props => props.top};
+  bottom: ${props => props.bottom};
+  left: ${props => props.left};
+  right: ${props => props.right};
 `;
-
 
 // images
 export const Avatar = styled.img`
@@ -93,6 +92,8 @@ export const Button = styled.button`
   color: ${props => (props.white ? "#989898" : "#fff")};
   background-color: ${props => (props.white ? "#fff" : "#5355F0")};
   box-shadow: ${props => (props.white ? "0px 0px 20px 8px #E8E7FB" : "")};
+  margin-left: ${props => props.ml};
+  margin-right: ${props => props.mr};
 `;
 
 // icons
@@ -151,4 +152,14 @@ export const AwardIcon = styled.i`
   font-size: 18px;
   padding-top: ${props => props.pt};
   color: #959595;
+`;
+
+// inputs
+export const Input = styled.input`
+  border-radius: 20px;
+  width: 280px;
+  margin-bottom: 8px;
+  border: solid 1px #f1f1f1;
+  padding: 5px 20px;
+  font-size: 12px;
 `;

@@ -20,12 +20,10 @@ export const BriefProfile = props => {
         <Container>7 Years of Experience</Container>
         <Container>48 Number of hours per week</Container>
         <Container mt="15px">
-          <Container>
-            <Button>Connect</Button>
-          </Container>
-          <Container ml="15px">
-            <Button white>Not Now</Button>
-          </Container>
+          <Button>Connect</Button>
+          <Button white ml="15px">
+            Not Now
+          </Button>
         </Container>
       </Container>
     </Container>

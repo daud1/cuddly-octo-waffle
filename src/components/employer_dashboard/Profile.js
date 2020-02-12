@@ -14,7 +14,9 @@ import {
   SocialIcon,
   TwitterIcon,
   Ellipsis,
-  AwardIcon
+  AwardIcon,
+  Input,
+  Button
 } from "./Common";
 
 import ProfileBanner from "./ProfileBanner";
@@ -117,12 +119,16 @@ class Profile extends React.Component {
           </Container>
           <Container xCenter mt="20px" mb="50px">
             {showEditSocialForm ? (
-              <Container className="edit-social-links">
+              <Container className="edit-social-links" columns>
                 {social.map(item => (
-                  <input placeholder={item} />
+                  <Input placeholder={item} />
                 ))}
-                <span>Cancel</span>
-                <span>Save</span>
+                <Container mt="15px">
+                  <Button white width="60px" mr="15px">
+                    Cancel
+                  </Button>
+                  <Button width="60px">Save</Button>
+                </Container>
               </Container>
             ) : (
               <Container xCenter>
