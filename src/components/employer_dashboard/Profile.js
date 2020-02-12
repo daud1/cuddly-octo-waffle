@@ -119,12 +119,17 @@ class Profile extends React.Component {
           </Container>
           <Container xCenter mt="20px" mb="50px">
             {showEditSocialForm ? (
-              <Container className="edit-social-links" columns>
+              <Container columns>
                 {social.map(item => (
                   <Input placeholder={item} />
                 ))}
                 <Container mt="15px">
-                  <Button white width="60px" mr="15px">
+                  <Button
+                    white
+                    width="60px"
+                    mr="15px"
+                    onClick={this.toggleEditSocialForm}
+                  >
                     Cancel
                   </Button>
                   <Button width="60px">Save</Button>
