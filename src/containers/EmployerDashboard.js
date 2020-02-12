@@ -28,7 +28,8 @@ class EmployerDashboard extends Component {
     const reviews = [
       {
         title: "Quick Response Time",
-        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        description:
+          "loremipsumdolormet loremipsumdolormet loremipsumdolormet ",
         rating: 4,
         author: { name: "Ssajjalyabeene Margaret" },
         date_posted: "23/03/2019"
@@ -50,7 +51,7 @@ class EmployerDashboard extends Component {
       },
       {
         title: "Pay your workers",
-        description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
+        description: "Naye nyanya kiki?? obusungu bwaki muganda wange?",
         rating: 1,
         author: { name: "Jean de la Croix Mujawimaana" },
         date_posted: "3/01/2029"

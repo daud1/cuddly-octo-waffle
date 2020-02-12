@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Avatar, Title, GrayTxt, Button } from "./Common";
+import { Container, Avatar, BlueSubTitle, GrayTxt, Button } from "./Common";
 import profileImage from "../../images/sample_profile_pic.jpg";
 
 export const BriefProfile = props => {
@@ -11,7 +11,7 @@ export const BriefProfile = props => {
       </Container>
       <Container columns ml="20px">
         <Container>
-          <Title>Steve Munich</Title>
+          <BlueSubTitle>Steve Munich</BlueSubTitle>
         </Container>
         <Container mb="7px" mt="7px">
           <GrayTxt>Tokyo, Japan . Worked @Samsung</GrayTxt>

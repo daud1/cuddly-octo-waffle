@@ -6,10 +6,15 @@ export const GrayTxt = styled.span`
   font-size: ${props => (props.bigger ? "14px" : "")};
 `;
 
-export const Title = styled.span`
-  color: #6a85f2;
-  font-size: 15px;
+export const BlueSubTitle = styled.span`
+  color: #3d6de9;
+  font-size: 14px;
   font-weight: ${props => (props.bold ? "bold" : "")};
+  cursor: pointer;
+
+  &:hover {
+    color: ${props => (props.hoverEffect ? "black" : "")};
+    text-decoration: ${props => (props.hoverEffect ? "underline" : "")};
 `;
 
 // flexible container
