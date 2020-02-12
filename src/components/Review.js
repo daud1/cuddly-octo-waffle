@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import samplePic from "../images/sample_profile_pic.jpg";
+import samplePic from "../images/bubalus.png";
 
 import { Avatar, Container } from "./employer_dashboard/Common";
 
@@ -13,6 +13,7 @@ const Review = props => {
           src={samplePic}
           alt="profile"
           rounded
+          border
           width="80px"
           height="80px"
         />

@@ -6,11 +6,15 @@ import {
   Title,
   RightAlign,
   Container,
+  Absolute,
+  Relative,
   GrayTxt,
   EditIcon,
   BriefcaseIcon,
   SocialIcon,
-  TwitterIcon
+  TwitterIcon,
+  Ellipsis,
+  AwardIcon
 } from "./Common";
 
 import ProfileBanner from "./ProfileBanner";
@@ -19,10 +23,10 @@ function Award(props) {
   return (
     <Container bb height="120px" pt="20px">
       <Container width="50px">
-        <SocialIcon className="fa fa-ellipsis-h"></SocialIcon>
+        <AwardIcon className="fa fa-empire" pt="10px"></AwardIcon>
       </Container>
       <Container columns>
-        <h5>{props.title}</h5>
+        <h4>{props.title}</h4>
         <GrayTxt>{props.Giver}</GrayTxt>
         <GrayTxt>{props.Year}</GrayTxt>
       </Container>
@@ -30,11 +34,20 @@ function Award(props) {
   );
 }
 
-function SectionTitle(props) {
+function SectionHeading(props) {
   return (
-    <Container mt="30px" mb="30px">
-      <Title bold>{props.label}</Title>
-    </Container>
+    <Relative mt="30px" mb="30px">
+      <Container>
+        <Title bold>{props.label}</Title>
+      </Container>
+      {props.editOption ? (
+        <Absolute right="30px">
+          <EditIcon className="fa fa-pencil"></EditIcon>
+        </Absolute>
+      ) : (
+        ""
+      )}
+    </Relative>
   );
 }
 
@@ -132,7 +145,7 @@ class Profile extends React.Component {
           <Container className="container">
             <Container columns br width="75%" pb="30px">
               <Container columns bb pb="10px">
-                <SectionTitle label="COMPANY INTRODUCTION" />
+                <SectionHeading label="COMPANY INTRODUCTION" editOption />
                 <CompanyIntroSec
                   heading="Moontheme Studio Inc."
                   fieldValue="We have been catering to the software development needs
@@ -171,17 +184,21 @@ class Profile extends React.Component {
               </Container>
               {/* Awards section */}
               <Container columns>
-                <SectionTitle label="AWARDS" />
+                <SectionHeading label="AWARDS" editOption />
                 <Award title="Excellent staff" Giver="VNP" Year="2015" />
                 <Award title="Excellent staff" Giver="VNP" Year="2015" />
                 <Award title="Excellent staff" Giver="VNP" Year="2015" />
               </Container>
               <Container columns>
-                <SectionTitle label="RECENT REVIEWS" />
+                <SectionHeading label="RECENT REVIEWS" />
                 <Container columns>
                   {reviews.map((review, index) => {
                     return <Review review={review} key={index} />;
                   })}
+                </Container>
+                <Container xCenter mt="40px">
+                  <GrayTxt bigger>Load More Reviews</GrayTxt>
+                  <Ellipsis className="fa fa-ellipsis-h" />
                 </Container>
               </Container>
             </Container>

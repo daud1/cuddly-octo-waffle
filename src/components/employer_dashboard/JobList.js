@@ -7,7 +7,7 @@ import { API_URL } from "../../utils/constants";
 import ACTIONS from "../../redux/action";
 import styled from "styled-components";
 import BriefProfile from "./BriefProfile";
-import { Container } from "./Common";
+import { Container, Ellipsis, GrayTxt } from "./Common";
 
 const Sticker = styled.div`
   background-color: #a476f5;
@@ -106,7 +106,8 @@ class JobList extends React.Component {
               ))}
             </Container>
             <Container xCenter mt="70px" mb="30px">
-              View more
+              <Ellipsis className="fa fa-ellipsis-h" />
+                <GrayTxt bigger>View more</GrayTxt>
             </Container>
           </Container>
           {/* Right content */}

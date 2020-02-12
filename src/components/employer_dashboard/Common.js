@@ -3,6 +3,7 @@ import styled from "styled-components";
 // text
 export const GrayTxt = styled.span`
   color: #989898;
+  font-size: ${props => (props.bigger ? "14px" : "")};
 `;
 
 export const Title = styled.span`
@@ -48,11 +49,26 @@ export const Container = styled.div`
   padding-right: ${props => props.pr};
 `;
 
+export const Relative = styled(Container)`
+    position: relative;
+`;
+
+export const Absolute = styled(Container)`
+    position: absolute;
+    top: ${props => props.top};
+    bottom: ${props => props.bottom};
+    left: ${props => props.left};
+    right: ${props => props.right};
+`;
+
+
+// images
 export const Avatar = styled.img`
   width: ${props => (props.width ? `${props.width}` : "60px")};
   height: ${props => (props.height ? `${props.width}` : "60px")};
   border-radius: ${props => (props.rounded ? "50%" : "5px")};
   object-fit: cover;
+  border: ${props => (props.border ? "solid 1px #f1f1f1" : "0px")};
 `;
 
 // text align
@@ -118,4 +134,16 @@ export const CameraIcon = styled.i`
   color: #fff;
   font-size: ${props => (props.small ? "15px" : "20px")};
   margin-right: ${props => (props.mr ? `${props.mr}` : "0px")};
+`;
+
+export const Ellipsis = styled.i`
+  font-size: 20px;
+  color: #989898;
+  margin: 0 10px;
+`;
+
+export const AwardIcon = styled.i`
+  font-size: 18px;
+  padding-top: ${props => props.pt};
+  color: #959595;
 `;
