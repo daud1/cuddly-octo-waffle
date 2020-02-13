@@ -2197,6 +2197,7 @@ button:focus {
 /* naki was here */
   .active-tab-item{
     border-bottom: solid 2px #6B85F2;
+    font-weight: bold;
 }
 
 .tab-list li:hover {

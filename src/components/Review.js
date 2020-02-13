@@ -1,8 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import samplePic from "../images/sample_profile_pic.jpg";
+import styled from "styled-components";
 
-import { Avatar, Container } from "./employer_dashboard/Common";
+import samplePic from "../images/bubalus.png";
+import { Avatar, Container, BlueSubTitle } from "./employer_dashboard/Common";
+
+const Star = styled.i`
+  color: ${props => (props.full ? "#3d6de9" : "#989898")};
+  margin-right: 5px;
+`;
 
 const Review = props => {
   const { title, author, rating, description, date_posted } = props.review;
@@ -13,13 +19,21 @@ const Review = props => {
           src={samplePic}
           alt="profile"
           rounded
+          border
           width="80px"
           height="80px"
         />
       </Container>
-      <Container ml="20px" columns>
-        <span>{title}</span>
-        <span>{rating}</span>
+      <Container ml="30px" ml="20px" columns>
+        <BlueSubTitle hoverEffect>{title}</BlueSubTitle>
+        {/* to be replaced */}
+        <Container mt="10px" mb="10px">
+          <Star className="fa fa-star" full />
+          <Star className="fa fa-star" full />
+          <Star className="fa fa-star" full />
+          <Star className="fa fa-star" />
+          <Star className="fa fa-star" />
+        </Container>
         {/* The rating is supposed to be a series of star icons */}
         <span>"{description}"</span>
         <span>By: {author.name}</span>
