@@ -23,10 +23,26 @@ import {
 import ACTIONS from "../../redux/action";
 
 class SigninForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {};
+
+  getUserDetails = key => {
+    const url = `${API_URL}/auth/user/`;
+    const headers = { Authorization: `Token ${key}` };
+    const { setUser, setLoading, setNotification } = this.props;
+
+    axios
+      .get(url, { headers })
+      .then(response => {
+        let user = response.data;
+        user.loggedIn = true;
+        user.key = key;
+        setUser(user);
+      })
+      .catch(error => {
+        setLoading({ isLoading: false });
+        showAPIErrors(error, setNotification);
+      });
+  };
 
   toggleSignOn = (event, signOn) => {
     event.preventDefault();
@@ -169,33 +185,29 @@ class SigninForm extends Component {
       return;
     }
 
-    const {
-      user,
-      setLoading,
-      setNotification,
-      setUser,
-      removeSignon
-    } = this.props;
+    const { setLoading, setNotification, removeSignon } = this.props;
+
     const data = {
       email: emailAddress,
       password
     };
 
+    let token;
+
     setLoading({ isLoading: true, loadingText: "Signing in..." });
+
     axios
       .post(`${API_URL}/auth/login/`, data)
       .then(res => {
         const {
           data: { key }
         } = res;
-        const newUser = { ...user };
-
+        token = key;
         setLoading({ isLoading: false });
-        newUser.loggedIn = true;
-        newUser.key = key;
-        newUser.email = emailAddress;
-        setUser(newUser);
         removeSignon();
+      })
+      .then(() => {
+        this.getUserDetails(token);
       })
       .catch(error => {
         setLoading({ isLoading: false });

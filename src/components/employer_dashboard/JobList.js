@@ -48,11 +48,10 @@ class JobList extends React.Component {
   };
 
   componentDidMount() {
-    const { user, getJobs } = this.props;
+    const { getJobs } = this.props;
     const url = `${API_URL}/jobs/`;
     const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${user.key}`
+      "content-type": "application/json"
     };
 
     axios
@@ -98,7 +97,7 @@ class JobList extends React.Component {
               {jobs.map((job, index) => (
                 <JobItem
                   title={job.title}
-                  company={job.company}
+                  company={job.employer.company_name}
                   salary_range={job.salary_range}
                   location={job.location}
                   key={index}

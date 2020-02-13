@@ -27,7 +27,7 @@ class Profile extends React.Component {
 
   static propTypes = {};
   render() {
-    let social = [
+    const social = [
       "Facebook",
       "Twitter",
       "LinkedIn",
@@ -98,13 +98,13 @@ class Profile extends React.Component {
               <Container mb="20px">
                 <Container width="30%">FIELDS</Container>
                 <Container ml="20px" mr="30px" width="70%">
-                  web Services, Design Services
+                  {profile.industry}
                 </Container>
               </Container>
               <Container mb="20px">
                 <Container width="30%">EMPLOYEES</Container>
                 <Container width="70%" ml="20px" mr="30px">
-                  30
+                  {profile.number_of_employees} employees
                 </Container>
               </Container>
               <Container mb="20px">
@@ -128,13 +128,13 @@ class Profile extends React.Component {
               <Container mb="20px">
                 <Container width="30%">PHONE NUMBER</Container>
                 <Container width="70%" ml="20px" mr="30px">
-                  084 52315 3445 Vietnam
+                  084 52315 3445
                 </Container>
               </Container>
               <Container pb="20px" bb>
                 <Container width="30%">LOCATION </Container>
                 <Container width="70%" ml="20px" mr="30px">
-                  Hanoi, Vietnam
+                  {profile.location}
                 </Container>
               </Container>
               <Container columns mt="30px">
