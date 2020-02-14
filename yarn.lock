@@ -2957,10 +2957,10 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-beauty-stars@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/beauty-stars/-/beauty-stars-1.0.4.tgz#a7928bec4a71c7f33abb0fd5d8b63dbdb1063c2c"
-  integrity sha512-Srx2PB2c8dc04yQyTAYGjTRqBXV7wnWChhLy/0B2f4nYWGOm1M7WG4KVHXC5558HBqYxK+A0w9AahqHd/0eCVQ==
+beauty-stars@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/beauty-stars/-/beauty-stars-1.1.0.tgz#4ea511b0dbbf20e66b948af77d285390a523eebc"
+  integrity sha512-h2debWueuXWv3MR3bwGCgqxzBv8bHyf8DagppWN4XAweJ6rhdtyl0uxosiOg6ODyDefYTv8TBcgSe4B3n0THuA==
 
 big.js@^5.2.2:
   version "5.2.2"
@@ -9588,11 +9588,6 @@ react-spring@^8.0.27:
   dependencies:
     "@babel/runtime" "^7.3.1"
     prop-types "^15.5.8"
-
-react-stars@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/react-stars/-/react-stars-2.2.5.tgz#911852018e1574a0f9a2c1dfa4f0bc9af071b921"
-  integrity sha1-kRhSAY4VdKD5osHfpPC8mvBxuSE=
 
 react-transition-group@^2.5.0:
   version "2.9.0"

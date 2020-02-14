@@ -1,6 +1,5 @@
 import React from "react";
-import ReactStars from "react-stars";
-// import BeautyStars from "beauty-stars";
+import BeautyStars from "beauty-stars";
 import PropTypes from "prop-types";
 
 import samplePic from "../images/bubalus.png";
@@ -23,19 +22,13 @@ const Review = props => {
       <Container ml="30px" ml="20px" columns>
         <BlueSubTitle hoverEffect>{title}</BlueSubTitle>
         <Container mt="10px" mb="10px">
-          <ReactStars
-            count={5}
-            value={rating}
-            size={14}
-            color1={"#989898"}
-            color2={"#3d6de9"}
-          />
-          {/* <BeautyStars
+          <BeautyStars
             value={rating}
             size={14}
             inactiveColor="#989898"
             activeColor="3d6de9"
-          /> */}
+            gap="3px"
+          />
         </Container>
         <span>"{description}"</span>
         <span>By: {author.name}</span>
