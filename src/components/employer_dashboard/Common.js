@@ -32,6 +32,7 @@ export const Container = styled.div`
     props.columns
       ? "column"
       : "row"}; //container children will be rows by default
+  flex-wrap: ${props => (props.wrap ? "wrap" : "no-wrap")};
 
   // Border
   border-bottom: solid 1px ${props => (props.bb ? "#f1f1f1" : "fff")};

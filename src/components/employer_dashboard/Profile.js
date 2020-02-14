@@ -23,15 +23,10 @@ import ProfileBanner from "./ProfileBanner";
 
 function Award(props) {
   return (
-    <Container bb height="120px" pt="20px">
-      <Container width="50px">
-        <AwardIcon className="fa fa-empire" pt="10px"></AwardIcon>
-      </Container>
-      <Container columns>
-        <h4>{props.title}</h4>
-        <GrayTxt>{props.Giver}</GrayTxt>
-        <GrayTxt>{props.Year}</GrayTxt>
-      </Container>
+    <Container pd="20px" bl columns width="calc(100% / 3)">
+      <h4>{props.title}</h4>
+      <GrayTxt>{props.Giver}</GrayTxt>
+      <GrayTxt>{props.Year}</GrayTxt>
     </Container>
   );
 }
@@ -196,9 +191,16 @@ class Profile extends React.Component {
               {/* Awards section */}
               <Container columns>
                 <SectionHeading label="AWARDS" editOption />
-                <Award title="Excellent staff" Giver="VNP" Year="2015" />
-                <Award title="Excellent staff" Giver="VNP" Year="2015" />
-                <Award title="Excellent staff" Giver="VNP" Year="2015" />
+                <Container bl bt>
+                  <Container width="50px" xCenter pt="30px;" bb>
+                    <AwardIcon className="fa fa-empire"></AwardIcon>
+                  </Container>
+                  <Container wrap bb width="calc(100% - 50px)">
+                    <Award title="Excellent staff" Giver="VNP" Year="2015" />
+                    <Award title="Excellent staff" Giver="VNP" Year="2016" />
+                    <Award title="Excellent staff" Giver="VNP" Year="2017" />
+                  </Container>
+                </Container>
               </Container>
               {/* Reviews section */}
               <Container columns>
