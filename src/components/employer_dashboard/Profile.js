@@ -23,9 +23,9 @@ import ProfileBanner from "./ProfileBanner";
 
 function Award(props) {
   return (
-    <Container bb height="120px" pt="20px">
-      <Container width="50px">
-        <AwardIcon className="fa fa-empire" pt="10px"></AwardIcon>
+    <Container width="calc(100% / 3)" pb="20px">
+      <Container width="50px" pt="10px">
+        <AwardIcon className="fa fa-empire"></AwardIcon>
       </Container>
       <Container columns>
         <h4>{props.title}</h4>
@@ -194,11 +194,14 @@ class Profile extends React.Component {
                 />
               </Container>
               {/* Awards section */}
-              <Container columns>
+              <Container columns bb pb="20px">
                 <SectionHeading label="AWARDS" editOption />
-                <Award title="Excellent staff" Giver="VNP" Year="2015" />
-                <Award title="Excellent staff" Giver="VNP" Year="2015" />
-                <Award title="Excellent staff" Giver="VNP" Year="2015" />
+                <Container width="100%" wrap>
+                  <Award title="Excellent staff" Giver="VNP" Year="2015" />
+                  <Award title="Excellent staff" Giver="VNP" Year="2016" />
+                  <Award title="Excellent staff" Giver="VNP" Year="2017" />
+                  <Award title="Excellent staff" Giver="VNP" Year="2015" />
+                </Container>
               </Container>
               {/* Reviews section */}
               <Container columns>
