@@ -1,8 +1,17 @@
-import React, { Component } from "react";
-import axios from "axios";
 import * as yup from "yup";
-import { Formik, Form, Field, useField } from "formik";
+
+import {
+  Field,
+  FieldArray,
+  Form,
+  Formik,
+  useField,
+  useFormikContext
+} from "formik";
+import React, { Component } from "react";
+
 import { API_URL } from "../../utils/constants";
+import axios from "axios";
 
 const TextInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -26,50 +35,79 @@ const TextArea = ({ label, ...props }) => {
   );
 };
 
+const DynamicListField = ({ name, ...props }) => {
+  const { values } = useFormikContext();
+  return (
+    <FieldArray
+      name={name}
+      render={arrayHelpers => (
+        <div>
+          {values[name].map((item, index) => (
+            <div key={index}>
+              <Field name={`${name}[${index}]`} />
+              <button type="button" onClick={() => arrayHelpers.remove(index)}>
+                -
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={() => arrayHelpers.push()}>
+            +
+          </button>
+        </div>
+      )}
+    />
+  );
+};
 class CreateForm extends Component {
+  createJob = values => {
+    const { loggedInProfileId } = this.props;
+    const url = `${API_URL}/jobs/`;
+    const headers = { Authorization: `Token ${localStorage.getItem("key")}` };
+    values["employer_id"] = loggedInProfileId;
+
+    axios
+      .post(url, values, { headers })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   render() {
+    const initialValues = {
+      title: "",
+      description: "",
+      skills_required: [],
+      primary_role: "",
+      other_roles: [],
+      salary_range: "",
+      currency: "UGX",
+      work_time: "Full-Time",
+      location: ""
+    };
+
+    const validationSchema = yup.object().shape({
+      title: yup.string().required("Required"),
+      description: yup.string().required("Required"),
+      skills_required: yup.string(),
+      primary_role: yup.string().required("Required"),
+      work_time: yup
+        .string()
+        .required("Required")
+        .oneOf(["full-time", "part-time"]),
+      salary_range: yup.string(),
+      location: yup.string().required("Required")
+    });
+
     return (
-      <div>
+      <div className="container">
         <h3 className="section-titles">Post a Job to Athena</h3>
         <Formik
-          initialValues={{
-            title: "",
-            description: "",
-            skills_required: "",
-            primary_role: "",
-            salary_range: "",
-            currency: "UGX",
-            work_time: "full-time",
-            location: ""
-          }}
-          validationSchema={yup.object().shape({
-            title: yup.string().required("Required"),
-            description: yup.string().required("Required"),
-            skills_required: yup.string(),
-            primary_role: yup.string().required("Required"),
-            work_time: yup
-              .string()
-              .required("Required")
-              .oneOf(["full-time", "part-time"]),
-            salary_range: yup.string(),
-            location: yup.string().required("Required")
-          })}
-          onSubmit={values => {
-            let url = `${API_URL}/jobs/`;
-            // massage values to insert employer_id and format array fields
-            values["employer_id"] = 2;
-
-            // implement error handling and implementation for success-case
-            axios
-              .post(url, values, {
-                headers: {
-                  Authorization: `Token ${localStorage.getItem("key")}`,
-                  "content-type": "application/json"
-                }
-              })
-              .then(response => {})
-              .catch(error => {});
-          }}
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={this.createJob}
         >
           <Form>
             <TextInput
@@ -85,11 +123,8 @@ class CreateForm extends Component {
               placeholder="Enter a job description"
             />
 
-            <TextArea
-              label="Skills Required"
-              name="skills_required"
-              placeholder="Enter the pre-requisite skills and qualifications"
-            />
+            <label htmlFor="skills_required">Skills Required</label>
+            <DynamicListField name="skills_required" />
 
             <TextInput
               label="Primary Role"
@@ -98,10 +133,13 @@ class CreateForm extends Component {
               placeholder="e.g Create, advise on and maintain software projects.."
             />
 
+            <label htmlFor="other_roles">Other Roles</label>
+            <DynamicListField name="other_roles" />
+
             <label htmlFor="work_time">Type of Working Time</label>
-            <Field as="select" name="work_time" placeholder="full-time">
-              <option value="full-time">Full-Time</option>
-              <option value="part-time">Part-Time</option>
+            <Field as="select" name="work_time" placeholder="Full-Time">
+              <option value="Full-Time">Full-Time</option>
+              <option value="Part-Time">Part-Time</option>
             </Field>
 
             <TextInput
