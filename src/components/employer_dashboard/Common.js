@@ -6,9 +6,9 @@ export const GrayTxt = styled.span`
   font-size: ${props => (props.bigger ? "14px" : "")};
 `;
 
-export const BlueSubTitle = styled.span`
-  color: #3d6de9;
-  font-size: 14px;
+export const SubTitle = styled.span`
+  color: ${props => (props.blue ? "#3d6de9" : "#000")};
+  font-size: 15px;
   font-weight: ${props => (props.bold ? "bold" : "")};
   cursor: pointer;
 

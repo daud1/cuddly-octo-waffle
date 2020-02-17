@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Review from "../Review.js";
 
 import {
-  BlueSubTitle,
+  SubTitle,
   RightAlign,
   Container,
   Absolute,
@@ -28,7 +28,7 @@ function Award(props) {
         <AwardIcon className="fa fa-empire"></AwardIcon>
       </Container>
       <Container columns>
-        <h4>{props.title}</h4>
+        <SubTitle>{props.title}</SubTitle>
         <GrayTxt>{props.Giver}</GrayTxt>
         <GrayTxt>{props.Year}</GrayTxt>
       </Container>
@@ -40,7 +40,7 @@ function SectionHeading(props) {
   return (
     <Relative mt="30px" mb="30px">
       <Container>
-        <BlueSubTitle bold>{props.label}</BlueSubTitle>
+        <SubTitle bold blue>{props.label}</SubTitle>
       </Container>
       {props.editOption ? (
         <Absolute right="30px">
@@ -110,7 +110,7 @@ class Profile extends React.Component {
         <ProfileBanner />
         <Container bb columns>
           <Container mt="100px" xCenter>
-            <BlueSubTitle bold>{profile.company_name}</BlueSubTitle>
+            <SubTitle bold blue>{profile.company_name}</SubTitle>
             <EditIcon className="fa fa-pencil" ml="20px"></EditIcon>
           </Container>
           <Container mt="10px" xCenter>
