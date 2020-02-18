@@ -52,9 +52,27 @@ const getJobs = jobs => ({
   payload: jobs
 });
 
+const setLoggedInProfile = profile => ({
+  type: "SET_LOGGEDIN_PROFILE",
+  payload: profile
+});
+
+const getAwards = awards => ({
+  type: "GET_AWARDS",
+  payload: awards
+});
+
+const getReviews = reviews => ({
+  type: "GET_REVIEWS",
+  payload: reviews
+});
+
 export default {
   setUser,
   getJobs,
+  getAwards,
+  getReviews,
+  setLoggedInProfile,
   removeUser,
   setSignon,
   removeSignon,
