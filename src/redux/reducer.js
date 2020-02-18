@@ -4,6 +4,7 @@ import _ from "lodash";
 const defaultState = {
   user: {},
   jobs: [],
+  loggedInProfile: {},
   signOn: "",
   loading: { isLoading: false },
   rememberMe: false
@@ -70,6 +71,28 @@ const athenaReducer = (state = defaultState, action) => {
       newState.jobs = jobs;
       return newState;
     }
+
+    case "SET_LOGGEDIN_PROFILE": {
+      const profile = action.payload;
+      let newState = _.cloneDeep(state);
+      newState.loggedInProfile = profile;
+      return newState;
+    }
+
+    case "GET_AWARDS": {
+      const awards = action.payload;
+      let newState = _.cloneDeep(state);
+      newState.awards = awards;
+      return newState;
+    }
+
+    case "GET_REVIEWS": {
+      const reviews = action.payload;
+      let newState = _.cloneDeep(state);
+      newState.reviews = reviews;
+      return newState;
+    }
+
     default:
       return state;
   }

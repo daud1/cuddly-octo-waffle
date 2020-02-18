@@ -106,7 +106,7 @@ class JobList extends React.Component {
             </Container>
             <Container xCenter mt="70px" mb="30px">
               <Ellipsis className="fa fa-ellipsis-h" />
-                <GrayTxt bigger>View more</GrayTxt>
+              <GrayTxt bigger>View more</GrayTxt>
             </Container>
           </Container>
           {/* Right content */}

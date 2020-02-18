@@ -72,16 +72,11 @@ function CompanyIntroSec(props) {
 
 class Profile extends React.Component {
   state = {
-    isOpen: false,
     showEditSocialForm: false
   };
 
   static propTypes = {
     profile: PropTypes.shape({})
-  };
-
-  toggleModal = () => {
-    this.setState({ isOpen: !this.state.isOpen });
   };
 
   toggleEditSocialForm = () => {
@@ -171,7 +166,10 @@ class Profile extends React.Component {
                   fieldLabel="FIELDS"
                   fieldValue={profile.industry}
                 />
-                <CompanyIntroSec fieldLabel="EMPLOYEES" fieldValue={profile.number_of_employees} />
+                <CompanyIntroSec
+                  fieldLabel="EMPLOYEES"
+                  fieldValue={profile.number_of_employees}
+                />
                 <CompanyIntroSec
                   fieldLabel="INTERESTED IN CANDIDATES FOR"
                   fieldValue="UI/UX Design Web Design Mobile App Design"

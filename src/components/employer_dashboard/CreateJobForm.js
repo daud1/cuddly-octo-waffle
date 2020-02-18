@@ -46,7 +46,7 @@ const DynamicListField = ({ name, ...props }) => {
             <div key={index}>
               <Field name={`${name}[${index}]`} />
               <button type="button" onClick={() => arrayHelpers.remove(index)}>
-                -
+                x
               </button>
             </div>
           ))}

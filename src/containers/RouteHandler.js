@@ -38,9 +38,9 @@ class RouteHandler extends Component {
             path="/auth/reset-password/"
             component={PasswordResetConfirmation}
           />
-          <Route path="/employer" component={EmployerDashboard} />
 
           {/* Authorized Routes */}
+          <Route path="/employer" component={EmployerDashboard} />
           <PrivateRoute path="/settings" component={Settings} />
         </Switch>
       </Router>

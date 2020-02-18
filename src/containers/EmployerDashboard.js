@@ -18,11 +18,15 @@ const Container = styled.div`
 `;
 
 class EmployerDashboard extends Component {
-  getReviews = () => {};
+  state = { isOpen: false };
 
-  getProfile = () => {
-    const { user } = this.props;
-    let url = `${API_URL}/employer/profile/?user=${user.id}`;
+  toggleModal = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  getAwards = () => {
+    const { profile, getAwards, user } = this.props;
+    let url = `${API_URL}/awards/?employer=${profile.employer_id}`;
     const headers = {
       "content-type": "application/json",
       Authorization: `Token ${user.key}`
@@ -32,16 +36,57 @@ class EmployerDashboard extends Component {
       .get(url, { headers })
       .then(response => {
         console.log(response);
+        getAwards(response.data);
+      })
+      .catch(error => console.error(error));
+  };
+
+  getProfile = () => {
+    const { user, setLoggedInProfile } = this.props;
+    let url = `${API_URL}/employer/profile/?user=${user.id}`;
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${user.key}`
+    };
+
+    axios
+      .get(url, { headers })
+      .then(response => {
+        setLoggedInProfile(response.data[0]);
       })
       .catch(error => {
         console.log(error);
       });
   };
 
+  getReviews = () => {
+    const { profile, getReviews, user } = this.props;
+    let url = `${API_URL}/reviews/?employer_id=${profile.employer_id}`;
+
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${user.key}`
+    };
+
+    axios
+      .get(url, { headers })
+      .then(response => {
+        console.log(response.data);
+        getReviews(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   componentDidMount() {
     this.getProfile();
+    // this.getReviews();
+    // this.getAwards();
   }
+
   render() {
+    // const { profile, awards, reviews } = this.props;
     const profile = {
       company_name: "KanzuCode",
       location: "Kampala, Uganda",
@@ -57,7 +102,7 @@ class EmployerDashboard extends Component {
         description:
           "loremipsumdolormet loremipsumdolormet loremipsumdolormet ",
         rating: 4,
-        author: { name: "Ssajjalyabeene Margaret" },
+        author: { first_name: "Margaret", last_name: "Ssajjalyabeene" },
         date_posted: "23/03/2019"
       },
       {
@@ -65,24 +110,27 @@ class EmployerDashboard extends Component {
         description:
           "He's really good and finished my project in record time. Definitely would hire him again",
         rating: 5,
-        author: { name: "Nakanjako Miriam" },
+        author: { first_name: "Miriam", last_name: "Nakanjako" },
         date_posted: "15/04/2009"
       },
       {
         title: "Well Organized.",
         description: "loremipsumdolormet loremipsumdolormet loremipsumdolormet",
         rating: 3,
-        author: { name: "Mbulakyaalo Kirabo" },
+        author: { first_name: "Kirabo", last_name: "Mbulakyaalo" },
         date_posted: "21/12/2019"
       },
       {
         title: "Pay your workers",
         description: "Naye nyanya kiki?? obusungu bwaki muganda wange?",
         rating: 1,
-        author: { name: "Jean de la Croix Mujawimaana" },
+        author: { first_name: "Jean de la Croix", last_name: "Mujawimaana" },
         date_posted: "3/01/2029"
       }
     ];
+
+    const { isOpen } = this.state;
+
     return (
       <Container>
         <NavBar />
@@ -91,8 +139,9 @@ class EmployerDashboard extends Component {
             <JobList />
           </div>
           <div label="My Projects">
-            <JobList />
-            <Modal>
+            <button onClick={this.toggleModal}>Post a Job</button>
+
+            <Modal isOpen={isOpen} onClose={this.toggleModal}>
               <CreateJobForm />
             </Modal>
           </div>
@@ -106,14 +155,18 @@ class EmployerDashboard extends Component {
       </Container>
     );
   }
-  1;
 }
 
 const mapStateToProps = state => ({
-  profile: state.profile,
+  profile: state.loggedInProfile,
   reviews: state.reviews,
+  awards: state.awards,
   user: state.user
 });
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  setLoggedInProfile: profile => dispatch(ACTIONS.setLoggedInProfile(profile)),
+  getReviews: reviews => dispatch(ACTIONS.getReviews(reviews)),
+  getAwards: awards => dispatch(ACTIONS.getAwards(awards))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployerDashboard);

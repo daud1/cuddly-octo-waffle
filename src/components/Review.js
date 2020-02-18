@@ -19,8 +19,8 @@ const Review = props => {
           height="80px"
         />
       </Container>
-      <Container ml="30px" ml="20px" columns>
-        <SubTitle hoverEffect blue>{title}</SubTitle>
+      <Container ml="30px" columns>
+        <BlueSubTitle hoverEffect>{title}</BlueSubTitle>
         <Container mt="10px" mb="10px">
           <BeautyStars
             value={rating}
@@ -31,7 +31,7 @@ const Review = props => {
           />
         </Container>
         <span>"{description}"</span>
-        <span>By: {author.name}</span>
+        <span>By: {`${author.first_name} ${author.last_name} `}</span>
         <span>{date_posted}</span>
       </Container>
     </Container>

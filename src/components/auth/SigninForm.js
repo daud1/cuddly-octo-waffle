@@ -1,14 +1,9 @@
-import React, { Component } from "react";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import GoogleLogin from "react-google-login";
-import axios from "axios";
-import { connect } from "react-redux";
-
 import {
   API_URL,
   FACEBOOK_APP_ID,
   GOOGLE_CLIENT_ID
 } from "../../utils/constants";
+import React, { Component } from "react";
 import {
   clearInputError,
   facebookSignOn,
@@ -20,7 +15,12 @@ import {
   showAPIErrors,
   validateEmail
 } from "../../utils/helpers";
+
 import ACTIONS from "../../redux/action";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import GoogleLogin from "react-google-login";
+import axios from "axios";
+import { connect } from "react-redux";
 
 class SigninForm extends Component {
   state = {};
@@ -33,10 +33,10 @@ class SigninForm extends Component {
     axios
       .get(url, { headers })
       .then(response => {
-        let user = response.data;
-        user.loggedIn = true;
-        user.key = key;
-        setUser(user);
+        let loggedInUser = {...response.data};
+        loggedInUser.loggedIn = true;
+        loggedInUser.key = key;
+        setUser(loggedInUser);
       })
       .catch(error => {
         setLoading({ isLoading: false });
@@ -204,10 +204,10 @@ class SigninForm extends Component {
         } = res;
         token = key;
         setLoading({ isLoading: false });
-        removeSignon();
       })
       .then(() => {
         this.getUserDetails(token);
+        removeSignon();
       })
       .catch(error => {
         setLoading({ isLoading: false });
