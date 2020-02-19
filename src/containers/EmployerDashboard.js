@@ -41,6 +41,23 @@ class EmployerDashboard extends Component {
       .catch(error => console.error(error));
   };
 
+  editAwards = awards_edits => {
+    const {
+      profile: { employer_id },
+      user
+    } = this.props;
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${user.key}`
+    };
+    let url = `${API_URL}/awards/?employer=${employer_id}`;
+
+    axios
+      .put(url, awards_edits, { headers })
+      .then(response => console.log(response))
+      .catch(error => console.error(error));
+  };
+
   getProfile = () => {
     const { user, setLoggedInProfile } = this.props;
     let url = `${API_URL}/employer/profile/?user=${user.id}`;
@@ -51,6 +68,27 @@ class EmployerDashboard extends Component {
 
     axios
       .get(url, { headers })
+      .then(response => {
+        setLoggedInProfile(response.data[0]);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  editProfile = profile_edits => {
+    const {
+      user: { id, key },
+      setLoggedInProfile
+    } = this.props;
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${key}`
+    };
+    let url = `${API_URL}/employer/profile/?user=${id}`;
+
+    axios
+      .put(url, profile_edits, { headers })
       .then(response => {
         setLoggedInProfile(response.data[0]);
       })
@@ -129,8 +167,31 @@ class EmployerDashboard extends Component {
       }
     ];
 
+    const awards = [
+      {
+        title: "Excellent Staff",
+        awarded_by: "VNP",
+        year: 2007
+      },
+      {
+        title: "Fastest Growing SME",
+        awarded_by: "URA",
+        year: 2010
+      },
+      {
+        title: "Friend to Nature",
+        awarded_by: "UWA",
+        year: 2013
+      },
+      {
+        title: "Best Place to Work",
+        awarded_by: "VNP",
+        year: 2017
+      }
+    ];
     const { isOpen } = this.state;
 
+    const { editReviews, editAwards, editProfile } = this;
     return (
       <Container>
         <NavBar />
@@ -146,7 +207,14 @@ class EmployerDashboard extends Component {
             </Modal>
           </div>
           <div label="My Profile">
-            <Profile profile={profile} reviews={reviews} />
+            <Profile
+              editProfile={editProfile}
+              editReviews={editReviews}
+              editAwards={editAwards}
+              profile={profile}
+              reviews={reviews}
+              awards={awards}
+            />
           </div>
           <div label="Inbox"></div>
           <div label="Feedback"></div>
