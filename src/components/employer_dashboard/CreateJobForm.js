@@ -1,63 +1,12 @@
 import * as yup from "yup";
 
-import {
-  Field,
-  FieldArray,
-  Form,
-  Formik,
-  useField,
-  useFormikContext
-} from "formik";
+import { DynamicListField, TextArea, TextInput } from "./Common";
+import { Field, Form, Formik } from "formik";
 import React, { Component } from "react";
 
 import { API_URL } from "../../utils/constants";
 import axios from "axios";
 
-const TextInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <input {...field} {...props} />
-      {meta.touched && meta.error ? <div>{meta.error}</div> : null}
-    </>
-  );
-};
-
-const TextArea = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <textarea {...field} {...props} />
-      {meta.touched && meta.error ? <div>{meta.error}</div> : null}
-    </>
-  );
-};
-
-const DynamicListField = ({ name, ...props }) => {
-  const { values } = useFormikContext();
-  return (
-    <FieldArray
-      name={name}
-      render={arrayHelpers => (
-        <div>
-          {values[name].map((item, index) => (
-            <div key={index}>
-              <Field name={`${name}[${index}]`} />
-              <button type="button" onClick={() => arrayHelpers.remove(index)}>
-                x
-              </button>
-            </div>
-          ))}
-          <button type="button" onClick={() => arrayHelpers.push()}>
-            +
-          </button>
-        </div>
-      )}
-    />
-  );
-};
 class CreateForm extends Component {
   createJob = values => {
     const { loggedInProfileId } = this.props;

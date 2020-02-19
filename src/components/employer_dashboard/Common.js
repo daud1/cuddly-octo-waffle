@@ -1,3 +1,5 @@
+import { Field, FieldArray, useField, useFormikContext } from "formik";
+import React from "react";
 import styled from "styled-components";
 
 // text
@@ -164,3 +166,49 @@ export const Input = styled.input`
   padding: 5px 20px;
   font-size: 12px;
 `;
+
+export const TextInput = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <input {...field} {...props} />
+      {meta.touched && meta.error ? <div>{meta.error}</div> : null}
+    </>
+  );
+};
+
+export const TextArea = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <>
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <textarea {...field} {...props} />
+      {meta.touched && meta.error ? <div>{meta.error}</div> : null}
+    </>
+  );
+};
+
+export const DynamicListField = ({ name, ...props }) => {
+  const { values } = useFormikContext();
+  return (
+    <FieldArray
+      name={name}
+      render={arrayHelpers => (
+        <div>
+          {values[name].map((item, index) => (
+            <div key={index}>
+              <Field name={`${name}[${index}]`} />
+              <button type="button" onClick={() => arrayHelpers.remove(index)}>
+                x
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={() => arrayHelpers.push()}>
+            +
+          </button>
+        </div>
+      )}
+    />
+  );
+};
