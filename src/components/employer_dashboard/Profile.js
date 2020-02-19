@@ -116,7 +116,7 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Container columns>
                 {social.map(item => (
-                  <Input placeholder={item} />
+                  <Input placeholder={item} mb="8px" />
                 ))}
                 <Container mt="15px">
                   <Button

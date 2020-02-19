@@ -85,10 +85,10 @@ export const RightAlign = styled(Container)`
 // buttons
 export const Button = styled.button`
   width: ${props => (props.width ? `${props.width}` : "80px")};
-  height: 28px;
+  height: ${props => (props.height ? `${props.height}` : "28px")};
   border-radius: 15px;
   border: 0;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: ${props => (props.white ? "#989898" : "#fff")};
   background-color: ${props => (props.white ? "#fff" : "#5355F0")};
@@ -158,9 +158,27 @@ export const AwardIcon = styled.i`
 // inputs
 export const Input = styled.input`
   border-radius: 20px;
-  width: 280px;
-  margin-bottom: 8px;
+  width: ${props => (props.width ? `${props.width}` : "280px")};
+  height: 3rem;
+  margin-top: ${props => props.mt};
+  margin-bottom: ${props => props.mb};
   border: solid 1px #f1f1f1;
   padding: 5px 20px;
   font-size: 12px;
+`;
+
+export const TextBox = styled.textarea`
+  border: solid 1px #f1f1f1;
+  border-radius: 5px;
+  height: ${props => (props.height ? `${props.height}` : "12rem")};
+  padding: 1rem;
+  margin: 8px 0;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #708bf1;
+    -moz-box-shadow: 0 0 30px rgb(191, 190, 202);
+    -webkit-box-shadow: 0 0 30px rgb(191, 190, 202);
+    box-shadow: 0 0 30px rgb(191, 190, 202);
+  }
 `;

@@ -20,7 +20,7 @@ const Review = props => {
         />
       </Container>
       <Container ml="30px" columns>
-        <BlueSubTitle hoverEffect>{title}</BlueSubTitle>
+        <SubTitle blue>{title}</SubTitle>
         <Container mt="10px" mb="10px">
           <BeautyStars
             value={rating}
