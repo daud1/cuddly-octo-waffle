@@ -16,6 +16,7 @@ import SigninForm from '../components/SigninForm';
 import SignupForm from '../components/SignupForm';
 import AccountDropDown from '../components/AccountDropDown';
 import PasswordResetForm from '../components/PasswordResetForm';
+import AccountHome from '../components/AccountHome';
 
 class Home extends Component {
     constructor(props) {
@@ -71,6 +72,7 @@ class Home extends Component {
             return(
                 <div>
                     <AccountDropDown />
+                    <AccountHome />
                 </div>
             );
         } else if (!isLoggedIn(user) && !signOn) {

@@ -2,13 +2,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import ACTIONS from "../redux/action";
-import { 
-    isLoggedIn, 
-    stopPropagation, 
-    showOverlay, 
-    dismissOverlay, 
+import {
+    isLoggedIn,
+    stopPropagation,
+    showOverlay,
+    dismissOverlay,
     openRoute,
-    getUserImage
+    getUserImage,
+    redirectToPath
 } from '../utils/helpers';
 import logo from '../images/athena_logo.png';
 import binderIcon from '../images/binder_icon.png';
@@ -76,6 +77,19 @@ class Navbar extends Component {
         return buttons;
     }
 
+    renderPostButton = (accountType) => {
+        if (accountType === 'employer') {
+            return (
+                <li className="with-separator before-separator">
+                    <a href="/post" className="main-tab-buttons" onClick={event => redirectToPath(event, `${window.location.origin}/post`)}>
+                        <span className="navbar-button">Post a job</span>
+                    </a>
+                </li>
+            );
+        }
+        return;
+    }
+
     renderNavMenu = (side) => {
         const { user } = this.props;
         const rightMenuSelectorPageStyles = this.checkPage('accountSelector') ? { marginRight: '1em' } : {};
@@ -106,7 +120,7 @@ class Navbar extends Component {
         } else if (!isLoggedIn(user) && this.checkPage('accountSelector') && side === "left") {
             return (
                 <div className="navbar-header">
-                    <a className="navbar-brand" href="/" onClick={event => {this.clearSignOn(event); openRoute(event, '/');}}>
+                    <a className="navbar-brand" href="/" onClick={event => { this.clearSignOn(event); openRoute(event, '/'); }}>
                         <img className="navbar-brand-img" src={logoWhite} onError={i => i.target.style.display = 'none'} alt="Logo" />
                     </a>
                 </div>
@@ -114,7 +128,7 @@ class Navbar extends Component {
         } else if ((this.checkPage('home') && side === "center") || (isLoggedIn(user) && side === "left")) {
             return (
                 <div className={`navbar-header${isLoggedIn(user) ? '' : ' display-inline-block float-unset'}`}>
-                    <a className={`navbar-brand${isLoggedIn(user) ? ' all-links' : ''}`} href="/" onClick={event => {this.clearSignOn(event); openRoute(event, '/');}} >
+                    <a className={`navbar-brand${isLoggedIn(user) ? ' all-links' : ''}`} href="/" onClick={event => { this.clearSignOn(event); openRoute(event, '/'); }} >
                         <img className="navbar-brand-img" src={logo} onError={i => i.target.style.display = 'none'} alt="Logo" />
                     </a>
                 </div>
@@ -128,13 +142,13 @@ class Navbar extends Component {
                     </a>
                     </li>
                     <li>
-                        <a href="/" className="main-tablinks" onClick={event => {stopPropagation(event); showOverlay('freelancers-dropdown', event, 'main-tablinks'); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'job-feed-dropdown', 'connections-dropdown']);}}>FREELANCERS</a>
+                        <a href="/" className="main-tablinks" onClick={event => { stopPropagation(event); showOverlay('freelancers-dropdown', event, 'main-tablinks'); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'job-feed-dropdown', 'connections-dropdown']); }}>FREELANCERS</a>
                     </li>
                     <li>
                         <a href="/" className="main-tablinks" >EMPLOYERS</a>
                     </li>
                     <li>
-                        <a href="/" className="main-tablinks" onClick={event => {stopPropagation(event); showOverlay('connections-dropdown', event, 'main-tablinks'); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'job-feed-dropdown', 'freelancers-dropdown']);}}>CONNECTIONS</a>
+                        <a href="/" className="main-tablinks" onClick={event => { stopPropagation(event); showOverlay('connections-dropdown', event, 'main-tablinks'); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'job-feed-dropdown', 'freelancers-dropdown']); }}>CONNECTIONS</a>
                     </li>
                     <li>
                         <a href="/">BLOG</a>
@@ -152,39 +166,35 @@ class Navbar extends Component {
         } else if (isLoggedIn(user) && side === "right") {
             return (
                 <ul className="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/">
-                        <span className="glyphicon glyphicon-search navbar-icons"></span>
-                    </a>
-                </li>
-                <li className="with-separator before-separator">
-                    <a href="/" className="main-tab-buttons" >
-                        <span className="navbar-button">Post a job</span>
-                    </a>
-                </li>
-                <li className="after-separator">
-                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('job-feed-dropdown', event); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="all-links">
-                        <i className="fa fa-bolt navbar-icons"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('message-dropdown', event); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'job-feed-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="all-links">
-                        <i className="fa fa-wechat navbar-icons"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('notification-tray', event); dismissOverlay(null, ['account-dropdown', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="badge" data-badge="99">
-                        <i className="fa fa-bell navbar-icons"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/" onClick={event => {stopPropagation(event); showOverlay('account-dropdown', event); dismissOverlay(null, ['notification-tray', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']);}} className="badge-no-data all-links" data-badge="">
-                        <div className="avatar">
-                            <img className="center-cropped" src={getUserImage(user)} onError={i => i.target.style.display = 'none'} alt="Logo" />
-                        </div>
-                    </a>
-                </li>
-            </ul>
+                    <li>
+                        <a href="/">
+                            <span className="glyphicon glyphicon-search navbar-icons"></span>
+                        </a>
+                    </li>
+                    {this.renderPostButton(user.accountType)}
+                    <li className="after-separator">
+                        <a href="/" onClick={event => { stopPropagation(event); showOverlay('job-feed-dropdown', event); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']); }} className="all-links">
+                            <i className="fa fa-bolt navbar-icons"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/" onClick={event => { stopPropagation(event); showOverlay('message-dropdown', event); dismissOverlay(null, ['account-dropdown', 'notification-tray', 'job-feed-dropdown', 'freelancers-dropdown', 'connections-dropdown']); }} className="all-links">
+                            <i className="fa fa-wechat navbar-icons"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/" onClick={event => { stopPropagation(event); showOverlay('notification-tray', event); dismissOverlay(null, ['account-dropdown', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']); }} className="badge" data-badge="99">
+                            <i className="fa fa-bell navbar-icons"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/" onClick={event => { stopPropagation(event); showOverlay('account-dropdown', event); dismissOverlay(null, ['notification-tray', 'job-feed-dropdown', 'message-dropdown', 'freelancers-dropdown', 'connections-dropdown']); }} className="badge-no-data all-links" data-badge="">
+                            <div className="avatar">
+                                <img className="center-cropped" src={getUserImage(user)} onError={i => i.target.style.display = 'none'} alt="Logo" />
+                            </div>
+                        </a>
+                    </li>
+                </ul>
             );
         }
     }

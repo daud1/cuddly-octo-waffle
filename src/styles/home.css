@@ -777,11 +777,12 @@
     height: 15px;
     width: 15px;
     line-height: 0.2;
-    margin-top: -22px;
+    margin-top: -7px;
     padding: 3px 0px;
     float: right;
     margin-right: -20px;
     position: relative;
+    cursor: pointer;
   }
   
   @-moz-document url-prefix() {

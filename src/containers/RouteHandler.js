@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { isLoggedIn } from '../utils/helpers';
 import Home from './Home';
 import Settings from '../components/Settings';
+import PostJob from '../components/PostJob';
 import PasswordResetConfirmation from '../components/PasswordResetConfirmation';
 
 class RouteHandler extends Component {
@@ -25,6 +26,7 @@ class RouteHandler extends Component {
 
                     {/* Authorized Routes */}
                     <PrivateRoute path='/settings' component={Settings} />
+                    <PrivateRoute path='/post' component={PostJob} />
                 </Switch>
             </Router>
         );

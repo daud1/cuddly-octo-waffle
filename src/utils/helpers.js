@@ -1,9 +1,19 @@
 import $ from "jquery";
-import _ from 'lodash';
-import sampleProfilePic from '../images/sample_profile_pic.jpg';
+import _ from "lodash";
+import axios from "axios";
+import sampleProfilePic from "../images/sample_profile_pic.jpg";
 
-var ACCOUNT_TYPES = ['employer_signup', 'freelancer_signup', 'employer_signin', 'freelancer_signin'];
-var POPUPS = ['portfolio-upload-modal', 'portfolio-view-modal', 'hire-me-modal'];
+var ACCOUNT_TYPES = [
+  "employer_signup",
+  "freelancer_signup",
+  "employer_signin",
+  "freelancer_signin"
+];
+var POPUPS = [
+  "portfolio-upload-modal",
+  "portfolio-view-modal",
+  "hire-me-modal"
+];
 
 export const insertAndExecute = (domelement, text) => {
   domelement.innerHTML = text;
@@ -11,8 +21,14 @@ export const insertAndExecute = (domelement, text) => {
 
   var ret = domelement.childNodes;
   for (var i = 0; ret[i]; i++) {
-    if (scripts && nodeName(ret[i], "script") && (!ret[i].type || ret[i].type.toLowerCase() === "text/javascript")) {
-      scripts.push(ret[i].parentNode ? ret[i].parentNode.removeChild(ret[i]) : ret[i]);
+    if (
+      scripts &&
+      nodeName(ret[i], "script") &&
+      (!ret[i].type || ret[i].type.toLowerCase() === "text/javascript")
+    ) {
+      scripts.push(
+        ret[i].parentNode ? ret[i].parentNode.removeChild(ret[i]) : ret[i]
+      );
     }
   }
 
@@ -20,14 +36,16 @@ export const insertAndExecute = (domelement, text) => {
     evalScript(scripts[script]);
   }
   return;
-}
+};
 
-export const nodeName = (elem, name) => elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
+export const nodeName = (elem, name) =>
+  elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
 
 export const evalScript = elem => {
-  var data = (elem.text || elem.textContent || elem.innerHTML || "");
+  var data = elem.text || elem.textContent || elem.innerHTML || "";
 
-  var head = document.getElementsByTagName("head")[0] || document.documentElement,
+  var head =
+    document.getElementsByTagName("head")[0] || document.documentElement,
     script = document.createElement("script");
   script.type = "text/javascript";
   script.appendChild(document.createTextNode(data));
@@ -38,7 +56,7 @@ export const evalScript = elem => {
     elem.parentNode.removeChild(elem);
   }
   return;
-}
+};
 
 export const includeHTML = () => {
   var z, i, elmnt, file, xhttp;
@@ -56,13 +74,17 @@ export const includeHTML = () => {
         if (this.readyState === 4) {
           // if (this.status === 200) { elmnt.innerHTML = this.responseText; }
           // if (this.status === 404) { elmnt.innerHTML = "Page not found."; }
-          if (this.status === 200) { insertAndExecute(elmnt, this.responseText); }
-          if (this.status === 404) { insertAndExecute(elmnt, "Page not found."); }
+          if (this.status === 200) {
+            insertAndExecute(elmnt, this.responseText);
+          }
+          if (this.status === 404) {
+            insertAndExecute(elmnt, "Page not found.");
+          }
           /*remove the attribute, and call this export function once more:*/
           elmnt.removeAttribute("include-html");
           includeHTML();
         }
-      }
+      };
       xhttp.open("GET", file, true);
       xhttp.send();
       /*exit the export function:*/
@@ -70,7 +92,7 @@ export const includeHTML = () => {
     }
   }
   return;
-}
+};
 
 export const openPage = (evt, divId, linkClass, contentClass) => {
   var i, tabcontent, tablinks, browseJobsImage, divToShow;
@@ -97,60 +119,71 @@ export const openPage = (evt, divId, linkClass, contentClass) => {
   if (evt) {
     evt.currentTarget.className += " active";
   } else if (divId === "home") {
-    document.getElementById('home-link').className += " active";
+    document.getElementById("home-link").className += " active";
   }
 
   browseJobsImage = document.getElementById("browse-jobs-link-image");
   if (browseJobsImage) {
-    if (linkClass === 'main-tablinks' && divId === 'browse-jobs') {
+    if (linkClass === "main-tablinks" && divId === "browse-jobs") {
       browseJobsImage.src = "../images/binder_icon_blue.png";
-    } else if (linkClass === 'main-tablinks' && divId !== 'browse-jobs') {
+    } else if (linkClass === "main-tablinks" && divId !== "browse-jobs") {
       browseJobsImage.src = "../images/binder_icon.png";
     }
   }
   return;
-}
+};
 
 export const renderRatings = () => {
-  var ratingContainers = document.getElementsByClassName('rating-container');
+  var ratingContainers = document.getElementsByClassName("rating-container");
   for (var idx = 0; idx < ratingContainers.length; idx++) {
-    var score = ratingContainers[idx].getAttribute("score")
-    var scores = score.split('.');
+    var score = ratingContainers[idx].getAttribute("score");
+    var scores = score.split(".");
     var wholeNumber = parseInt(scores[0], 10);
     var decimalPoint = parseInt(scores[1], 10);
     var emptyNumber = 5 - (wholeNumber + 1);
-    var fullStars = '';
-    var halfStars = '';
-    var emptyStars = '';
+    var fullStars = "";
+    var halfStars = "";
+    var emptyStars = "";
 
     for (let i = 0; i < wholeNumber; i++) {
-      fullStars = fullStars + '<i class="fa fa-star blue margin-right-0-point-2-em"></i>';
+      fullStars =
+        fullStars + '<i class="fa fa-star blue margin-right-0-point-2-em"></i>';
     }
     for (let i = 0; i < emptyNumber; i++) {
-      emptyStars = emptyStars + '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
+      emptyStars =
+        emptyStars +
+        '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
     }
     if (decimalPoint > 3) {
-      halfStars = '<i class="fa fa-star light-grey"></i>'
-        + '<i class="fa fa-star-half blue" style = "position: absolute; margin-left: -0.94em; margin-top: 0.27em;" ></i > ';
-    } else if ((decimalPoint >= 0 && decimalPoint <= 3 && wholeNumber < 5)) {
-      emptyStars = emptyStars + '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
+      halfStars =
+        '<i class="fa fa-star light-grey"></i>' +
+        '<i class="fa fa-star-half blue" style = "position: absolute; margin-left: -0.94em; margin-top: 0.27em;" ></i > ';
+    } else if (decimalPoint >= 0 && decimalPoint <= 3 && wholeNumber < 5) {
+      emptyStars =
+        emptyStars +
+        '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
     }
 
-    ratingContainers[idx].innerHTML = fullStars + halfStars + emptyStars
+    ratingContainers[idx].innerHTML = fullStars + halfStars + emptyStars;
   }
   return;
-}
+};
 
 export const selectRadioButton = (event, radioButtonClass, accountType) => {
   var i, radioButtons;
   radioButtons = document.getElementsByClassName(radioButtonClass);
   for (i = 0; i < radioButtons.length; i++) {
-    radioButtons[i].className = radioButtons[i].className.replace(" active", "");
+    radioButtons[i].className = radioButtons[i].className.replace(
+      " active",
+      ""
+    );
   }
   if (event) {
     event.currentTarget.className += " active";
   } else {
-    var radioButton = document.getElementById('employer_signup-radio-btn') || document.getElementById('employer_signin-radio-btn');
+    var radioButton =
+      document.getElementById("employer_signup-radio-btn") ||
+      document.getElementById("employer_signin-radio-btn");
     if (radioButton) {
       radioButton.className += " active";
     }
@@ -159,29 +192,32 @@ export const selectRadioButton = (event, radioButtonClass, accountType) => {
     localStorage.ACCOUNT_TYPE = accountType;
   }
   return;
-}
+};
 
 export const openAccountPage = () => {
   var accountType = localStorage.ACCOUNT_TYPE;
   if (ACCOUNT_TYPES.includes(accountType)) {
-    openPage(null, accountType, 'tablinks', 'tabcontent');
-    localStorage.ACCOUNT_TYPE = '';
+    openPage(null, accountType, "tablinks", "tabcontent");
+    localStorage.ACCOUNT_TYPE = "";
   } else {
-    openPage(null, 'home', 'tablinks', 'tabcontent');
+    openPage(null, "home", "tablinks", "tabcontent");
   }
   return;
-}
+};
 
 export const selectSingleRadioButton = (event, callback = null) => {
-  if (event.currentTarget.className.includes(' active')) {
-    event.currentTarget.className = event.currentTarget.className.replace(" active", "");
+  if (event.currentTarget.className.includes(" active")) {
+    event.currentTarget.className = event.currentTarget.className.replace(
+      " active",
+      ""
+    );
     if (callback) callback(false);
   } else {
     event.currentTarget.className += " active";
     if (callback) callback(true);
   }
   return;
-}
+};
 
 export const renderTooltip = event => {
   if (event) {
@@ -189,18 +225,18 @@ export const renderTooltip = event => {
       bodyRect = document.body.getBoundingClientRect(),
       top = elementRect.top - bodyRect.top,
       left = elementRect.left - bodyRect.left,
-      tooltip = document.getElementById('tooltip');
-    tooltip.style.display = 'inline';
-    tooltip.style.position = 'absolute';
+      tooltip = document.getElementById("tooltip");
+    tooltip.style.display = "inline";
+    tooltip.style.position = "absolute";
     tooltip.style.top = top - 119;
     tooltip.style.left = left - 79;
   }
   return;
-}
+};
 
 export const showOverlay = (overlayId, event = null, linkClass = "") => {
   event.preventDefault();
-  document.getElementById(overlayId).style.display = 'block';
+  document.getElementById(overlayId).style.display = "block";
   if (event) {
     if (linkClass) {
       var tablinks = document.getElementsByClassName(linkClass);
@@ -215,54 +251,54 @@ export const showOverlay = (overlayId, event = null, linkClass = "") => {
     $("body").addClass("modal-open");
   }
   return;
-}
+};
 
 export const dismissOverlay = (event, overlayIds = null) => {
   if (event) {
-    event.currentTarget.style.display = 'none';
+    event.currentTarget.style.display = "none";
   }
   if (overlayIds) {
     for (var i = 0; i < overlayIds.length; i++) {
       const overlay = document.getElementById(overlayIds[i]);
-      if (overlay) overlay.style.display = 'none';
+      if (overlay) overlay.style.display = "none";
       if (POPUPS.includes(overlayIds[i])) {
         $("body").removeClass("modal-open");
       }
     }
   }
-  var tablinks = document.getElementsByClassName('side-tablinks-2');
+  var tablinks = document.getElementsByClassName("side-tablinks-2");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
   return;
-}
+};
 
 export const stopPropagation = event => {
   if (event) {
     event.stopPropagation();
   }
   return;
-}
+};
 
 export const editSection = (sectionToHide, sectionToShow) => {
   const hide = document.getElementById(sectionToHide);
-  if (hide) hide.style.display = 'none';
+  if (hide) hide.style.display = "none";
   const show = document.getElementById(sectionToShow);
-  if (show) show.style.display = 'block';
+  if (show) show.style.display = "block";
   return;
-}
+};
 
 export const editSectionClass = (sectionsToHide, sectionsToShow) => {
   var hideSections = document.getElementsByClassName(sectionsToHide);
   var showSections = document.getElementsByClassName(sectionsToShow);
   for (let i = 0; i < hideSections.length; i++) {
-    hideSections[i].style.display = 'none';
+    hideSections[i].style.display = "none";
   }
   for (let i = 0; i < showSections.length; i++) {
-    showSections[i].style.display = 'block';
+    showSections[i].style.display = "block";
   }
   return;
-}
+};
 
 export const toggleVideoPlay = (videoId, buttonId) => {
   var video = document.getElementById(videoId);
@@ -279,7 +315,7 @@ export const toggleVideoPlay = (videoId, buttonId) => {
     $(`#${buttonId}`).fadeIn();
   }
   return;
-}
+};
 
 export const isEmpty = testCollection => _.isEmpty(testCollection);
 
@@ -289,61 +325,76 @@ export const validateEmail = email => {
   // eslint-disable-next-line
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
-}
+};
 
 export const setInputError = (name, message) => {
   const inputWithError = $(`[name="${name}"]`);
   const label = inputWithError.prev();
-  inputWithError.css('borderColor', 'red');
+  inputWithError.css("borderColor", "red");
   if ($(`#${name}-error`).length === 0) {
-    label.html(`${label.html()} <span id="${name}-error" style="color: red; float: right;">${message}</span>`);
+    label.html(
+      `${label.html()} <span id="${name}-error" style="color: red; float: right;">${message}</span>`
+    );
   }
-}
+};
 
 export const clearInputError = name => {
   const inputWithError = $(`[name="${name}"]`);
   const errorLabel = $(`#${name}-error`);
-  inputWithError.css({ 'borderColor': '#ebeced' });
+  inputWithError.css({ borderColor: "#ebeced" });
   if (errorLabel.length > 0) {
     errorLabel.remove();
   }
-}
+};
 
 export const comparePasswords = () => {
   const password = $(`[name="password"]`).val();
   const passwordConfirmation = $(`[name="passwordConfirmation"]`).val();
   return password === passwordConfirmation;
-}
+};
 
 export const inputHasValue = name => {
   const value = $(`[name="${name}"]`).val();
   return value !== "";
-}
+};
 
 export const scrollToElement = name => {
-  $([document.documentElement, document.body]).animate({
-    scrollTop: $(`[name="${name}"]`).prev().offset().top - 10
-  }, 'slow');
-}
+  $([document.documentElement, document.body]).animate(
+    {
+      scrollTop:
+        $(`[name="${name}"]`)
+          .prev()
+          .offset().top - 10
+    },
+    "slow"
+  );
+};
 
 export const showAPIErrors = (error, setNotification) => {
-  if (!error || !error.response || !error.response.data || typeof error.response.data !== 'object') {
-    setNotification({ message: 'Something Went Wrong!' });
+  if (
+    !error ||
+    !error.response ||
+    !error.response.data ||
+    typeof error.response.data !== "object"
+  ) {
+    setNotification({ message: "Something Went Wrong!" });
     return;
   }
-  const { response: { data } } = error;
+  const {
+    response: { data }
+  } = error;
 
   for (var key in data) {
     if (data.hasOwnProperty(key)) {
       const errors = data[key];
-      if (typeof errors === 'string') {
+      if (typeof errors === "string") {
         setNotification({ message: errors });
         return;
       }
       errors.map(resError => setNotification({ message: resError }));
     }
   }
-}
+};
 
 export const getNameFromUser = user => {
   const { name } = user;
@@ -354,11 +405,11 @@ export const getNameFromUser = user => {
 
   if (!firstName && !lastName && email) {
     const emailSplit = email.match(/^([^@]*)@/);
-    const username = emailSplit ? emailSplit[1] : '';
+    const username = emailSplit ? emailSplit[1] : "";
     const names = username ? username.split(/[^A-Za-z]/) : [];
 
     for (let i = 0; i < names.length; i++) {
-      const currentName = _.capitalize(`${names[i] ? names[i] : ''}`);
+      const currentName = _.capitalize(`${names[i] ? names[i] : ""}`);
 
       if (!firstName) {
         firstName = currentName;
@@ -367,55 +418,66 @@ export const getNameFromUser = user => {
       }
     }
   }
-  return `${firstName ? firstName : ''} ${lastName ? lastName : ''}`;
-}
+  return `${firstName ? firstName : ""} ${lastName ? lastName : ""}`;
+};
 
 export const getTitleFromUser = user => {
   const newUser = { ...user };
   let { accountType, companyName } = newUser;
-  if (accountType === "freelancer" || (accountType === "employer" && !companyName)) {
+  if (
+    accountType === "freelancer" ||
+    (accountType === "employer" && !companyName)
+  ) {
     return _.capitalize(accountType);
   } else if (accountType && accountType === "employer" && companyName) {
     return `Member ${_.capitalize(companyName)}`;
   }
-  return '';
-}
+  return "";
+};
 
 export const openRoute = (event, route) => {
   if (event) event.preventDefault();
   window.location.href = route;
-}
+};
 
-export const getUrlParameter = (name) => {
+export const getUrlParameter = name => {
   // eslint-disable-next-line
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
   var results = regex.exec(document.location.search);
-  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
+  return results === null
+    ? ""
+    : decodeURIComponent(results[1].replace(/\+/g, " "));
+};
 
 export const isLocalHost = () => {
-  return window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-}
+  return (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  );
+};
 
 export const forceHTTPS = () => {
-  if (window.location.protocol !== 'https:' && !isLocalHost()) {
-    window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+  if (window.location.protocol !== "https:" && !isLocalHost()) {
+    window.location.href =
+      "https:" +
+      window.location.href.substring(window.location.protocol.length);
   }
-}
+};
 
-export const getUserImage = (user) => {
+export const getUserImage = user => {
   const { image } = user;
   if (image) return image;
   return sampleProfilePic;
-}
+};
 
 export const setSocialSignOn = (profile, accessToken, type, props) => {
-  const { setNotification, user, setUser, removeSignon } = props;
+  const { setNotification, user, setUser, removeSignon, setLoading } = props;
   const { email, name, image } = profile;
+  setLoading({ isLoading: false });
   if (!accessToken) {
-      setNotification({ message: 'Something Went Wrong!' });
-      return;
+    setNotification({ message: "Something Went Wrong!" });
+    return;
   }
   const newUser = { ...user };
   newUser.loggedIn = true;
@@ -426,24 +488,345 @@ export const setSocialSignOn = (profile, accessToken, type, props) => {
   newUser.signOnType = type;
   setUser(newUser);
   removeSignon();
-}
+};
 
 export const facebookSignOn = (response, props) => {
+  if (!response) return;
   const { email, accessToken, name, userID } = response;
   const profile = {
-      email,
-      name,
-      image: 'https://graph.facebook.com/' + userID + '/picture?height=512&width=512'
+    email,
+    name,
+    image:
+      "https://graph.facebook.com/" + userID + "/picture?height=512&width=512"
   };
-  setSocialSignOn(profile, accessToken, 'facebook', props);
-}
+  setSocialSignOn(profile, accessToken, "facebook", props);
+};
 
 export const googleSignOn = (response, props) => {
-  const { profileObj: { email, name, imageUrl }, accessToken } = response;
+  if (!response || !response.profileObj) return;
+  const {
+    profileObj: { email, name, imageUrl },
+    accessToken
+  } = response;
   const profile = {
-      email,
-      name,
-      image: imageUrl.replace('=s96', '=s512')
+    email,
+    name,
+    image: imageUrl.replace("=s96", "=s512")
   };
-  setSocialSignOn(profile, accessToken, 'google', props);
+  setSocialSignOn(profile, accessToken, "google", props);
+};
+
+export const handleSocialOnClick = (event, setLoading, onClick) => {
+  event.preventDefault();
+  setLoading({ isLoading: true, loadingText: "Signing in..." });
+  onClick();
+};
+
+export const handleHTTPRequest = (
+  url,
+  method,
+  callbacks,
+  data = {},
+  headers = {},
+) => {
+  axios({ method, url, data, headers })
+    .then(res => {
+      callbacks.success(res);
+    })
+    .catch(error => {
+      callbacks.failure(error);
+    });
+};
+
+export const connectToPerson = (event, id) => {
+  event.preventDefault();
+  console.log("Connected to person: ", id);
+};
+
+export const hideElement = (event, id) => {
+  event.preventDefault();
+  $(`#${id}`).hide();
+};
+
+export const getAccountProgress = (profile, userType) => {
+  let progress = 0;
+  let message = "";
+
+  if (profile.user_info && profile.user_info.phone) {
+    progress += 5;
+  } else {
+    message += message ? "" : " phone number (+5%)";
+  }
+
+  if (profile.social_links) {
+    if (profile.social_links.facebook) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Facebook link (+3%)";
+    }
+    if (profile.social_links.twitter) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Twitter link (+3%)";
+    }
+    if (profile.social_links.linked_in) {
+      progress += 3;
+    } else {
+      message += message ? "" : " LinkedIn link (+3%)";
+    }
+    if (profile.social_links.behance) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Behance link (+3%)";
+    }
+    if (profile.social_links.dribble) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Dribble link (+3%)";
+    }
+    if (profile.social_links.github) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Github link (+3%)";
+    }
+    if (profile.social_links.website) {
+      progress += 5;
+    } else {
+      message += message ? "" : " website (+5%)";
+    }
+  }
+
+  if (profile.bio) {
+    if (profile.bio.profile_image) {
+      progress += 5;
+    } else {
+      message += message ? "" : " profile image (+5%)";
+    }
+    if (profile.bio.cover_image) {
+      progress += 5;
+    } else {
+      message += message ? "" : " cover image (+5%)";
+    }
+    if (profile.bio.date_of_birth) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " profile image (+5%)";
+    }
+    if (profile.bio.gender) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " gender (+5%)";
+    }
+    if (profile.bio.company) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " company (+5%)";
+    }
+    if (profile.bio.salary) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " salary (+5%)";
+    }
+    if (profile.bio.country) {
+      progress += 5;
+    } else {
+      message += message ? "" : " country (+5%)";
+    }
+    if (profile.bio.city) {
+      progress += 5;
+    } else {
+      message += message ? "" : " city (+5%)";
+    }
+    if (profile.bio.about) {
+      progress += 5;
+    } else {
+      message += message ? "" : " about (+5%)";
+    }
+    if (profile.bio.skills) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " skills (+5%)";
+    }
+  }
+
+  if (profile.company_info && userType !== "employee") {
+    if (profile.company_info.name) {
+      progress += 5;
+    } else {
+      message += message ? "" : " name (+5%)";
+    }
+    if (profile.company_info.description) {
+      progress += 5;
+    } else {
+      message += message ? "" : " description (+5%)";
+    }
+    if (profile.company_info.categories) {
+      progress += 5;
+    } else {
+      message += message ? "" : " categories (+5%)";
+    }
+    if (profile.company_info.number_of_employees) {
+      progress += 5;
+    } else {
+      message += message ? "" : " number of employees (+5%)";
+    }
+    if (profile.company_info.skills) {
+      progress += 5;
+    } else {
+      message += message ? "" : " preferred skills (+5%)";
+    }
+    if (profile.company_info.salary_range) {
+      progress += 5;
+    } else {
+      message += message ? "" : " salary range (+5%)";
+    }
+  }
+
+  if (profile.portfolio) {
+    progress += userType === "employee" ? 10 : 5;
+  } else {
+    message += message
+      ? ""
+      : `portfolio (+${userType === "employee" ? 10 : 5}%)`;
+  }
+  if (profile.experience) {
+    progress += userType === "employee" ? 7 : 5;
+  } else {
+    message += message
+      ? ""
+      : `experience (+${userType === "employee" ? 7 : 5}%)`;
+  }
+  if (profile.awards) {
+    progress += userType === "employee" ? 5 : 7;
+  } else {
+    message += message ? "" : `awards (+${userType === "employee" ? 5 : 7}%)`;
+  }
+  return { progress, message: message ? "Add your" + message : "" };
+};
+
+export const setAccountProgress = user => {
+  const profile = {
+    profile_id: "",
+    user_info: {
+      user_id: "",
+      email: "",
+      phone: ""
+    },
+    social_links: {
+      facebook: "",
+      twitter: "",
+      linked_in: "",
+      behance: "",
+      dribble: "",
+      github: "",
+      website: ""
+    },
+    bio: {
+      name: getNameFromUser(user),
+      profile_image: "",
+      cover_image: "",
+      date_of_birth: "",
+      gender: "",
+      position: "CEO",
+      company: "Moontheme Studio Design Inc.",
+      highest_qualification: "BSc. Computer Engineering",
+      salary: "$1000 - $ 1700 USD/month",
+      view_count: 0,
+      country: "Germany",
+      city: "Berlin",
+      about: "",
+      skills: ["", "", "", ""]
+    },
+    connections: {
+      connection_count: 0,
+      follower_count: 0,
+      following_count: 0,
+      mutual_connections_images: ["", "", "", ""]
+    },
+    portfolio: [
+      {
+        content_type: "",
+        title: "",
+        description: "",
+        images: ["", "", "", ""],
+        skills: ["", "", "", ""]
+      }
+    ],
+    experience: [
+      {
+        position: "",
+        company: "",
+        from: "",
+        to: "",
+        current: true,
+        summary: ""
+      }
+    ],
+    education: [
+      {
+        subject: "",
+        school: "",
+        qualification: "",
+        from: "",
+        to: "",
+        achievements: ""
+      }
+    ],
+    awards: [
+      {
+        name: "",
+        year: 2002,
+        provider: ""
+      }
+    ],
+    company_info: {
+      name: "",
+      description: "",
+      categories: [""],
+      number_of_employees: 0,
+      skills: [""],
+      salary_range: "",
+      website: "",
+      phone_number: "",
+      country: "",
+      city: ""
+    },
+    reviews: [
+      {
+        image: "",
+        title: "",
+        category: "",
+        salary: "",
+        rating: 3,
+        description: "",
+        author: "name",
+        date: ""
+      }
+    ],
+    activity: {
+      open_jobs: 0,
+      jobs_viewed: 0,
+      closed_jobs: 0
+    },
+    hires: [""],
+    similar_profiles: [
+      {
+        profile_id: "",
+        image: "",
+        name: "",
+        position: ""
+      }
+    ]
+  };
+
+  const progress = getAccountProgress(profile, user.accountType);
+
+  $("#progressbar div").animate({ width: `${progress.progress}%` });
+  $("#progressbar span").text(`${progress.progress}%`);
+  $("#progressMessage").text(progress.message);
+};
+
+export const redirectToPath = (event, path) => {
+  event.preventDefault();
+  if (path) window.location.href = path;
 }

@@ -7,7 +7,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-weight: normal;
     overflow-y: auto;
-    min-width: 1416px;
+    min-width: 1440px;
     height: 100%;
 }
 
@@ -580,6 +580,11 @@ table {
     vertical-align: middle;
     margin-right: 0.5em;
     color: white;
+    cursor: pointer;
+}
+
+.circle-button.negative {
+    line-height: 0.75em;
 }
 
 .project-title{
@@ -698,6 +703,7 @@ table {
     border: 1px solid #5747F9;
     border-radius: 13px; /* (height of inner div) / 2 + padding */
     margin-bottom: 1.5em;
+    text-align: center;
 }
   
 #progressbar > div {
@@ -708,12 +714,11 @@ table {
 }
 
 #progressbar > span {
-    width: 16%;
     text-align: center;
     font-size: 10px;
-    color: white;
+    color: #AEAFAE;
     position: absolute;
-    margin-top: -12px;
+    margin: -12px auto 0 -4px;
 }
 
 .profile-info-right-titles{
@@ -1105,8 +1110,8 @@ table {
     color: white;
     border-bottom-left-radius: 2em;
     border-top-left-radius: 2em;
-    padding: 0.3em 1.5em;
-    margin-right: -6em;
+    padding: 0.3em 1.5em 0.5em;
+    margin-right: -5.4em;
 }
 
 .tag--red{
@@ -1514,10 +1519,11 @@ table {
 .section-sub-titles {
     display: inline-block;
     margin-bottom: 1em;
+    width: 100%;
 }
 
 .full-rounded-input.narrow {
-    padding: 0.5em 1.5em;
+    padding: 1.18em 1.5em;
 }
 
 .full-rounded-input.narrow.active {
@@ -1669,6 +1675,7 @@ table {
     display: none;
     position: absolute;
     top: 4em;
+    background-color: #FFFFFF;
     right: 1em;
     z-index: 1;
     box-shadow: 0px 2px 20px 0px rgba(43, 43, 43, 0.44);
