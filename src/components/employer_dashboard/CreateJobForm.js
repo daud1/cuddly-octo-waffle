@@ -25,10 +25,10 @@ const Error = styled.span`
   color: red;
 `;
 
-const Select = styled(Field)`
+const SelectField = styled(Field)`
   // border-radius: 60px;
   height: 3rem;
-  // padding: 3rem;
+  // padding-left: 3rem;
   margin-top: ${props => props.mt};
   margin-bottom: ${props => props.mb};
   border: solid 1px #f1f1f1;
@@ -41,6 +41,16 @@ const Select = styled(Field)`
     -webkit-box-shadow: 0 0 30px rgb(191, 190, 202);
     box-shadow: 0 0 30px rgb(191, 190, 202);
   }
+`;
+
+const RoundButton = styled.button`
+  border-radius: 50%;
+  border: 0;
+  color: white;
+  background-color: #5355f0;
+  font-size: 30px;
+  width: 40px;
+  margin-right: 15px;
 `;
 
 const TextInput = ({ label, ...props }) => {
@@ -71,19 +81,29 @@ const DynamicListField = ({ name, ...props }) => {
     <FieldArray
       name={name}
       render={arrayHelpers => (
-        <div>
+        <Container columns mb="20px">
+          <Container mb="10px">
+            <RoundButton type="button" onClick={() => arrayHelpers.push()}>
+              +
+            </RoundButton>
+            <Container mt="8px">
+              <Label htmlFor={props.htmlFor}>{props.label}</Label>
+            </Container>
+          </Container>
           {values[name].map((item, index) => (
-            <div key={index}>
-              <Field name={`${name}[${index}]`} />
+            <Container key={index} width="100%" br>
+              <Input
+                name={`${name}[${index}]`}
+                width="100%"
+                placeholder="e.g Create, advise on and maintain software projects.."
+                mb="10px"
+              />
               <button type="button" onClick={() => arrayHelpers.remove(index)}>
                 x
               </button>
-            </div>
+            </Container>
           ))}
-          <button type="button" onClick={() => arrayHelpers.push()}>
-            +
-          </button>
-        </div>
+        </Container>
       )}
     />
   );
@@ -154,9 +174,6 @@ class CreateForm extends Component {
                   name="description"
                   placeholder="Enter a job description"
                 />
-                
-                <Label htmlFor="skills_required">Skills Required</Label>
-                <DynamicListField name="skills_required" />
 
                 <TextInput
                   label="Primary Role"
@@ -165,13 +182,22 @@ class CreateForm extends Component {
                   placeholder="e.g Create, advise on and maintain software projects.."
                 />
 
-                <Label htmlFor="other_roles">Other Roles</Label>
-                <DynamicListField name="other_roles" />
+                <DynamicListField
+                  name="other_roles"
+                  label="Add other Roles"
+                  htmlFor="other_roles"
+                />
+
+                <DynamicListField
+                  name="skills_required"
+                  label="Skills Required"
+                  htmlFor="skills_required"
+                />
 
                 <Container>
                   <Container columns width="40%" pr="3rem">
                     <Label htmlFor="work_time">Type of Working Time</Label>
-                    <Select
+                    <SelectField
                       as="select"
                       name="work_time"
                       placeholder="Full-Time"
@@ -180,7 +206,7 @@ class CreateForm extends Component {
                     >
                       <option value="Full-Time">Full-Time</option>
                       <option value="Part-Time">Part-Time</option>
-                    </Select>
+                    </SelectField>
                   </Container>
                   <Container columns width="40%" pr="3rem">
                     <TextInput
@@ -191,10 +217,15 @@ class CreateForm extends Component {
                     />
                   </Container>
                   <Container columns width="20%">
-                    <Select as="select" name="currency" placeholder="full-time" mt="35px">
+                    <SelectField
+                      as="select"
+                      name="currency"
+                      placeholder="full-time"
+                      mt="35px"
+                    >
                       <option value="USD">USD</option>
                       <option value="UGX">UGX</option>
-                    </Select>
+                    </SelectField>
                   </Container>
                 </Container>
 

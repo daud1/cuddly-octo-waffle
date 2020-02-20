@@ -6,7 +6,6 @@ const Modal = props => {
 
   return isOpen ? (
     <div>
-      <span onClick={onClose}>X</span>
       {children}
     </div>
   ) : null;
