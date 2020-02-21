@@ -22,6 +22,7 @@ export const SubTitle = styled.span`
 export const InputLabel = styled.label`
   font-size: 16px;
   font-weight: normal;
+  text-align: ${props => (props.centerAlign ? "center" : "")};
 `;
 
 export const Error = styled.span`
@@ -64,6 +65,10 @@ export const Container = styled.div`
   padding-bottom: ${props => props.pb};
   padding-left: ${props => props.pl};
   padding-right: ${props => props.pr};
+
+  > * {
+    align-self: ${props => (props.end ? "props.alignSelf" : "")}
+  }
 `;
 
 export const Relative = styled(Container)`
@@ -182,7 +187,7 @@ export const AwardIcon = styled.i`
 // inputs
 export const Input = styled.input`
   border-radius: 20px;
-  width: ${props => (props.width ? `${props.width}` : "280px")};
+  width: ${props => props.width};
   height: 3rem;
   margin-top: ${props => props.mt};
   margin-bottom: ${props => props.mb};
