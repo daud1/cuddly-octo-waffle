@@ -1,4 +1,6 @@
+import React from "react";
 import styled from "styled-components";
+import { Field, useField, FieldArray, useFormikContext } from "formik";
 
 // text
 export const GrayTxt = styled.span`
@@ -15,6 +17,15 @@ export const SubTitle = styled.span`
   &:hover {
     color: ${props => (props.hoverEffect ? "black" : "")};
     text-decoration: ${props => (props.hoverEffect ? "underline" : "")};
+`;
+
+export const InputLabel = styled.label`
+  font-size: 16px;
+  font-weight: normal;
+`;
+
+export const Error = styled.span`
+  color: red;
 `;
 
 // flexible container
@@ -97,6 +108,19 @@ export const Button = styled.button`
   margin-right: ${props => props.mr};
 `;
 
+export const RoundButton = styled.button`
+  border-radius: 50%;
+  border: 0;
+  width: ${props => (props.blue ? "40px" : "30px")};
+  height: ${props => (props.blue ? "40px" : "30px")};
+  font-size: ${props => (props.blue ? "30px" : "")};
+  color: ${props => (props.blue ? "#fff" : "#989898")};
+  background-color: ${props => (props.blue ? "#5355F0" : "#fff")};
+  box-shadow: ${props => (props.blue ? "" : "0px 0px 20px 8px #E8E7FB")};
+  margin-left: ${props => props.ml};
+  margin-right: ${props => props.mr};
+`;
+
 // icons
 export const EditIcon = styled.i`
   font-size: 18px;
@@ -167,7 +191,7 @@ export const Input = styled.input`
   font-size: 12px;
 `;
 
-export const TextBox = styled.textarea`
+export const TextArea = styled.textarea`
   border: solid 1px #f1f1f1;
   border-radius: 5px;
   height: ${props => (props.height ? `${props.height}` : "12rem")};
@@ -182,3 +206,91 @@ export const TextBox = styled.textarea`
     box-shadow: 0 0 30px rgb(191, 190, 202);
   }
 `;
+
+export const SelectField = styled(Field)`
+  height: 3rem;
+  margin-top: ${props => props.mt};
+  margin-bottom: ${props => props.mb};
+  border: solid 1px #f1f1f1;
+  background-color: #fff;
+
+  &:focus {
+    outline: none;
+    border: 1px solid #708bf1;
+    -moz-box-shadow: 0 0 30px rgb(191, 190, 202);
+    -webkit-box-shadow: 0 0 30px rgb(191, 190, 202);
+    box-shadow: 0 0 30px rgb(191, 190, 202);
+  }
+`;
+
+// labelled inputs
+
+export const LabelledInput = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <Container columns mb="2rem">
+      <InputLabel htmlFor={props.id || props.name}>{label}</InputLabel>
+      <Input {...field} {...props} mt="8px" mb="10px" width="100%" />
+      {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
+    </Container>
+  );
+};
+
+export const LabelledTextArea = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  return (
+    <Container columns mb="2rem">
+      <InputLabel htmlFor={props.id || props.name}>{label}</InputLabel>
+      <TextArea {...field} {...props} />
+      {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
+    </Container>
+  );
+};
+
+// dynamic input fields
+export const DynamicListField = ({ name, ...props }) => {
+  const { values } = useFormikContext();
+  return (
+    <FieldArray
+      name={name}
+      render={arrayHelpers => (
+        <Container columns mb="20px">
+          <Container mb="10px">
+            <Container mt="8px" width="80%">
+              <InputLabel htmlFor={props.htmlFor}>{props.label}</InputLabel>
+            </Container>
+            <RightAlign width="20%">
+              <RoundButton
+                blue
+                type="button"
+                onClick={() => arrayHelpers.push()}
+              >
+                +
+              </RoundButton>
+            </RightAlign>
+          </Container>
+          {values[name].map((item, index) => (
+            <Container key={index} width="100%">
+              <Input
+                name={`${name}[${index}]`}
+                width="90%"
+                placeholder="e.g Create, advise on and maintain software projects.."
+                mb="10px"
+                mr="10px"
+              />
+              <RightAlign width="10%">
+                <RoundButton
+                  type="button"
+                  onClick={() => arrayHelpers.remove(index)}
+                  mr="6px"
+                >
+                  x
+                </RoundButton>
+              </RightAlign>
+            </Container>
+          ))}
+        </Container>
+      )}
+    />
+  );
+};

@@ -1,129 +1,21 @@
 import * as yup from "yup";
-import styled from "styled-components";
 
-import {
-  Field,
-  FieldArray,
-  Form,
-  Formik,
-  useField,
-  useFormikContext
-} from "formik";
+import { Form, Formik } from "formik";
 import React, { Component } from "react";
 
 import { API_URL } from "../../utils/constants";
 import axios from "axios";
 
-import { TextBox, Container, Input, Button, RightAlign } from "./Common";
+import {
+  Container,
+  Button,
+  SelectField,
+  InputLabel,
+  LabelledInput,
+  LabelledTextArea,
+  DynamicListField
+} from "./Common";
 
-const Label = styled.label`
-  font-size: 16px;
-  font-weight: normal;
-`;
-
-const Error = styled.span`
-  color: red;
-`;
-
-const SelectField = styled(Field)`
-  border-radius: 25px;
-  padding: 0 3rem;
-  height: 3rem;
-  margin-top: ${props => props.mt};
-  margin-bottom: ${props => props.mb};
-  border: solid 1px #f1f1f1;
-  background-color: #fff;
-
-  &:focus {
-    outline: none;
-    border: 1px solid #708bf1;
-    -moz-box-shadow: 0 0 30px rgb(191, 190, 202);
-    -webkit-box-shadow: 0 0 30px rgb(191, 190, 202);
-    box-shadow: 0 0 30px rgb(191, 190, 202);
-  }
-`;
-
-const RoundButton = styled.button`
-  border-radius: 50%;
-  border: 0;
-`;
-
-const AddButton = styled(RoundButton)`
-  color: white;
-  background-color: #5355f0;
-  font-size: 30px;
-  width: 40px;
-  height: 40px;
-`;
-
-const CancelButton = styled(RoundButton)`
-  box-shadow: 0px 0px 20px 8px #e8e7fb;
-  color: #989898;
-  width: 30px;
-  height: 30px;
-  margin-right: 6px;
-`;
-
-const TextInput = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <Container columns mb="2rem">
-      <Label htmlFor={props.id || props.name}>{label}</Label>
-      <Input {...field} {...props} mt="8px" mb="10px" width="100%" />
-      {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
-    </Container>
-  );
-};
-
-const TextArea = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <Container columns mb="2rem">
-      <Label htmlFor={props.id || props.name}>{label}</Label>
-      <TextBox {...field} {...props} />
-      {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
-    </Container>
-  );
-};
-
-const DynamicListField = ({ name, ...props }) => {
-  const { values } = useFormikContext();
-  return (
-    <FieldArray
-      name={name}
-      render={arrayHelpers => (
-        <Container columns mb="20px">
-          <Container mb="10px">
-            <Container mt="8px" width="80%">
-              <Label htmlFor={props.htmlFor}>{props.label}</Label>
-            </Container>
-            <RightAlign width="20%">
-              <AddButton type="button" onClick={() => arrayHelpers.push()}>
-                +
-              </AddButton>
-            </RightAlign>
-          </Container>
-          {values[name].map((item, index) => (
-            <Container key={index} width="100%">
-              <Input
-                name={`${name}[${index}]`}
-                width="90%"
-                placeholder="e.g Create, advise on and maintain software projects.."
-                mb="10px"
-                mr="10px"
-              />
-              <RightAlign width="10%">
-                <CancelButton type="button" onClick={() => arrayHelpers.remove(index)}>
-                  x
-                </CancelButton>
-              </RightAlign>
-            </Container>
-          ))}
-        </Container>
-      )}
-    />
-  );
-};
 class CreateForm extends Component {
   createJob = values => {
     const { loggedInProfileId } = this.props;
@@ -178,20 +70,20 @@ class CreateForm extends Component {
               onSubmit={this.createJob}
             >
               <Form>
-                <TextInput
+                <LabelledInput
                   label="Job Title"
                   type="text"
                   name="title"
                   placeholder="e.g Software Engineer"
                 />
 
-                <TextArea
+                <LabelledTextArea
                   label="Description"
                   name="description"
                   placeholder="Enter a job description"
                 />
 
-                <TextInput
+                <LabelledInput
                   label="Primary Role"
                   type="text"
                   name="primary_role"
@@ -212,7 +104,9 @@ class CreateForm extends Component {
 
                 <Container>
                   <Container columns width="40%" pr="3rem">
-                    <Label htmlFor="work_time">Type of Working Time</Label>
+                    <InputLabel htmlFor="work_time">
+                      Type of Working Time
+                    </InputLabel>
                     <SelectField
                       as="select"
                       name="work_time"
@@ -224,7 +118,7 @@ class CreateForm extends Component {
                     </SelectField>
                   </Container>
                   <Container columns width="45%" pr="3rem">
-                    <TextInput
+                    <LabelledInput
                       label="Salary Range"
                       type="text"
                       name="salary_range"
@@ -239,7 +133,7 @@ class CreateForm extends Component {
                   </Container>
                 </Container>
 
-                <TextInput
+                <LabelledInput
                   label="Location"
                   type="text"
                   name="location"
