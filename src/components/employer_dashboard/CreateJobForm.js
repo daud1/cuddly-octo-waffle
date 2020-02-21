@@ -14,7 +14,7 @@ import React, { Component } from "react";
 import { API_URL } from "../../utils/constants";
 import axios from "axios";
 
-import { TextBox, Container, Input, Button } from "./Common";
+import { TextBox, Container, Input, Button, RightAlign } from "./Common";
 
 const Label = styled.label`
   font-size: 16px;
@@ -26,9 +26,9 @@ const Error = styled.span`
 `;
 
 const SelectField = styled(Field)`
-  // border-radius: 60px;
+  border-radius: 25px;
+  padding: 0 3rem;
   height: 3rem;
-  // padding-left: 3rem;
   margin-top: ${props => props.mt};
   margin-bottom: ${props => props.mb};
   border: solid 1px #f1f1f1;
@@ -46,11 +46,22 @@ const SelectField = styled(Field)`
 const RoundButton = styled.button`
   border-radius: 50%;
   border: 0;
+`;
+
+const AddButton = styled(RoundButton)`
   color: white;
   background-color: #5355f0;
   font-size: 30px;
   width: 40px;
-  margin-right: 15px;
+  height: 40px;
+`;
+
+const CancelButton = styled(RoundButton)`
+  box-shadow: 0px 0px 20px 8px #e8e7fb;
+  color: #989898;
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
 `;
 
 const TextInput = ({ label, ...props }) => {
@@ -83,24 +94,29 @@ const DynamicListField = ({ name, ...props }) => {
       render={arrayHelpers => (
         <Container columns mb="20px">
           <Container mb="10px">
-            <RoundButton type="button" onClick={() => arrayHelpers.push()}>
-              +
-            </RoundButton>
-            <Container mt="8px">
+            <Container mt="8px" width="80%">
               <Label htmlFor={props.htmlFor}>{props.label}</Label>
             </Container>
+            <RightAlign width="20%">
+              <AddButton type="button" onClick={() => arrayHelpers.push()}>
+                +
+              </AddButton>
+            </RightAlign>
           </Container>
           {values[name].map((item, index) => (
-            <Container key={index} width="100%" br>
+            <Container key={index} width="100%">
               <Input
                 name={`${name}[${index}]`}
-                width="100%"
+                width="90%"
                 placeholder="e.g Create, advise on and maintain software projects.."
                 mb="10px"
+                mr="10px"
               />
-              <button type="button" onClick={() => arrayHelpers.remove(index)}>
-                x
-              </button>
+              <RightAlign width="10%">
+                <CancelButton type="button" onClick={() => arrayHelpers.remove(index)}>
+                  x
+                </CancelButton>
+              </RightAlign>
             </Container>
           ))}
         </Container>
@@ -200,7 +216,6 @@ class CreateForm extends Component {
                     <SelectField
                       as="select"
                       name="work_time"
-                      placeholder="Full-Time"
                       mt="10px"
                       pl="3rem"
                     >
@@ -208,7 +223,7 @@ class CreateForm extends Component {
                       <option value="Part-Time">Part-Time</option>
                     </SelectField>
                   </Container>
-                  <Container columns width="40%" pr="3rem">
+                  <Container columns width="45%" pr="3rem">
                     <TextInput
                       label="Salary Range"
                       type="text"
@@ -216,13 +231,8 @@ class CreateForm extends Component {
                       placeholder="1,000,000 - 2,500,000"
                     />
                   </Container>
-                  <Container columns width="20%">
-                    <SelectField
-                      as="select"
-                      name="currency"
-                      placeholder="full-time"
-                      mt="35px"
-                    >
+                  <Container columns width="15%">
+                    <SelectField as="select" name="currency" mt="35px">
                       <option value="USD">USD</option>
                       <option value="UGX">UGX</option>
                     </SelectField>
