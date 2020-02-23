@@ -16,7 +16,8 @@ import PasswordResetForm from "../components/auth/PasswordResetForm";
 import SigninForm from "../components/auth/SigninForm";
 import SignupForm from "../components/auth/SignupForm";
 import { connect } from "react-redux";
-import { isLoggedIn } from "../utils/helpers";
+import { isLoggedIn } from '../utils/helpers';
+import AccountHome from '../components/AccountHome';
 
 class Home extends Component {
   constructor(props) {
@@ -77,6 +78,7 @@ class Home extends Component {
       return (
         <div>
           <AccountDropDown />
+          <AccountHome />
         </div>
       );
     } else if (!isLoggedIn(user) && !signOn) {
@@ -93,12 +95,8 @@ class Home extends Component {
           <Footer />
         </div>
       );
-    } else if (
-      !isLoggedIn(user) &&
-      ((user.accountType && signOn && renderForms) ||
-        signOn === "Reset Password")
-    ) {
-      return this.renderSignOnForms();
+    } else if (!isLoggedIn(user) && ((user.accountType && signOn && renderForms) || (signOn === "Reset Password"))) {
+      return (this.renderSignOnForms());
     } else if (!isLoggedIn(user)) {
       return <AccountSelector renderForms={this.setRenderForms} />;
     }

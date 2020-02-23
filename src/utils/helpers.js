@@ -1,5 +1,6 @@
 import $ from "jquery";
 import _ from "lodash";
+import axios from "axios";
 import sampleProfilePic from "../images/sample_profile_pic.jpg";
 
 var ACCOUNT_TYPES = [
@@ -44,7 +45,7 @@ export const evalScript = elem => {
   var data = elem.text || elem.textContent || elem.innerHTML || "";
 
   var head =
-      document.getElementsByTagName("head")[0] || document.documentElement,
+    document.getElementsByTagName("head")[0] || document.documentElement,
     script = document.createElement("script");
   script.type = "text/javascript";
   script.appendChild(document.createTextNode(data));
@@ -471,8 +472,9 @@ export const getUserImage = user => {
 };
 
 export const setSocialSignOn = (profile, accessToken, type, props) => {
-  const { setNotification, user, setUser, removeSignon } = props;
+  const { setNotification, user, setUser, removeSignon, setLoading } = props;
   const { email, name, image } = profile;
+  setLoading({ isLoading: false });
   if (!accessToken) {
     setNotification({ message: "Something Went Wrong!" });
     return;
@@ -489,6 +491,7 @@ export const setSocialSignOn = (profile, accessToken, type, props) => {
 };
 
 export const facebookSignOn = (response, props) => {
+  if (!response) return;
   const { email, accessToken, name, userID } = response;
   const profile = {
     email,
@@ -500,6 +503,7 @@ export const facebookSignOn = (response, props) => {
 };
 
 export const googleSignOn = (response, props) => {
+  if (!response || !response.profileObj) return;
   const {
     profileObj: { email, name, imageUrl },
     accessToken
@@ -511,3 +515,318 @@ export const googleSignOn = (response, props) => {
   };
   setSocialSignOn(profile, accessToken, "google", props);
 };
+
+export const handleSocialOnClick = (event, setLoading, onClick) => {
+  event.preventDefault();
+  setLoading({ isLoading: true, loadingText: "Signing in..." });
+  onClick();
+};
+
+export const handleHTTPRequest = (
+  url,
+  method,
+  callbacks,
+  data = {},
+  headers = {},
+) => {
+  axios({ method, url, data, headers })
+    .then(res => {
+      callbacks.success(res);
+    })
+    .catch(error => {
+      callbacks.failure(error);
+    });
+};
+
+export const connectToPerson = (event, id) => {
+  event.preventDefault();
+  console.log("Connected to person: ", id);
+};
+
+export const hideElement = (event, id) => {
+  event.preventDefault();
+  $(`#${id}`).hide();
+};
+
+export const getAccountProgress = (profile, userType) => {
+  let progress = 0;
+  let message = "";
+
+  if (profile.user_info && profile.user_info.phone) {
+    progress += 5;
+  } else {
+    message += message ? "" : " phone number (+5%)";
+  }
+
+  if (profile.social_links) {
+    if (profile.social_links.facebook) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Facebook link (+3%)";
+    }
+    if (profile.social_links.twitter) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Twitter link (+3%)";
+    }
+    if (profile.social_links.linked_in) {
+      progress += 3;
+    } else {
+      message += message ? "" : " LinkedIn link (+3%)";
+    }
+    if (profile.social_links.behance) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Behance link (+3%)";
+    }
+    if (profile.social_links.dribble) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Dribble link (+3%)";
+    }
+    if (profile.social_links.github) {
+      progress += 3;
+    } else {
+      message += message ? "" : " Github link (+3%)";
+    }
+    if (profile.social_links.website) {
+      progress += 5;
+    } else {
+      message += message ? "" : " website (+5%)";
+    }
+  }
+
+  if (profile.bio) {
+    if (profile.bio.profile_image) {
+      progress += 5;
+    } else {
+      message += message ? "" : " profile image (+5%)";
+    }
+    if (profile.bio.cover_image) {
+      progress += 5;
+    } else {
+      message += message ? "" : " cover image (+5%)";
+    }
+    if (profile.bio.date_of_birth) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " profile image (+5%)";
+    }
+    if (profile.bio.gender) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " gender (+5%)";
+    }
+    if (profile.bio.company) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " company (+5%)";
+    }
+    if (profile.bio.salary) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " salary (+5%)";
+    }
+    if (profile.bio.country) {
+      progress += 5;
+    } else {
+      message += message ? "" : " country (+5%)";
+    }
+    if (profile.bio.city) {
+      progress += 5;
+    } else {
+      message += message ? "" : " city (+5%)";
+    }
+    if (profile.bio.about) {
+      progress += 5;
+    } else {
+      message += message ? "" : " about (+5%)";
+    }
+    if (profile.bio.skills) {
+      progress += userType === "employee" ? 5 : 0;
+    } else {
+      message += message ? "" : " skills (+5%)";
+    }
+  }
+
+  if (profile.company_info && userType !== "employee") {
+    if (profile.company_info.name) {
+      progress += 5;
+    } else {
+      message += message ? "" : " name (+5%)";
+    }
+    if (profile.company_info.description) {
+      progress += 5;
+    } else {
+      message += message ? "" : " description (+5%)";
+    }
+    if (profile.company_info.categories) {
+      progress += 5;
+    } else {
+      message += message ? "" : " categories (+5%)";
+    }
+    if (profile.company_info.number_of_employees) {
+      progress += 5;
+    } else {
+      message += message ? "" : " number of employees (+5%)";
+    }
+    if (profile.company_info.skills) {
+      progress += 5;
+    } else {
+      message += message ? "" : " preferred skills (+5%)";
+    }
+    if (profile.company_info.salary_range) {
+      progress += 5;
+    } else {
+      message += message ? "" : " salary range (+5%)";
+    }
+  }
+
+  if (profile.portfolio) {
+    progress += userType === "employee" ? 10 : 5;
+  } else {
+    message += message
+      ? ""
+      : `portfolio (+${userType === "employee" ? 10 : 5}%)`;
+  }
+  if (profile.experience) {
+    progress += userType === "employee" ? 7 : 5;
+  } else {
+    message += message
+      ? ""
+      : `experience (+${userType === "employee" ? 7 : 5}%)`;
+  }
+  if (profile.awards) {
+    progress += userType === "employee" ? 5 : 7;
+  } else {
+    message += message ? "" : `awards (+${userType === "employee" ? 5 : 7}%)`;
+  }
+  return { progress, message: message ? "Add your" + message : "" };
+};
+
+export const setAccountProgress = user => {
+  const profile = {
+    profile_id: "",
+    user_info: {
+      user_id: "",
+      email: "",
+      phone: ""
+    },
+    social_links: {
+      facebook: "",
+      twitter: "",
+      linked_in: "",
+      behance: "",
+      dribble: "",
+      github: "",
+      website: ""
+    },
+    bio: {
+      name: getNameFromUser(user),
+      profile_image: "",
+      cover_image: "",
+      date_of_birth: "",
+      gender: "",
+      position: "CEO",
+      company: "Moontheme Studio Design Inc.",
+      highest_qualification: "BSc. Computer Engineering",
+      salary: "$1000 - $ 1700 USD/month",
+      view_count: 0,
+      country: "Germany",
+      city: "Berlin",
+      about: "",
+      skills: ["", "", "", ""]
+    },
+    connections: {
+      connection_count: 0,
+      follower_count: 0,
+      following_count: 0,
+      mutual_connections_images: ["", "", "", ""]
+    },
+    portfolio: [
+      {
+        content_type: "",
+        title: "",
+        description: "",
+        images: ["", "", "", ""],
+        skills: ["", "", "", ""]
+      }
+    ],
+    experience: [
+      {
+        position: "",
+        company: "",
+        from: "",
+        to: "",
+        current: true,
+        summary: ""
+      }
+    ],
+    education: [
+      {
+        subject: "",
+        school: "",
+        qualification: "",
+        from: "",
+        to: "",
+        achievements: ""
+      }
+    ],
+    awards: [
+      {
+        name: "",
+        year: 2002,
+        provider: ""
+      }
+    ],
+    company_info: {
+      name: "",
+      description: "",
+      categories: [""],
+      number_of_employees: 0,
+      skills: [""],
+      salary_range: "",
+      website: "",
+      phone_number: "",
+      country: "",
+      city: ""
+    },
+    reviews: [
+      {
+        image: "",
+        title: "",
+        category: "",
+        salary: "",
+        rating: 3,
+        description: "",
+        author: "name",
+        date: ""
+      }
+    ],
+    activity: {
+      open_jobs: 0,
+      jobs_viewed: 0,
+      closed_jobs: 0
+    },
+    hires: [""],
+    similar_profiles: [
+      {
+        profile_id: "",
+        image: "",
+        name: "",
+        position: ""
+      }
+    ]
+  };
+
+  const progress = getAccountProgress(profile, user.accountType);
+
+  $("#progressbar div").animate({ width: `${progress.progress}%` });
+  $("#progressbar span").text(`${progress.progress}%`);
+  $("#progressMessage").text(progress.message);
+};
+
+export const redirectToPath = (event, path) => {
+  event.preventDefault();
+  if (path) window.location.href = path;
+}

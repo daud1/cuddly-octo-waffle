@@ -4,11 +4,11 @@ html {
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  font-weight: normal;
-  overflow-y: auto;
-  min-width: 1416px;
-  height: 100%;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    overflow-y: auto;
+    min-width: 1440px;
+    height: 100%;
 }
 
 #root,
@@ -583,19 +583,24 @@ p {
   margin-left: 0;
 }
 
-.circle-button {
-  height: 0.9em;
-  width: 0.9em;
-  font-size: 31px;
-  font-weight: 300;
-  display: inline-block;
-  border-radius: 50%;
-  background: #5747f9;
-  text-align: center;
-  line-height: 0.9em;
-  vertical-align: middle;
-  margin-right: 0.5em;
-  color: white;
+.circle-button{
+    height: 0.9em;
+    width: 0.9em;
+    font-size: 31px;
+    font-weight: 300;
+    display: inline-block;
+    border-radius: 50%;
+    background: #5747F9;
+    text-align: center;
+    line-height: 0.9em;
+    vertical-align: middle;
+    margin-right: 0.5em;
+    color: white;
+    cursor: pointer;
+}
+
+.circle-button.negative {
+    line-height: 0.75em;
 }
 
 .project-title {
@@ -711,9 +716,10 @@ p {
 }
 
 #progressbar {
-  border: 1px solid #5747f9;
-  border-radius: 13px; /* (height of inner div) / 2 + padding */
-  margin-bottom: 1.5em;
+    border: 1px solid #5747F9;
+    border-radius: 13px; /* (height of inner div) / 2 + padding */
+    margin-bottom: 1.5em;
+    text-align: center;
 }
 
 #progressbar > div {
@@ -724,12 +730,11 @@ p {
 }
 
 #progressbar > span {
-  width: 16%;
-  text-align: center;
-  font-size: 10px;
-  color: white;
-  position: absolute;
-  margin-top: -12px;
+    text-align: center;
+    font-size: 10px;
+    color: #AEAFAE;
+    position: absolute;
+    margin: -12px auto 0 -4px;
 }
 
 .profile-info-right-titles {
@@ -1120,14 +1125,14 @@ p {
   margin-top: 2em;
 }
 
-.tag--purple {
-  font-size: 8px;
-  background: #a476f5;
-  color: white;
-  border-bottom-left-radius: 2em;
-  border-top-left-radius: 2em;
-  padding: 0.3em 1.5em;
-  margin-right: -6em;
+.tag--purple{
+    font-size: 8px;
+    background: #A476F5;
+    color: white;
+    border-bottom-left-radius: 2em;
+    border-top-left-radius: 2em;
+    padding: 0.3em 1.5em 0.5em;
+    margin-right: -5.4em;
 }
 
 .tag--red {
@@ -1535,12 +1540,13 @@ p {
 }
 
 .section-sub-titles {
-  display: inline-block;
-  margin-bottom: 1em;
+    display: inline-block;
+    margin-bottom: 1em;
+    width: 100%;
 }
 
 .full-rounded-input.narrow {
-  padding: 0.5em 1.5em;
+    padding: 1.18em 1.5em;
 }
 
 .full-rounded-input.narrow.active {
@@ -1689,13 +1695,14 @@ p {
   box-shadow: 0px 2px 20px 0px rgba(43, 43, 43, 0.44);
 }
 
-#account-dropdown {
-  display: none;
-  position: absolute;
-  top: 4em;
-  right: 1em;
-  z-index: 1;
-  box-shadow: 0px 2px 20px 0px rgba(43, 43, 43, 0.44);
+#account-dropdown{
+    display: none;
+    position: absolute;
+    top: 4em;
+    background-color: #FFFFFF;
+    right: 1em;
+    z-index: 1;
+    box-shadow: 0px 2px 20px 0px rgba(43, 43, 43, 0.44);
 }
 
 #job-feed-dropdown {

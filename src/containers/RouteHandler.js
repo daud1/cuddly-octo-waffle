@@ -6,12 +6,12 @@ import {
   BrowserRouter as Router,
   Switch
 } from "react-router-dom";
-
 import EmployerDashboard from "../containers/EmployerDashboard";
 import Home from "./Home";
 import PasswordResetConfirmation from "../components/auth/PasswordResetConfirmation";
 import Settings from "../components/Settings";
 import { isLoggedIn } from "../utils/helpers";
+import PostJob from '../components/PostJob';
 
 class RouteHandler extends Component {
   render() {
@@ -42,6 +42,7 @@ class RouteHandler extends Component {
           {/* Authorized Routes */}
           <Route path="/employer" component={EmployerDashboard} />
           <PrivateRoute path="/settings" component={Settings} />
+          <PrivateRoute path='/post' component={PostJob} />
         </Switch>
       </Router>
     );

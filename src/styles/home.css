@@ -792,6 +792,46 @@
 @-moz-document url-prefix() {
   .badge__icon--grey {
     margin-top: -8px;
+    margin-bottom: 6px;
+  }
+}
+
+.medium-blue-background {
+  background: #6985ea;
+}
+
+.skill-wrapper__div--above-default {
+  margin-bottom: 1em;
+  margin-top: -1.4em;
+}
+
+.justify-content-space-btwn {
+  justify-content: space-between;
+}
+
+.margin-right-neg-1-point-6em {
+  margin-right: -1.6em;
+}
+
+.badge__icon--grey {
+  font-size: 21px;
+  color: #a0a1a2;
+  background: white;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  line-height: 0.2;
+  margin-top: -7px;
+  padding: 3px 0px;
+  float: right;
+  margin-right: -20px;
+  position: relative;
+  cursor: pointer;
+}
+
+@-moz-document url-prefix() {
+  .badge__icon--grey {
+    margin-top: -8px;
     font-size: 15px;
     height: 16px;
     width: 16px;
