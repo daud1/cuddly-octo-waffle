@@ -1,9 +1,5 @@
 import {
-  Absolute,
-  AwardIcon,
-  BlueSubTitle,
-  BriefcaseIcon,
-  Button,
+  SubTitle,
   Container,
   EditIcon,
   Ellipsis,
@@ -12,8 +8,14 @@ import {
   RightAlign,
   SocialIcon,
   TextArea,
-  TextInput,
-  TwitterIcon
+  Input,
+  LabelledInput,
+  TwitterIcon,
+  BriefcaseIcon,
+  AwardIcon,
+  Absolute,
+  Button,
+  InputLabel
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -29,7 +31,7 @@ function Award(props) {
         <AwardIcon className="fa fa-empire"></AwardIcon>
       </Container>
       <Container columns>
-        <h4>{props.title}</h4>
+        <SubTitle>{props.title}</SubTitle>
         <GrayTxt>{props.Giver}</GrayTxt>
         <GrayTxt>{props.Year}</GrayTxt>
       </Container>
@@ -41,7 +43,9 @@ function SectionHeading(props) {
   return (
     <Relative mt="30px" mb="30px">
       <Container>
-        <BlueSubTitle bold>{props.label}</BlueSubTitle>
+        <SubTitle bold blue>
+          {props.label}
+        </SubTitle>
       </Container>
       {props.editOption ? (
         <Absolute right="30px">
@@ -142,9 +146,11 @@ class Profile extends React.Component {
         <Container bb columns>
           {/*Company Name */}
           <Container mt="100px" xCenter>
-            {showEditNameForm ? (
+            {!showEditNameForm ? (
               <>
-                <BlueSubTitle bold>{profile.company_name}</BlueSubTitle>
+                <SubTitle bold blue>
+                  {profile.company_name}
+                </SubTitle>
                 <EditIcon
                   className="fa fa-pencil"
                   ml="20px"
@@ -156,16 +162,27 @@ class Profile extends React.Component {
                 initialValues={{ company_name: "" }}
                 onSubmit={editProfile}
               >
-                <Form>
-                  <TextInput
-                    label="Edit Company Name"
-                    type="text"
-                    name="company_name"
-                    placeholder="e.g Software Engineer"
-                  />
-                  <button type="submit">Save</button>
-                  <button onClick={this.toggleEditNameForm}>Cancel</button>
-                </Form>
+                <Container columns mt="5px" width="20%">
+                  <Form>
+                    <LabelledInput
+                      label="Edit Company Name"
+                      type="text"
+                      name="company_name"
+                      placeholder="e.g Software Engineer"
+                    />
+                    <RightAlign mt="0px" mb="10px">
+                      <Button
+                        white
+                        width="60px"
+                        mr="15px"
+                        onClick={this.toggleEditNameForm}
+                      >
+                        Cancel
+                      </Button>
+                      <Button width="60px">Save</Button>
+                    </RightAlign>
+                  </Form>
+                </Container>
               </Formik>
             )}
           </Container>
@@ -177,13 +194,15 @@ class Profile extends React.Component {
           {/*Social Links & Contact Info */}
           <Container xCenter mt="20px" mb="50px">
             {showEditSocialForm ? (
-              <Container columns>
-                <Formik initialValues={{}} onSubmit={editProfile}>
+              <Formik initialValues={{}} onSubmit={editProfile}>
+                <Container width="20%">
                   <Form>
+                    <InputLabel>Edit Social Links</InputLabel>
+                    <br />
                     {social.map(item => (
-                      <TextInput placeholder={item} />
+                      <Input placeholder={item} mb="8px" width="100%" />
                     ))}
-                    <Container mt="15px">
+                    <RightAlign mt="15px">
                       <Button
                         white
                         width="60px"
@@ -193,10 +212,10 @@ class Profile extends React.Component {
                         Cancel
                       </Button>
                       <Button width="60px">Save</Button>
-                    </Container>
+                    </RightAlign>
                   </Form>
-                </Formik>
-              </Container>
+                </Container>
+              </Formik>
             ) : (
               <Container xCenter>
                 <SocialIcon className="fa fa-facebook"></SocialIcon>
@@ -288,19 +307,19 @@ class Profile extends React.Component {
                 {showEditAwardsForm ? (
                   <Formik initialValues={awards} onSubmit={editAwards}>
                     <Form>
-                      <TextInput
+                      <LabelledInput
                         label="Title"
                         type="text"
                         name="title"
                         placeholder="Fastest Growing SME"
                       />
-                      <TextInput
+                      <LabelledInput
                         label="Awarding Body"
                         type="text"
                         name="awarded_by"
                         placeholder="URA"
                       />
-                      <TextInput
+                      <LabelledInput
                         label="Year"
                         type="number"
                         name="year"
@@ -330,19 +349,19 @@ class Profile extends React.Component {
                 {showEditReviewsForm ? (
                   <Formik initialValues={reviews} onSubmit={editReviews}>
                     <Form>
-                      <TextInput
+                      <LabelledInput
                         label="Title"
                         type="text"
                         name="title"
                         placeholder="Fastest Growing SME"
                       />
-                      <TextInput
+                      <LabelledInput
                         label="Awarding Body"
                         type="text"
                         name="awarded_by"
                         placeholder="URA"
                       />
-                      <TextInput
+                      <LabelledInput
                         label="Year"
                         type="number"
                         name="year"

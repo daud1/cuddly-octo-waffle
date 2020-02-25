@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import profilePic from "../../images/sample_profile_pic.jpg";
 
-import { Avatar, GrayTxt, BlueSubTitle, Container } from "./Common";
+import { Avatar, GrayTxt, SubTitle, Container } from "./Common";
 
 const JobItem = props => {
   const { title, company, salary_range, location } = props;
@@ -14,7 +14,7 @@ const JobItem = props => {
       </Container>
       <Container columns ml="15px" mb="25px">
         <Container>
-          <BlueSubTitle hoverEffect>{title}</BlueSubTitle>
+          <SubTitle hoverEffect blue>{title}</SubTitle>
         </Container>
         <Container mb="5px">
           <GrayTxt>In {company}</GrayTxt>

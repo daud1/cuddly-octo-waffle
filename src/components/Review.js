@@ -3,7 +3,7 @@ import BeautyStars from "beauty-stars";
 import PropTypes from "prop-types";
 
 import samplePic from "../images/bubalus.png";
-import { Avatar, Container, BlueSubTitle } from "./employer_dashboard/Common";
+import { Avatar, Container, SubTitle } from "./employer_dashboard/Common";
 
 const Review = props => {
   const { title, author, rating, description, date_posted } = props.review;
@@ -20,7 +20,7 @@ const Review = props => {
         />
       </Container>
       <Container ml="30px" columns>
-        <BlueSubTitle hoverEffect>{title}</BlueSubTitle>
+        <SubTitle blue>{title}</SubTitle>
         <Container mt="10px" mb="10px">
           <BeautyStars
             value={rating}

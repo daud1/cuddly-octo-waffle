@@ -1,11 +1,20 @@
 import * as yup from "yup";
 
-import { DynamicListField, TextArea, TextInput } from "./Common";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { Component } from "react";
 
 import { API_URL } from "../../utils/constants";
 import axios from "axios";
+
+import {
+  Container,
+  Button,
+  SelectField,
+  InputLabel,
+  LabelledInput,
+  LabelledTextArea,
+  DynamicListField
+} from "./Common";
 
 class CreateForm extends Component {
   createJob = values => {
@@ -51,69 +60,99 @@ class CreateForm extends Component {
     });
 
     return (
-      <div className="container">
-        <h3 className="section-titles">Post a Job to Athena</h3>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={this.createJob}
-        >
-          <Form>
-            <TextInput
-              label="Title"
-              type="text"
-              name="title"
-              placeholder="e.g Software Engineer"
-            />
+      <Container bb>
+        <Container className="container">
+          <Container width="70%" br columns pr="7rem">
+            <h3 className="section-titles">Post a Job to Athena</h3>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={this.createJob}
+            >
+              <Form>
+                <LabelledInput
+                  label="Job Title"
+                  type="text"
+                  name="title"
+                  placeholder="e.g Software Engineer"
+                />
 
-            <TextArea
-              label="Description"
-              name="description"
-              placeholder="Enter a job description"
-            />
+                <LabelledTextArea
+                  label="Description"
+                  name="description"
+                  placeholder="Enter a job description"
+                />
 
-            <label htmlFor="skills_required">Skills Required</label>
-            <DynamicListField name="skills_required" />
+                <LabelledInput
+                  label="Primary Role"
+                  type="text"
+                  name="primary_role"
+                  placeholder="e.g Create, advise on and maintain software projects.."
+                />
 
-            <TextInput
-              label="Primary Role"
-              type="text"
-              name="primary_role"
-              placeholder="e.g Create, advise on and maintain software projects.."
-            />
+                <DynamicListField
+                  name="other_roles"
+                  label="Add other Roles"
+                  htmlFor="other_roles"
+                />
 
-            <label htmlFor="other_roles">Other Roles</label>
-            <DynamicListField name="other_roles" />
+                <DynamicListField
+                  name="skills_required"
+                  label="Skills Required"
+                  htmlFor="skills_required"
+                />
 
-            <label htmlFor="work_time">Type of Working Time</label>
-            <Field as="select" name="work_time" placeholder="Full-Time">
-              <option value="Full-Time">Full-Time</option>
-              <option value="Part-Time">Part-Time</option>
-            </Field>
+                <Container>
+                  <Container columns width="40%" pr="3rem">
+                    <InputLabel htmlFor="work_time">
+                      Type of Working Time
+                    </InputLabel>
+                    <SelectField
+                      as="select"
+                      name="work_time"
+                      mt="10px"
+                      pl="3rem"
+                    >
+                      <option value="Full-Time">Full-Time</option>
+                      <option value="Part-Time">Part-Time</option>
+                    </SelectField>
+                  </Container>
+                  <Container columns width="45%" pr="3rem">
+                    <LabelledInput
+                      label="Salary Range"
+                      type="text"
+                      name="salary_range"
+                      placeholder="1,000,000 - 2,500,000"
+                    />
+                  </Container>
+                  <Container columns width="15%">
+                    <SelectField as="select" name="currency" mt="35px">
+                      <option value="USD">USD</option>
+                      <option value="UGX">UGX</option>
+                    </SelectField>
+                  </Container>
+                </Container>
 
-            <TextInput
-              label="Salary Range"
-              type="text"
-              name="salary_range"
-              placeholder="1,000,000 - 2,500,000"
-            />
-
-            <Field as="select" name="currency" placeholder="full-time">
-              <option value="USD">USD</option>
-              <option value="UGX">UGX</option>
-            </Field>
-
-            <TextInput
-              label="Location"
-              type="text"
-              name="location"
-              placeholder="e.g Kampala"
-            />
-
-            <button type="submit">Post Job</button>
-          </Form>
-        </Formik>
-      </div>
+                <LabelledInput
+                  label="Location"
+                  type="text"
+                  name="location"
+                  placeholder="e.g Kampala"
+                />
+                <Container mt="5rem" mb="10rem">
+                  <Button type="submit" width="120px" mr="30px" height="30px">
+                    Post Job Now
+                  </Button>
+                  <Button white width="120px" height="30px" type="button">
+                    Cancel
+                  </Button>
+                </Container>
+              </Form>
+            </Formik>
+          </Container>
+          <Container width="30%">Who viewed me</Container>
+        </Container>
+      </Container>
     );
   }
 }
