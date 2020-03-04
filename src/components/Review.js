@@ -44,7 +44,8 @@ Review.propTypes = {
     description: PropTypes.string,
     rating: PropTypes.number.isRequired,
     author: PropTypes.shape({
-      name: PropTypes.string.isRequired // add remaining properties
+      first_name: PropTypes.string.isRequired,
+      last_name: PropTypes.string.isRequired
     }),
     date_posted: PropTypes.string.isRequired //check data type
   })
