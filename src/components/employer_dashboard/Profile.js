@@ -1,21 +1,23 @@
 import {
-  SubTitle,
+  Absolute,
+  AwardIcon,
+  BriefcaseIcon,
+  Button,
   Container,
   EditIcon,
   Ellipsis,
   GrayTxt,
+  Input,
+  InputLabel,
+  LabelledInput,
+  LabelledTextArea,
   Relative,
   RightAlign,
   SocialIcon,
-  TextArea,
-  Input,
-  LabelledInput,
+  SubTitle,
   TwitterIcon,
-  BriefcaseIcon,
-  AwardIcon,
-  Absolute,
-  Button,
-  InputLabel
+  DynamicField,
+  AwardForm
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -32,14 +34,15 @@ function Award(props) {
       </Container>
       <Container columns>
         <SubTitle>{props.title}</SubTitle>
-        <GrayTxt>{props.Giver}</GrayTxt>
-        <GrayTxt>{props.Year}</GrayTxt>
+        <GrayTxt>{props.giver}</GrayTxt>
+        <GrayTxt>{props.year}</GrayTxt>
       </Container>
     </Container>
   );
 }
 
 function SectionHeading(props) {
+  const { onClick, editOption } = props;
   return (
     <Relative mt="30px" mb="30px">
       <Container>
@@ -47,9 +50,9 @@ function SectionHeading(props) {
           {props.label}
         </SubTitle>
       </Container>
-      {props.editOption ? (
+      {editOption ? (
         <Absolute right="30px">
-          <EditIcon className="fa fa-pencil"></EditIcon>
+          <EditIcon onClick={onClick} className="fa fa-pencil"></EditIcon>
         </Absolute>
       ) : (
         ""
@@ -79,7 +82,7 @@ class Profile extends React.Component {
   state = {
     showEditSocialForm: false,
     showEditAwardsForm: false,
-    showEditIntroForm: false,
+    showEditDescriptionForm: false,
     showEditNameForm: false,
     showEditReviewsForm: false
   };
@@ -106,10 +109,6 @@ class Profile extends React.Component {
     });
   };
 
-  toggleEditReviewsForm = () => {
-    this.setState({ showEditReviewsForm: !this.state.showEditReviewsForm });
-  };
-
   static propTypes = {};
   render() {
     const social = [
@@ -123,20 +122,12 @@ class Profile extends React.Component {
       "Website",
       "Location"
     ];
-    const {
-      profile,
-      reviews,
-      awards,
-      editAwards,
-      editProfile,
-      editReviews
-    } = this.props;
+    const { profile, reviews, awards, editAward, editProfile } = this.props;
 
     const {
       showEditAwardsForm,
-      showEditIntroForm,
+      showEditDescriptionForm,
       showEditNameForm,
-      showEditReviewsForm,
       showEditSocialForm
     } = this.state;
 
@@ -159,16 +150,26 @@ class Profile extends React.Component {
               </>
             ) : (
               <Formik
-                initialValues={{ company_name: "" }}
-                onSubmit={editProfile}
+                initialValues={{
+                  company_name: profile.company_name,
+                  number_of_employees: profile.number_of_employees
+                }}
+                onSubmit={values => {
+                  this.toggleEditNameForm();
+                  return editProfile(values);
+                }}
               >
                 <Container columns mt="5px" width="20%">
                   <Form>
                     <LabelledInput
-                      label="Edit Company Name"
+                      label="Company Name"
                       type="text"
                       name="company_name"
-                      placeholder="e.g Software Engineer"
+                    />
+                    <LabelledInput
+                      label="Number of Employees"
+                      type="text"
+                      name="number_of_employees"
                     />
                     <RightAlign mt="0px" mb="10px">
                       <Button
@@ -179,7 +180,9 @@ class Profile extends React.Component {
                       >
                         Cancel
                       </Button>
-                      <Button width="60px">Save</Button>
+                      <Button width="60px" type="submit">
+                        Save
+                      </Button>
                     </RightAlign>
                   </Form>
                 </Container>
@@ -188,8 +191,12 @@ class Profile extends React.Component {
           </Container>
           {/*Profile Summary */}
           <Container mt="10px" xCenter>
-            <BriefcaseIcon className="fa fa-briefcase"></BriefcaseIcon>
-            {profile.number_of_employees} employees
+            {!showEditNameForm ? (
+              <>
+                <BriefcaseIcon className="fa fa-briefcase"></BriefcaseIcon>
+                {profile.number_of_employees} employees
+              </>
+            ) : null}
           </Container>
           {/*Social Links & Contact Info */}
           <Container xCenter mt="20px" mb="50px">
@@ -238,53 +245,62 @@ class Profile extends React.Component {
             <Container columns br width="75%" pb="30px">
               {/* Company-Intro section */}
               <Container columns bb pb="10px">
-                <SectionHeading label="COMPANY INTRODUCTION" editOption />
-                {showEditIntroForm ? (
-                  <>
-                    <Formik
-                      initialValues={{ description: "" }}
-                      onSubmit={editProfile}
-                    >
-                      <Form>
-                        <TextArea
-                          label="Edit Company Introduction"
-                          name="description"
-                          placeholder="e.g Software Engineer"
-                        />
-                        <button type="submit">Save</button>
-                        <button onClick={this.toggleEditDescriptionForm}>
+                <SectionHeading
+                  label="COMPANY INTRODUCTION"
+                  editOption
+                  onClick={this.toggleEditDescriptionForm}
+                />
+                {showEditDescriptionForm ? (
+                  <Formik
+                    initialValues={{
+                      description: profile.description,
+                      industry: profile.industry,
+                      location: profile.location
+                    }}
+                    onSubmit={values => {
+                      this.toggleEditDescriptionForm();
+                      return editProfile(values);
+                    }}
+                  >
+                    <Form>
+                      <LabelledTextArea
+                        label="Description"
+                        name="description"
+                      />
+                      <LabelledInput
+                        label="Field/Industry"
+                        type="text"
+                        name="industry"
+                      />
+                      <LabelledInput
+                        label="Location"
+                        type="text"
+                        name="location"
+                      />
+                      <RightAlign mt="0px" mb="10px">
+                        <Button
+                          white
+                          width="60px"
+                          mr="15px"
+                          onClick={this.toggleEditDescriptionForm}
+                        >
                           Cancel
-                        </button>
-                      </Form>
-                    </Formik>
-                  </>
+                        </Button>
+                        <Button width="60px" type="submit">
+                          Save
+                        </Button>
+                      </RightAlign>
+                    </Form>
+                  </Formik>
                 ) : (
                   <>
                     <CompanyIntroSec
                       heading="Moontheme Studio Inc."
-                      fieldValue="We have been catering to the software development needs
-                            across the globe. For all possible technology platforms,
-                            we have qualified resources to work with. We are armed
-                            with a team of professional, experienced and expert
-                            developers, offers end-to-end mobile/web/game applications
-                            development services for various platforms including
-                            Android, iOS and Windows platform."
+                      fieldValue={profile.description}
                     />
                     <CompanyIntroSec
-                      fieldLabel="FIELDS"
+                      fieldLabel="FIELD/INDUSTRY"
                       fieldValue={profile.industry}
-                    />
-                    <CompanyIntroSec
-                      fieldLabel="EMPLOYEES"
-                      fieldValue={profile.number_of_employees}
-                    />
-                    <CompanyIntroSec
-                      fieldLabel="INTERESTED IN CANDIDATES FOR"
-                      fieldValue="UI/UX Design Web Design Mobile App Design"
-                    />
-                    <CompanyIntroSec
-                      fieldLabel="SALARY RANGE"
-                      fieldValue="$1000 - $1700 USD/month"
                     />
                     <CompanyIntroSec
                       fieldLabel="WEBSITE"
@@ -303,83 +319,50 @@ class Profile extends React.Component {
               </Container>
               {/* Awards section */}
               <Container columns bb pb="20px">
-                <SectionHeading label="AWARDS" editOption />
-                {showEditAwardsForm ? (
-                  <Formik initialValues={awards} onSubmit={editAwards}>
-                    <Form>
-                      <LabelledInput
-                        label="Title"
-                        type="text"
-                        name="title"
-                        placeholder="Fastest Growing SME"
-                      />
-                      <LabelledInput
-                        label="Awarding Body"
-                        type="text"
-                        name="awarded_by"
-                        placeholder="URA"
-                      />
-                      <LabelledInput
-                        label="Year"
-                        type="number"
-                        name="year"
-                        placeholder="2009"
-                      />
-                      <button type="submit">Save</button>
-                      <button onClick={this.toggleEditAwardsForm}>
-                        Cancel
-                      </button>
-                    </Form>
-                  </Formik>
-                ) : (
-                  <Container width="100%" wrap>
-                    {awards.map((award, index) => (
+                <SectionHeading
+                  label="AWARDS"
+                  editOption
+                  onClick={this.toggleEditAwardsForm}
+                />
+                <Container width="100%" wrap>
+                  {showEditAwardsForm ? (
+                    <Formik
+                      initialValues={{ awards: awards }}
+                      onSubmit={values => {
+                        console.log(values);
+                        this.toggleEditDescriptionForm();
+                        return editAward(values);
+                      }}
+                    >
+                      <Form>
+                        <DynamicField
+                          render={AwardForm}
+                          name="awards"
+                          label="Add Award"
+                          htmlFor="awards"
+                        />
+                      </Form>
+                    </Formik>
+                  ) : (
+                    awards.map((award, _) => (
                       <Award
                         title={award.title}
-                        Giver={award.awarded_by}
-                        Year={award.year}
+                        year={award.year}
+                        giver={award.awarded_by}
                       />
-                    ))}
-                  </Container>
-                )}
+                    ))
+                  )}
+                </Container>
               </Container>
               {/* Reviews section */}
               <Container columns>
                 <SectionHeading label="RECENT REVIEWS" />
-                {showEditReviewsForm ? (
-                  <Formik initialValues={reviews} onSubmit={editReviews}>
-                    <Form>
-                      <LabelledInput
-                        label="Title"
-                        type="text"
-                        name="title"
-                        placeholder="Fastest Growing SME"
-                      />
-                      <LabelledInput
-                        label="Awarding Body"
-                        type="text"
-                        name="awarded_by"
-                        placeholder="URA"
-                      />
-                      <LabelledInput
-                        label="Year"
-                        type="number"
-                        name="year"
-                        placeholder="2009"
-                      />
-                      <button type="submit">Save</button>
-                      <button onClick={this.toggleEditReviewsForm}>
-                        Cancel
-                      </button>
-                    </Form>
-                  </Formik>
-                ) : (
-                  <Container columns>
-                    {reviews.map((review, index) => {
-                      return <Review review={review} key={index} />;
-                    })}
-                  </Container>
-                )}
+                <Container columns>
+                  {reviews.map((review, index) => {
+                    return <Review review={review} key={index} />;
+                  })}
+                </Container>
+
                 <Container xCenter mt="40px">
                   <GrayTxt bigger>Load More Reviews</GrayTxt>
                   <Ellipsis className="fa fa-ellipsis-h" />
