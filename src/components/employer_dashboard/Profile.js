@@ -336,13 +336,15 @@ class Profile extends React.Component {
                         return editAward(values);
                       }}
                     >
-                      <Form>
+                      <Form className="form">
+                      <Container width="100%">
                         <DynamicField
                           render={AwardForm}
                           name="awards"
                           label="Add Award"
                           htmlFor="awards"
-                        />
+                        /> 
+                        </Container>
                       </Form>
                     </Formik>
                   ) : (

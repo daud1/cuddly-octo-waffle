@@ -46,6 +46,7 @@ export const Container = styled.div`
       ? "column"
       : "row"}; //container children will be rows by default
   flex-wrap: ${props => (props.wrap ? "wrap" : "no-wrap")};
+  justify-content: ${props => (props.spaceBetween ? "space-between" : "")};
 
   // Border
   border-bottom: solid 1px ${props => (props.bb ? "#f1f1f1" : "fff")};
@@ -311,9 +312,9 @@ const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
 export const AwardForm = (arrayHelpers, values, { ...props }) => {
   const { htmlFor, label } = props;
   return (
-    <Container columns mb="20px">
-      <Container mb="10px">
-        <Container mt="8px" width="80%">
+    <Container mb="20px" columns width="100%">
+      <Container width="100%" mb="15px">
+        <Container width="77%">
           <InputLabel htmlFor={htmlFor}>{label}</InputLabel>
         </Container>
         <RightAlign width="20%">
@@ -322,27 +323,38 @@ export const AwardForm = (arrayHelpers, values, { ...props }) => {
           </RoundButton>
         </RightAlign>
       </Container>
-      {values.map((_, index) => (
-        <>
-          <Input name={`awards[${index}][title]`} type="text" />
-          <Input name={`awards[${index}][awarded_by]`} type="text" />
-          <SelectField name={`awards[${index}][year]`} as="select">
-            {YEAR_CHOICES.map((year, _) => (
-              <option value={year}>{year}</option>
-            ))}
-          </SelectField>
-          <RightAlign width="10%">
-            <RoundButton
-              type="button"
-              onClick={() => arrayHelpers.remove(index)}
-              mr="6px"
-            >
-              x
-            </RoundButton>
-          </RightAlign>
-          <button type="submit">Save</button>
-        </>
-      ))}
+      <Container wrap mr="30px" spaceBetween>
+        {values.map((_, index) => (
+          <>
+            <Container width="calc(90% / 3)" pb="20px" columns>
+              <Input name={`awards[${index}][title]`} type="text" mb="10px" />
+              <Input
+                name={`awards[${index}][awarded_by]`}
+                type="text"
+                mb="10px"
+              />
+              <SelectField name={`awards[${index}][year]`} as="select">
+                {YEAR_CHOICES.map((year, _) => (
+                  <option value={year}>{year}</option>
+                ))}
+              </SelectField>
+              <RightAlign mt="20px">
+                <Button
+                  white
+                  width="60px"
+                  mr="15px"
+                  onClick={() => arrayHelpers.remove(index)}
+                >
+                  Cancel
+                </Button>
+                <Button width="60px" type="submit">
+                  Save
+                </Button>
+              </RightAlign>
+            </Container>
+          </>
+        ))}
+      </Container>
     </Container>
   );
 };

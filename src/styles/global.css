@@ -2209,3 +2209,7 @@ button:focus {
 .listContainer div:nth-child(2)  { 
     border-top: 0;
 }
+
+.form{
+  width: 100%;
+}
