@@ -12,7 +12,7 @@ export const SubTitle = styled.span`
   color: ${props => (props.blue ? "#3d6de9" : "#000")};
   font-size: 15px;
   font-weight: ${props => (props.bold ? "bold" : "")};
-  cursor: pointer;
+  cursor: ${props => (props.pointer ? "pointer" : "")};
 
   &:hover {
     color: ${props => (props.hoverEffect ? "black" : "")};
@@ -118,12 +118,13 @@ export const RoundButton = styled.button`
   border: 0;
   width: ${props => (props.blue ? "40px" : "30px")};
   height: ${props => (props.blue ? "40px" : "30px")};
-  font-size: ${props => (props.blue ? "30px" : "")};
+  font-size: ${props => (props.blue ? "34px" : "")};
   color: ${props => (props.blue ? "#fff" : "#989898")};
   background-color: ${props => (props.blue ? "#5355F0" : "#fff")};
   box-shadow: ${props => (props.blue ? "" : "0px 0px 20px 8px #E8E7FB")};
   margin-left: ${props => props.ml};
   margin-right: ${props => props.mr};
+  font-weight: 600;
 `;
 
 // icons
