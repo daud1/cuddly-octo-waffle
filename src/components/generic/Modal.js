@@ -1,20 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Modal = props => {
-  const { children, isOpen, onClose } = props;
+class Modal extends React.Component {
+  state = {
+    open: false
+  };
 
-  return isOpen ? (
-    <div>
-      {children}
-    </div>
-  ) : null;
-};
+  toggleModal = () => this.setState({ open: !this.state.open });
+
+  render() {
+    const { render, buttonText } = this.props;
+    return (
+      <>
+        <button onClick={this.toggleModal}>{buttonText}</button>
+        {this.state.open && render({ onClose: this.toggleModal })}
+      </>
+    );
+  }
+}
 
 Modal.propTypes = {
-  onClose: PropTypes.func,
-  isOpen: PropTypes.bool,
-  children: PropTypes.node
+  render: PropTypes.func.isRequired,
+  buttonText: PropTypes.string.isRequired
 };
 
 export default Modal;

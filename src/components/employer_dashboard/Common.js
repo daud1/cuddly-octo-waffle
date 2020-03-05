@@ -1,6 +1,7 @@
+import { Field, FieldArray, useField, useFormikContext } from "formik";
+import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
-import { Field, useField, FieldArray, useFormikContext } from "formik";
 
 // text
 export const GrayTxt = styled.span`
@@ -186,7 +187,7 @@ export const AwardIcon = styled.i`
 `;
 
 // inputs
-export const Input = styled.input`
+export const Input = styled(Field)`
   border-radius: 20px;
   width: ${props => props.width};
   height: 3rem;
@@ -254,49 +255,94 @@ export const LabelledTextArea = ({ label, ...props }) => {
 };
 
 // dynamic input fields
-export const DynamicListField = ({ name, ...props }) => {
+export const DynamicField = props => {
   const { values } = useFormikContext();
+  const { name, render } = props;
+
   return (
     <FieldArray
       name={name}
-      render={arrayHelpers => (
-        <Container columns mb="20px">
-          <Container mb="10px">
-            <Container mt="8px" width="80%">
-              <InputLabel htmlFor={props.htmlFor}>{props.label}</InputLabel>
-            </Container>
-            <RightAlign width="20%">
-              <RoundButton
-                blue
-                type="button"
-                onClick={() => arrayHelpers.push()}
-              >
-                +
-              </RoundButton>
-            </RightAlign>
-          </Container>
-          {values[name].map((item, index) => (
-            <Container key={index} width="100%">
-              <Input
-                name={`${name}[${index}]`}
-                width="90%"
-                placeholder="e.g Create, advise on and maintain software projects.."
-                mb="10px"
-                mr="10px"
-              />
-              <RightAlign width="10%">
-                <RoundButton
-                  type="button"
-                  onClick={() => arrayHelpers.remove(index)}
-                  mr="6px"
-                >
-                  x
-                </RoundButton>
-              </RightAlign>
-            </Container>
-          ))}
-        </Container>
-      )}
+      render={arrayHelpers => render(arrayHelpers, values[name], props)}
     />
+  );
+};
+
+export const ListField = (arrayHelpers, values, { ...props }) => {
+  const { htmlFor, label, name } = props;
+  return (
+    <Container columns mb="20px">
+      <Container mb="10px">
+        <Container mt="8px" width="80%">
+          <InputLabel htmlFor={htmlFor}>{label}</InputLabel>
+        </Container>
+        <RightAlign width="20%">
+          <RoundButton blue type="button" onClick={() => arrayHelpers.push("")}>
+            +
+          </RoundButton>
+        </RightAlign>
+      </Container>
+      {values.map((_, index) => (
+        <Container key={index} width="100%">
+          <Input
+            name={`${name}[${index}]`}
+            width="90%"
+            type="text"
+            placeholder="e.g Create, advise on and maintain software projects.."
+            mb="10px"
+            mr="10px"
+          />
+          <RightAlign width="10%">
+            <RoundButton
+              type="button"
+              onClick={() => arrayHelpers.remove(index)}
+              mr="6px"
+            >
+              x
+            </RoundButton>
+          </RightAlign>
+        </Container>
+      ))}
+    </Container>
+  );
+};
+
+const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
+
+export const AwardForm = (arrayHelpers, values, { ...props }) => {
+  const { htmlFor, label } = props;
+  return (
+    <Container columns mb="20px">
+      <Container mb="10px">
+        <Container mt="8px" width="80%">
+          <InputLabel htmlFor={htmlFor}>{label}</InputLabel>
+        </Container>
+        <RightAlign width="20%">
+          <RoundButton blue type="button" onClick={() => arrayHelpers.push({})}>
+            +
+          </RoundButton>
+        </RightAlign>
+      </Container>
+      {values.map((_, index) => (
+        <>
+          <Input name={`awards[${index}][title]`} type="text" />
+          <Input name={`awards[${index}][awarded_by]`} type="text" />
+          <SelectField name={`awards[${index}][year]`} as="select">
+            {YEAR_CHOICES.map((year, _) => (
+              <option value={year}>{year}</option>
+            ))}
+          </SelectField>
+          <RightAlign width="10%">
+            <RoundButton
+              type="button"
+              onClick={() => arrayHelpers.remove(index)}
+              mr="6px"
+            >
+              x
+            </RoundButton>
+          </RightAlign>
+          <button type="submit">Save</button>
+        </>
+      ))}
+    </Container>
   );
 };

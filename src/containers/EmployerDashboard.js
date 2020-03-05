@@ -18,52 +18,46 @@ const Container = styled.div`
 `;
 
 class EmployerDashboard extends Component {
-  state = { isOpen: false };
-
-  toggleModal = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
   getAwards = () => {
-    const { profile, getAwards, user } = this.props;
-    let url = `${API_URL}/awards/?employer=${profile.employer_id}`;
+    const { profile, fetchAwards, user } = this.props;
     const headers = {
       "content-type": "application/json",
       Authorization: `Token ${user.key}`
     };
-
+    let url = `${API_URL}/employer/awards/?employer=${profile.id}`;
     axios
       .get(url, { headers })
       .then(response => {
-        console.log(response);
-        getAwards(response.data);
+        fetchAwards(response.data);
       })
       .catch(error => console.error(error));
   };
 
-  editAwards = awards_edits => {
-    const {
-      profile: { employer_id },
-      user
-    } = this.props;
+  editAward = awards_edits => {
+    const { user } = this.props;
+    const { id } = awards_edits;
     const headers = {
       "content-type": "application/json",
       Authorization: `Token ${user.key}`
     };
-    let url = `${API_URL}/awards/?employer=${employer_id}`;
+    let url = `${API_URL}/employer/awards/${id}/`;
 
     axios
-      .put(url, awards_edits, { headers })
+      .patch(url, awards_edits, { headers })
       .then(response => console.log(response))
+      .then(this.getAwards())
       .catch(error => console.error(error));
   };
 
   getProfile = () => {
-    const { user, setLoggedInProfile } = this.props;
-    let url = `${API_URL}/employer/profile/?user=${user.id}`;
+    const {
+      user: { id, key },
+      setLoggedInProfile
+    } = this.props;
+    let url = `${API_URL}/employer/profile/?user=${id}`;
     const headers = {
       "content-type": "application/json",
-      Authorization: `Token ${user.key}`
+      Authorization: `Token ${key}`
     };
 
     axios
@@ -78,19 +72,20 @@ class EmployerDashboard extends Component {
 
   editProfile = profile_edits => {
     const {
-      user: { id, key },
+      user: { key },
+      loggedInProfile: { id },
       setLoggedInProfile
     } = this.props;
     const headers = {
       "content-type": "application/json",
       Authorization: `Token ${key}`
     };
-    let url = `${API_URL}/employer/profile/?user=${id}`;
+    let url = `${API_URL}/employer/profile/${id}/`;
 
     axios
-      .put(url, profile_edits, { headers })
+      .patch(url, profile_edits, { headers })
       .then(response => {
-        setLoggedInProfile(response.data[0]);
+        setLoggedInProfile(response.data);
       })
       .catch(error => {
         console.log(error);
@@ -98,7 +93,7 @@ class EmployerDashboard extends Component {
   };
 
   getReviews = () => {
-    const { profile, getReviews, user } = this.props;
+    const { profile, fetchReviews, user } = this.props;
     let url = `${API_URL}/reviews/?employer_id=${profile.employer_id}`;
 
     const headers = {
@@ -110,7 +105,7 @@ class EmployerDashboard extends Component {
       .get(url, { headers })
       .then(response => {
         console.log(response.data);
-        getReviews(response.data);
+        fetchReviews(response.data);
       })
       .catch(error => {
         console.error(error);
@@ -128,10 +123,11 @@ class EmployerDashboard extends Component {
     const profile = {
       company_name: "KanzuCode",
       location: "Kampala, Uganda",
-      description:
-        "Fast response! My app was ready next day. I would hire again! Thanks!",
       industry: "Engineering as a Service",
-      number_of_employees: "50-100"
+      number_of_employees: "50-100",
+      phone_number: "256772123456",
+      description:
+        "We have been catering to the software development needs across the globe.For all possible technology platforms,we have qualified resources to work with.We are armed with a team of professional,experienced and expert developers, offers end-to-end mobile/web/game applications development services for various platforms including Android, iOS and Windows platform."
     };
 
     const reviews = [
@@ -171,27 +167,30 @@ class EmployerDashboard extends Component {
       {
         title: "Excellent Staff",
         awarded_by: "VNP",
-        year: 2007
+        year: 2007,
+        id: 1
       },
       {
         title: "Fastest Growing SME",
         awarded_by: "URA",
-        year: 2010
+        year: 2010,
+        id: 2
       },
       {
         title: "Friend to Nature",
         awarded_by: "UWA",
-        year: 2013
+        year: 2013,
+        id: 3
       },
       {
         title: "Best Place to Work",
         awarded_by: "VNP",
-        year: 2017
+        year: 2017,
+        id: 4
       }
     ];
-    const { isOpen } = this.state;
 
-    const { editReviews, editAwards, editProfile } = this;
+    const { editReviews, editAward, editProfile } = this;
     return (
       <Container>
         <NavBar />
@@ -200,17 +199,13 @@ class EmployerDashboard extends Component {
             <JobList />
           </div>
           <div label="My Projects">
-            <button onClick={this.toggleModal}>Post a Job</button>
-
-            <Modal isOpen={isOpen} onClose={this.toggleModal}>
-              <CreateJobForm />
-            </Modal>
+            <Modal buttonText="Post a Job" render={CreateJobForm} />
           </div>
           <div label="My Profile">
             <Profile
               editProfile={editProfile}
               editReviews={editReviews}
-              editAwards={editAwards}
+              editAward={editAward}
               profile={profile}
               reviews={reviews}
               awards={awards}
@@ -229,12 +224,13 @@ const mapStateToProps = state => ({
   profile: state.loggedInProfile,
   reviews: state.reviews,
   awards: state.awards,
-  user: state.user
+  user: state.user,
+  loggedInProfile: state.loggedInProfile
 });
 const mapDispatchToProps = dispatch => ({
   setLoggedInProfile: profile => dispatch(ACTIONS.setLoggedInProfile(profile)),
-  getReviews: reviews => dispatch(ACTIONS.getReviews(reviews)),
-  getAwards: awards => dispatch(ACTIONS.getAwards(awards))
+  fetchReviews: reviews => dispatch(ACTIONS.getReviews(reviews)),
+  fetchAwards: awards => dispatch(ACTIONS.getAwards(awards))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployerDashboard);
