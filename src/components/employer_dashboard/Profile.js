@@ -16,8 +16,7 @@ import {
   SocialIcon,
   SubTitle,
   TwitterIcon,
-  DynamicField,
-  AwardForm
+  RoundButton
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -25,22 +24,7 @@ import ProfileBanner from "./ProfileBanner";
 import PropTypes from "prop-types";
 import React from "react";
 import Review from "../Review.js";
-
-function Award(props) {
-  return (
-    <Container width="calc(100% / 3)" pb="20px">
-      <Container width="50px" pt="10px">
-        <AwardIcon className="fa fa-empire"></AwardIcon>
-      </Container>
-      <Container columns>
-        <SubTitle>{props.title}</SubTitle>
-        <GrayTxt>{props.giver}</GrayTxt>
-        <GrayTxt>{props.year}</GrayTxt>
-      </Container>
-    </Container>
-  );
-}
-
+import Award from "../Award";
 function SectionHeading(props) {
   const { onClick, editOption } = props;
   return (
@@ -97,10 +81,6 @@ class Profile extends React.Component {
 
   toggleEditNameForm = () => {
     this.setState({ showEditNameForm: !this.state.showEditNameForm });
-  };
-
-  toggleEditAwardsForm = () => {
-    this.setState({ showEditAwardsForm: !this.state.showEditAwardsForm });
   };
 
   toggleEditDescriptionForm = () => {
@@ -321,41 +301,32 @@ class Profile extends React.Component {
               </Container>
               {/* Awards section */}
               <Container columns bb pb="20px">
-                <SectionHeading
-                  label="AWARDS"
-                  editOption
-                  onClick={this.toggleEditAwardsForm}
-                />
-                <Container width="100%" wrap>
-                  {showEditAwardsForm ? (
-                    <Formik
-                      initialValues={{ awards: awards }}
-                      onSubmit={values => {
-                        console.log(values);
-                        this.toggleEditDescriptionForm();
-                        return editAward(values);
-                      }}
+                <Relative mt="30px" mb="30px">
+                  <Container>
+                    <SubTitle bold blue>
+                      AWARDS
+                    </SubTitle>
+                  </Container>
+                  <Absolute right="30px">
+                    <RoundButton
+                      blue
+                      type="button"
+                      // onClick={() => arrayHelpers.push({})}
                     >
-                      <Form className="form">
-                      <Container width="100%">
-                        <DynamicField
-                          render={AwardForm}
-                          name="awards"
-                          label="Add Award"
-                          htmlFor="awards"
-                        /> 
-                        </Container>
-                      </Form>
-                    </Formik>
-                  ) : (
-                    awards.map((award, _) => (
-                      <Award
-                        title={award.title}
-                        year={award.year}
-                        giver={award.awarded_by}
-                      />
-                    ))
-                  )}
+                      +
+                    </RoundButton>
+                  </Absolute>
+                </Relative>
+                <Container width="100%" flexWrap>
+                  {awards.map((award, _) => (
+                    <Award
+                      key={award.id}
+                      title={award.title}
+                      year={award.year}
+                      giver={award.awarded_by}
+                      editProfile={editProfile}
+                    />
+                  ))}
                 </Container>
               </Container>
               {/* Reviews section */}

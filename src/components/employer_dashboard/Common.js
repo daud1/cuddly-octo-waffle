@@ -45,7 +45,7 @@ export const Container = styled.div`
     props.columns
       ? "column"
       : "row"}; //container children will be rows by default
-  flex-wrap: ${props => (props.wrap ? "wrap" : "no-wrap")};
+  flex-wrap: ${props => (props.flexWrap ? "wrap" : "no-wrap")};
   justify-content: ${props => (props.spaceBetween ? "space-between" : "")};
 
   // Border
@@ -217,6 +217,7 @@ export const TextArea = styled.textarea`
 
 export const SelectField = styled(Field)`
   height: 3rem;
+  width: ${props => props.width};
   margin-top: ${props => props.mt};
   margin-bottom: ${props => props.mb};
   border: solid 1px #f1f1f1;
@@ -307,54 +308,4 @@ export const ListField = (arrayHelpers, values, { ...props }) => {
   );
 };
 
-const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
-
-export const AwardForm = (arrayHelpers, values, { ...props }) => {
-  const { htmlFor, label } = props;
-  return (
-    <Container mb="20px" columns width="100%">
-      <Container width="100%" mb="15px">
-        <Container width="77%">
-          <InputLabel htmlFor={htmlFor}>{label}</InputLabel>
-        </Container>
-        <RightAlign width="20%">
-          <RoundButton blue type="button" onClick={() => arrayHelpers.push({})}>
-            +
-          </RoundButton>
-        </RightAlign>
-      </Container>
-      <Container wrap mr="30px" spaceBetween>
-        {values.map((_, index) => (
-          <>
-            <Container width="calc(90% / 3)" pb="20px" columns>
-              <Input name={`awards[${index}][title]`} type="text" mb="10px" />
-              <Input
-                name={`awards[${index}][awarded_by]`}
-                type="text"
-                mb="10px"
-              />
-              <SelectField name={`awards[${index}][year]`} as="select">
-                {YEAR_CHOICES.map((year, _) => (
-                  <option value={year}>{year}</option>
-                ))}
-              </SelectField>
-              <RightAlign mt="20px">
-                <Button
-                  white
-                  width="60px"
-                  mr="15px"
-                  onClick={() => arrayHelpers.remove(index)}
-                >
-                  Cancel
-                </Button>
-                <Button width="60px" type="submit">
-                  Save
-                </Button>
-              </RightAlign>
-            </Container>
-          </>
-        ))}
-      </Container>
-    </Container>
-  );
-};
+export const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
