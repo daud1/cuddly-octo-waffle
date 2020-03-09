@@ -1,27 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-class Modal extends React.Component {
-  state = {
-    open: false
-  };
+const Modal = props => {
+  const [open, setOpen] = useState(false);
+  const { render, openButton } = props;
 
-  toggleModal = () => this.setState({ open: !this.state.open });
-
-  render() {
-    const { render, buttonText } = this.props;
-    return (
-      <>
-        <button onClick={this.toggleModal}>{buttonText}</button>
-        {this.state.open && render({ onClose: this.toggleModal })}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {openButton({ onClose: () => setOpen(!open) })}
+      {open && render({ onClose: () => setOpen(!open) })}
+    </>
+  );
+};
 
 Modal.propTypes = {
   render: PropTypes.func.isRequired,
-  buttonText: PropTypes.string.isRequired
+  openButton: PropTypes.func.isRequired
 };
 
 export default Modal;

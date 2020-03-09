@@ -18,7 +18,6 @@ import React from "react";
 import axios from "axios";
 
 const CreateJobForm = props => {
-  const { onClose } = props;
   const initialValues = {
     title: "",
     description: "",
@@ -146,7 +145,7 @@ const CreateJobForm = props => {
                   width="120px"
                   height="30px"
                   type="button"
-                  onClick={onClose}
+                  onClick={props.onClose}
                 >
                   Cancel
                 </Button>

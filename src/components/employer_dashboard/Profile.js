@@ -133,7 +133,7 @@ class Profile extends React.Component {
 
     return (
       <>
-        <ProfileBanner />
+        <ProfileBanner editProfile={editProfile} />
         <Container bb columns>
           {/*Company Name */}
           <Container mt="100px" xCenter>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import ACTIONS from "../redux/action";
 import { API_URL } from "../utils/constants";
+import { Button } from "../components/employer_dashboard/Common";
 import CreateJobForm from "../components/employer_dashboard/CreateJobForm";
 import Footer from "../components/Footer";
 import JobList from "../components/employer_dashboard/JobList";
@@ -195,13 +196,16 @@ class EmployerDashboard extends Component {
       <Container>
         <NavBar />
         <Tabs>
-          <div label="Dashboard">
+          <div label="Projects">
+            <Modal
+              openButton={props => (
+                <Button onClick={props.onClose}>Post a Job</Button>
+              )}
+              render={props => CreateJobForm({ onClose: props.onClose })}
+            />
             <JobList />
           </div>
-          <div label="My Projects">
-            <Modal buttonText="Post a Job" render={CreateJobForm} />
-          </div>
-          <div label="My Profile">
+          <div label="Profile">
             <Profile
               editProfile={editProfile}
               editReviews={editReviews}
