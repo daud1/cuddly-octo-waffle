@@ -11,7 +11,7 @@ export const BriefProfile = props => {
       </Container>
       <Container columns ml="20px">
         <Container>
-          <SubTitle blue>Steve Munich</SubTitle>
+          <SubTitle blue pointer>Steve Munich</SubTitle>
         </Container>
         <Container mb="7px" mt="7px">
           <GrayTxt>Tokyo, Japan . Worked @Samsung</GrayTxt>

@@ -263,33 +263,35 @@ class Profile extends React.Component {
                     }}
                   >
                     <Form>
-                      <LabelledTextArea
-                        label="Description"
-                        name="description"
-                      />
-                      <LabelledInput
-                        label="Field/Industry"
-                        type="text"
-                        name="industry"
-                      />
-                      <LabelledInput
-                        label="Location"
-                        type="text"
-                        name="location"
-                      />
-                      <RightAlign mt="0px" mb="10px">
-                        <Button
-                          white
-                          width="60px"
-                          mr="15px"
-                          onClick={this.toggleEditDescriptionForm}
-                        >
-                          Cancel
-                        </Button>
-                        <Button width="60px" type="submit">
-                          Save
-                        </Button>
-                      </RightAlign>
+                      <Container columns mr="50px">
+                        <LabelledTextArea
+                          label="Description"
+                          name="description"
+                        />
+                        <LabelledInput
+                          label="Field / Industry"
+                          type="text"
+                          name="industry"
+                        />
+                        <LabelledInput
+                          label="Location"
+                          type="text"
+                          name="location"
+                        />
+                        <RightAlign mt="0px" mb="10px">
+                          <Button
+                            white
+                            width="60px"
+                            mr="15px"
+                            onClick={this.toggleEditDescriptionForm}
+                          >
+                            Cancel
+                          </Button>
+                          <Button width="60px" type="submit">
+                            Save
+                          </Button>
+                        </RightAlign>
+                      </Container>
                     </Form>
                   </Formik>
                 ) : (
@@ -334,13 +336,15 @@ class Profile extends React.Component {
                         return editAward(values);
                       }}
                     >
-                      <Form>
+                      <Form className="form">
+                      <Container width="100%">
                         <DynamicField
                           render={AwardForm}
                           name="awards"
                           label="Add Award"
                           htmlFor="awards"
-                        />
+                        /> 
+                        </Container>
                       </Form>
                     </Formik>
                   ) : (
