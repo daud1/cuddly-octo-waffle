@@ -1,7 +1,8 @@
-import { Absolute, Avatar, CameraIcon, Relative, Input } from "./Common";
-import Modal from "../../components/generic/Modal";
+import { Absolute, Avatar, CameraIcon, Input, Relative } from "./Common";
 import { Form, Formik, useFormikContext } from "formik";
+import { uploadToS3 } from "../../utils/cloudStorageUtils";
 
+import Modal from "../../components/generic/Modal";
 import React from "react";
 import coverPhoto from "../../images/sample_cover_pic.jpg";
 import profilePic from "../../images/sample_profile_pic.jpg";
@@ -40,8 +41,11 @@ function EditProfilePhoto(props) {
 
   return (
     <Formik
-      initialValues={{ profile_photo: null }}
-      onSubmit={values => props.editProfile(values)}
+      initialValues={{ profile_photo: props.profile_photo }}
+      onSubmit={values => {
+        values.profile_photo = uploadToS3(values.profile_photo);
+        props.editProfile(values);
+      }}
     >
       <Form>
         <Input
@@ -66,8 +70,11 @@ function EditCoverPhoto(props) {
 
   return (
     <Formik
-      initialValues={{ cover_photo: null }}
-      onSubmit={values => props.editProfile(values)}
+      initialValues={{ cover_photo: props.cover_photo }}
+      onSubmit={values => {
+        values.cover_photo = uploadToS3(values.cover_photo);
+        props.editProfile(values);
+      }}
     >
       <Form>
         <Input

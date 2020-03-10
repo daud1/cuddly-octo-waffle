@@ -15,7 +15,6 @@ import {
   RightAlign,
   SocialIcon,
   SubTitle,
-  TwitterIcon,
   DynamicField,
   AwardForm
 } from "./Common";
@@ -28,7 +27,7 @@ import Review from "../Review.js";
 
 function Award(props) {
   return (
-    <Container width="calc(100% / 3)" pb="20px">
+    <Container width="calc(100% / 3)" pb="20px" key={props.index}>
       <Container width="50px" pt="10px">
         <AwardIcon className="fa fa-empire"></AwardIcon>
       </Container>
@@ -111,17 +110,15 @@ class Profile extends React.Component {
 
   static propTypes = {};
   render() {
-    const social = [
-      "Facebook",
-      "Twitter",
-      "LinkedIn",
-      "Behance",
-      "Dribble",
-      "Github",
-      "Twitter",
-      "Website",
-      "Location"
-    ];
+    const social = {
+      facebook: "",
+      twitter: "",
+      linkedin: "",
+      behance: "",
+      dribbble: "",
+      github: "",
+      website: ""
+    };
     const { profile, reviews, awards, editAward, editProfile } = this.props;
 
     const {
@@ -137,22 +134,12 @@ class Profile extends React.Component {
         <Container bb columns>
           {/*Company Name */}
           <Container mt="100px" xCenter>
-            {!showEditNameForm ? (
-              <>
-                <SubTitle bold blue>
-                  {profile.company_name}
-                </SubTitle>
-                <EditIcon
-                  className="fa fa-pencil"
-                  ml="20px"
-                  onClick={this.toggleEditNameForm}
-                ></EditIcon>
-              </>
-            ) : (
+            {showEditNameForm ? (
               <Formik
                 initialValues={{
                   company_name: profile.company_name,
-                  number_of_employees: profile.number_of_employees
+                  number_of_employees: profile.number_of_employees,
+                  phone_number: profile.phone_number
                 }}
                 onSubmit={values => {
                   this.toggleEditNameForm();
@@ -171,6 +158,11 @@ class Profile extends React.Component {
                       type="text"
                       name="number_of_employees"
                     />
+                    <LabelledInput
+                      label="Tel. No"
+                      type="text"
+                      name="phone_number"
+                    />
                     <RightAlign mt="0px" mb="10px">
                       <Button
                         white
@@ -187,6 +179,17 @@ class Profile extends React.Component {
                   </Form>
                 </Container>
               </Formik>
+            ) : (
+              <>
+                <SubTitle bold blue>
+                  {profile.company_name}
+                </SubTitle>
+                <EditIcon
+                  className="fa fa-pencil"
+                  ml="20px"
+                  onClick={this.toggleEditNameForm}
+                ></EditIcon>
+              </>
             )}
           </Container>
           {/*Profile Summary */}
@@ -201,13 +204,21 @@ class Profile extends React.Component {
           {/*Social Links & Contact Info */}
           <Container xCenter mt="20px" mb="50px">
             {showEditSocialForm ? (
-              <Formik initialValues={{}} onSubmit={editProfile}>
+              <Formik
+                initialValues={{ social: profile.social }}
+                onSubmit={values => editProfile(values)}
+              >
                 <Container width="20%">
                   <Form>
                     <InputLabel>Edit Social Links</InputLabel>
                     <br />
-                    {social.map(item => (
-                      <Input placeholder={item} mb="8px" width="100%" />
+                    {Object.keys(social).map(key => (
+                      <Input
+                        name={`social[${key}]`}
+                        placeholder={key}
+                        mb="8px"
+                        width="100%"
+                      />
                     ))}
                     <RightAlign mt="15px">
                       <Button
@@ -225,12 +236,17 @@ class Profile extends React.Component {
               </Formik>
             ) : (
               <Container xCenter>
-                <SocialIcon className="fa fa-facebook"></SocialIcon>
-                <TwitterIcon className="fa fa-twitter"></TwitterIcon>
-                <SocialIcon className="fa fa-linkedin"></SocialIcon>
-                <SocialIcon className="fa fa-behance"></SocialIcon>
-                <SocialIcon className="fa fa-dribbble"></SocialIcon>
-                <SocialIcon className="fa fa-github"></SocialIcon>
+                {Object.keys(profile.social).map((key, index) => (
+                  // TODO: check and don't render icons for fields with no links/empty string
+                  <a
+                    href={social[key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={index}
+                  >
+                    <SocialIcon className={`fa fa-${key}`}></SocialIcon>
+                  </a>
+                ))}
                 <EditIcon
                   mg="10px"
                   className="fa fa-pencil"
@@ -301,16 +317,8 @@ class Profile extends React.Component {
                       fieldValue={profile.description}
                     />
                     <CompanyIntroSec
-                      fieldLabel="FIELD/INDUSTRY"
+                      fieldLabel="FIELD / INDUSTRY"
                       fieldValue={profile.industry}
-                    />
-                    <CompanyIntroSec
-                      fieldLabel="WEBSITE"
-                      fieldValue="www.moontheme.net"
-                    />
-                    <CompanyIntroSec
-                      fieldLabel="PHONE NUMBER"
-                      fieldValue={profile.phone_number}
                     />
                     <CompanyIntroSec
                       fieldLabel="LOCATION"
@@ -337,22 +345,23 @@ class Profile extends React.Component {
                       }}
                     >
                       <Form className="form">
-                      <Container width="100%">
-                        <DynamicField
-                          render={AwardForm}
-                          name="awards"
-                          label="Add Award"
-                          htmlFor="awards"
-                        /> 
+                        <Container width="100%">
+                          <DynamicField
+                            render={AwardForm}
+                            name="awards"
+                            label="Add Award"
+                            htmlFor="awards"
+                          />
                         </Container>
                       </Form>
                     </Formik>
                   ) : (
-                    awards.map((award, _) => (
+                    awards.map((award, index) => (
                       <Award
                         title={award.title}
                         year={award.year}
                         giver={award.awarded_by}
+                        key={index}
                       />
                     ))
                   )}

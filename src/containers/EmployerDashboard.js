@@ -127,8 +127,22 @@ class EmployerDashboard extends Component {
       industry: "Engineering as a Service",
       number_of_employees: "50-100",
       phone_number: "256772123456",
+      social: {
+        facebook: "",
+        twitter: "",
+        linkedin: "",
+        behance: "",
+        dribbble: "",
+        github: "",
+        website: ""
+      },
       description:
-        "We have been catering to the software development needs across the globe.For all possible technology platforms,we have qualified resources to work with.We are armed with a team of professional,experienced and expert developers, offers end-to-end mobile/web/game applications development services for various platforms including Android, iOS and Windows platform."
+        "We have been catering to the software development \
+        needs across the globe.For all possible technology platforms,\
+        we have qualified resources to work with.We are armed with a team of \
+        professional,experienced and expert developers, offers end-to-end \
+        mobile/web/game applications development services for various platforms \
+        including Android, iOS and Windows platform."
     };
 
     const reviews = [
