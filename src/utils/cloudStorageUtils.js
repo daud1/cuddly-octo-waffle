@@ -20,13 +20,18 @@ function presignedURL(action, params) {
 }
 
 export function retrieveFromS3(fileName) {
-  const params = { BUCKET_NAME, fileName, Expires: 300 };
+  const params = { Bucket: BUCKET_NAME, Key: fileName, Expires: 300 };
   return presignedURL("getObject", params);
 }
 
 export function uploadToS3(file) {
   function generatePutURL(fileName) {
-    const params = { BUCKET_NAME, fileName, ContentType: file.type };
+    const params = {
+      Bucket: BUCKET_NAME,
+      Key: fileName,
+      ContentType: file.type,
+      ACL: "public-read"
+    };
     return presignedURL("putObject", params);
   }
   const url = generatePutURL(file["name"]);
@@ -36,6 +41,10 @@ export function uploadToS3(file) {
   };
   axios
     .put(url, file, options)
-    .then(res => console.log(res))
+    .then(res => {
+      console.log(res);
+    })
     .catch(err => console.err(err));
 }
+
+
