@@ -212,6 +212,8 @@ class EmployerDashboard extends Component {
         <Tabs>
           <div label="Projects">
             <Modal
+              height="80%"
+              width="50%"
               openButton={props => (
                 <Button onClick={props.onClose}>Post a Job</Button>
               )}
