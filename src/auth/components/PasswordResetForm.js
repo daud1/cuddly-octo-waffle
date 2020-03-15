@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import ACTIONS from "../../common/redux/action";
+
+import {
+  setUser,
+  setLoading,
+  setNotification,
+  removeSignOn
+} from "../reducers";
 import {
   validateEmail,
   setInputError,
@@ -170,11 +176,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(ACTIONS.setUser(user)),
-  setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
-  setNotification: notification =>
-    dispatch(ACTIONS.setNotification(notification)),
-  removeSignon: () => dispatch(ACTIONS.removeSignon())
+  setUser: user => dispatch(setUser(user)),
+  setLoading: loading => dispatch(setLoading(loading)),
+  setNotification: notification => dispatch(setNotification(notification)),
+  removeSignon: () => dispatch(removeSignOn())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordResetForm);

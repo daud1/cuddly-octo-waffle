@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import toast from "toasted-notes";
-import ACTIONS from "../redux/action";
+import { clearNotification, removeUser } from "../../auth/reducers";
 import { isEmpty } from "../utils/helpers";
 import RouteHandler from "../utils/RouteHandler";
 import Loader from "../components/Loader";
@@ -30,18 +30,19 @@ class MainContainer extends Component {
   }
 
   render() {
-    return <Loader children={<RouteHandler />} />;
+    return <Loader children={<RouteHandler />} loading={this.props.loading} />;
   }
 }
 
 const mapStateToProps = state => ({
-  notification: state.notification,
-  rememberMe: state.rememberMe
+  notification: state.auth.notification,
+  rememberMe: state.auth.rememberMe,
+  loading: state.auth.loading
 });
 
 const mapDispatchToProps = dispatch => ({
-  clearNotification: () => dispatch(ACTIONS.clearNotification()),
-  removeUser: () => dispatch(ACTIONS.removeUser())
+  clearNotification: () => dispatch(clearNotification()),
+  removeUser: () => dispatch(removeUser())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

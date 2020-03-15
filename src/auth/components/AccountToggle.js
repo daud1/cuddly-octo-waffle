@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-
-import ACTIONS from "../../common/redux/action";
+import { setUser } from "../reducers";
 import { selectRadioButton } from "../../common/utils/helpers";
 
 class AccountToggle extends Component {
@@ -168,12 +167,12 @@ class AccountToggle extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  signOn: state.signOn
+  user: state.auth.user,
+  signOn: state.auth.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(ACTIONS.setUser(user))
+  setUser: user => dispatch(setUser(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountToggle);

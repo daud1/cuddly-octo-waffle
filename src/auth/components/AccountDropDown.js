@@ -9,7 +9,7 @@ import {
   showAPIErrors,
   stopPropagation
 } from "../../common/utils/helpers";
-import ACTIONS from "../../common/redux/action";
+import { setLoading, setNotification, removeUser } from "../reducers";
 import { API_URL } from "../../common/utils/constants";
 import { connect } from "react-redux";
 import sampleCoverPic from "../../common/images/sample_cover_pic.jpg";
@@ -124,14 +124,13 @@ function AccountDropDown(props) {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.auth.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeUser: () => dispatch(ACTIONS.removeUser()),
-  setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
-  setNotification: notification =>
-    dispatch(ACTIONS.setNotification(notification))
+  removeUser: () => dispatch(removeUser()),
+  setLoading: loading => dispatch(setLoading(loading)),
+  setNotification: notification => dispatch(setNotification(notification))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountDropDown);

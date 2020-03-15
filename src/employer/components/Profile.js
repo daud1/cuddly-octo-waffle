@@ -108,7 +108,6 @@ class Profile extends React.Component {
     });
   };
 
-  static propTypes = {};
   render() {
     const social = {
       facebook: "",
@@ -120,7 +119,6 @@ class Profile extends React.Component {
       website: ""
     };
     const { profile, reviews, awards, editAward, editProfile } = this.props;
-
     const {
       showEditAwardsForm,
       showEditDescriptionForm,
@@ -236,17 +234,18 @@ class Profile extends React.Component {
               </Formik>
             ) : (
               <Container xCenter>
-                {Object.keys(profile.social).map((key, index) => (
-                  // TODO: check and don't render icons for fields with no links/empty string
-                  <a
-                    href={social[key]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={index}
-                  >
-                    <SocialIcon className={`fa fa-${key}`}></SocialIcon>
-                  </a>
-                ))}
+                {profile.social &&
+                  Object.keys(profile.social).map((key, index) => (
+                    // TODO: check and don't render icons for fields with no links/empty string
+                    <a
+                      href={social[key]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={index}
+                    >
+                      <SocialIcon className={`fa fa-${key}`}></SocialIcon>
+                    </a>
+                  ))}
                 <EditIcon
                   mg="10px"
                   className="fa fa-pencil"

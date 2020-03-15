@@ -16,7 +16,14 @@ import {
   validateEmail
 } from "../../common/utils/helpers";
 
-import ACTIONS from "../../common/redux/action";
+import {
+  setUser,
+  setSignOn,
+  setLoading,
+  setNotification,
+  removeSignOn,
+  setRememberMe
+} from "../reducers";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 import axios from "axios";
@@ -33,7 +40,7 @@ class SigninForm extends Component {
     axios
       .get(url, { headers })
       .then(response => {
-        let loggedInUser = {...response.data};
+        let loggedInUser = { ...response.data };
         loggedInUser.loggedIn = true;
         loggedInUser.key = key;
         setUser(loggedInUser);
@@ -46,8 +53,8 @@ class SigninForm extends Component {
 
   toggleSignOn = (event, signOn) => {
     event.preventDefault();
-    const { setSignon } = this.props;
-    setSignon(signOn);
+    const { setSignOn } = this.props;
+    setSignOn(signOn);
   };
 
   changeAccountType = (event, accountType) => {
@@ -185,7 +192,7 @@ class SigninForm extends Component {
       return;
     }
 
-    const { setLoading, setNotification, removeSignon } = this.props;
+    const { setLoading, setNotification, removeSignOn } = this.props;
 
     const data = {
       email: emailAddress,
@@ -207,7 +214,7 @@ class SigninForm extends Component {
       })
       .then(() => {
         this.getUserDetails(token);
-        removeSignon();
+        removeSignOn();
       })
       .catch(error => {
         setLoading({ isLoading: false });
@@ -354,19 +361,18 @@ class SigninForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  signOn: state.signOn,
-  rememberMe: state.rememberMe
+  user: state.auth.user,
+  signOn: state.auth.signOn,
+  rememberMe: state.auth.rememberMe
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(ACTIONS.setUser(user)),
-  setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
-  setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
-  setNotification: notification =>
-    dispatch(ACTIONS.setNotification(notification)),
-  removeSignon: () => dispatch(ACTIONS.removeSignon()),
-  setRememberMe: rememberMe => dispatch(ACTIONS.setRememberMe(rememberMe))
+  setUser: user => dispatch(setUser(user)),
+  setSignOn: signOn => dispatch(setSignOn(signOn)),
+  setLoading: loading => dispatch(setLoading(loading)),
+  setNotification: notification => dispatch(setNotification(notification)),
+  removeSignOn: () => dispatch(removeSignOn()),
+  setRememberMe: rememberMe => dispatch(setRememberMe(rememberMe))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);

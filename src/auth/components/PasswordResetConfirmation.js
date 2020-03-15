@@ -13,7 +13,7 @@ import {
   setInputError,
   showAPIErrors
 } from "../../common/utils/helpers";
-import ACTIONS from "../../common/redux/action";
+import { setUser, setLoading, setNotification, setSignOn } from "../reducers";
 import { API_URL } from "../../common/utils/constants";
 import Footer from "../../common/components/Footer";
 import NavBar from "../../common/components/Navbar";
@@ -82,7 +82,7 @@ class PasswordResetConfirmation extends Component {
     }
 
     const token = getUrlParameter("token");
-    const { setLoading, setNotification, setSignon, user } = this.props;
+    const { setLoading, setNotification, setSignOn, user } = this.props;
     const data = { password, token };
 
     if (user && user.email) {
@@ -99,7 +99,7 @@ class PasswordResetConfirmation extends Component {
         }
         const { data } = res;
         if (data.status === "OK") {
-          setSignon("Sign In");
+          setSignOn("Sign In");
           setNotification({ message: "Password reset successfully!" });
           setTimeout(function() {
             openRoute(null, "/");
@@ -194,11 +194,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(ACTIONS.setUser(user)),
-  setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
-  setNotification: notification =>
-    dispatch(ACTIONS.setNotification(notification)),
-  setSignon: signOn => dispatch(ACTIONS.setSignon(signOn))
+  setUser: user => dispatch(setUser(user)),
+  setLoading: loading => dispatch(setLoading(loading)),
+  setNotification: notification => dispatch(setNotification(notification)),
+  setSignOn: signOn => dispatch(setSignOn(signOn))
 });
 
 export default connect(

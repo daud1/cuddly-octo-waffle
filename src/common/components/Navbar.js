@@ -1,7 +1,7 @@
 //eslint-disable jsx-a11y/anchor-is-valid
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ACTIONS from "../redux/action";
+import { setSignOn, removeUser, removeSignOn } from "../../auth/reducers";
 import {
   isLoggedIn,
   stopPropagation,
@@ -17,8 +17,8 @@ import logoWhite from "../images/athena_logo_long_white.png";
 class Navbar extends Component {
   toggleSignOn = (event, signOn) => {
     event.preventDefault();
-    const { setSignon, renderForms } = this.props;
-    setSignon(signOn);
+    const { setSignOn, renderForms } = this.props;
+    setSignOn(signOn);
     if (renderForms) {
       renderForms(false);
     }
@@ -26,8 +26,8 @@ class Navbar extends Component {
 
   clearSignOn = event => {
     event.preventDefault();
-    const { removeSignon } = this.props;
-    removeSignon();
+    const { removeSignOn } = this.props;
+    removeSignOn();
   };
 
   checkPage = pageName => {
@@ -379,14 +379,14 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  signOn: state.signOn
+  user: state.auth.user,
+  signOn: state.auth.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
-  setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
-  removeUser: () => dispatch(ACTIONS.removeUser()),
-  removeSignon: () => dispatch(ACTIONS.removeSignon())
+  setSignOn: signOn => dispatch(setSignOn(signOn)),
+  removeUser: () => dispatch(removeUser()),
+  removeSignOn: () => dispatch(removeSignOn())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

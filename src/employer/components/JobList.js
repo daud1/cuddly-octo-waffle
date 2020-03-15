@@ -1,10 +1,8 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import JobItem from "./JobItem";
 import PropTypes from "prop-types";
-import { API_URL } from "../../common/utils/constants";
-import ACTIONS from "../../common/redux/action";
+import { fetchJobs } from "../reducers";
 import styled from "styled-components";
 import BriefProfile from "./BriefProfile";
 import { Container, Ellipsis, GrayTxt } from "./Common";
@@ -32,11 +30,6 @@ const TrendingContainer = styled(Container)`
 
 class JobList extends React.Component {
   static propTypes = {
-    user: PropTypes.shape({
-      key: PropTypes.string,
-      loggedIn: PropTypes.bool,
-      email: PropTypes.string
-    }),
     jobs: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
@@ -48,20 +41,8 @@ class JobList extends React.Component {
   };
 
   componentDidMount() {
-    const { getJobs } = this.props;
-    const url = `${API_URL}/jobs/`;
-    const headers = {
-      "content-type": "application/json"
-    };
-
-    axios
-      .get(url, headers)
-      .then(response => {
-        getJobs(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const { profile_id, fetchJobs } = this.props;
+    fetchJobs(profile_id);
   }
 
   render() {
@@ -128,12 +109,12 @@ class JobList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  jobs: state.jobs,
-  user: state.user
+  jobs: state.employer.jobs.jobs,
+  profile_id: state.auth.loggedInProfile.id
 });
 
 const mapDispatchToProps = dispatch => ({
-  getJobs: jobs => dispatch(ACTIONS.getJobs(jobs))
+  fetchJobs: profile_id => dispatch(fetchJobs(profile_id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(JobList);
