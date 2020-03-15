@@ -1,9 +1,11 @@
 import {
   Absolute,
+  AwardForm,
   AwardIcon,
   BriefcaseIcon,
   Button,
   Container,
+  DynamicField,
   EditIcon,
   Ellipsis,
   GrayTxt,
@@ -14,9 +16,7 @@ import {
   Relative,
   RightAlign,
   SocialIcon,
-  SubTitle,
-  DynamicField,
-  AwardForm
+  SubTitle
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -24,6 +24,7 @@ import ProfileBanner from "./ProfileBanner";
 import PropTypes from "prop-types";
 import React from "react";
 import Review from "../../common/components/Review";
+import { fetchProfile } from "../reducers";
 
 function Award(props) {
   return (
@@ -128,7 +129,11 @@ class Profile extends React.Component {
 
     return (
       <>
-        <ProfileBanner editProfile={editProfile} />
+        <ProfileBanner
+          editProfile={editProfile}
+          profile_id={profile.id}
+          key={profile.key}
+        />
         <Container bb columns>
           {/*Company Name */}
           <Container mt="100px" xCenter>
@@ -141,7 +146,7 @@ class Profile extends React.Component {
                 }}
                 onSubmit={values => {
                   this.toggleEditNameForm();
-                  return editProfile(values);
+                  editProfile(profile.id, profile.key, values);
                 }}
               >
                 <Container columns mt="5px" width="20%">
@@ -204,7 +209,9 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Formik
                 initialValues={{ social: profile.social }}
-                onSubmit={values => editProfile(values)}
+                onSubmit={values =>
+                  editProfile(profile.id, profile.key, values)
+                }
               >
                 <Container width="20%">
                   <Form>
@@ -274,7 +281,7 @@ class Profile extends React.Component {
                     }}
                     onSubmit={values => {
                       this.toggleEditDescriptionForm();
-                      return editProfile(values);
+                      return editProfile(profile.id, profile.key, values);
                     }}
                   >
                     <Form>
@@ -340,7 +347,7 @@ class Profile extends React.Component {
                       onSubmit={values => {
                         console.log(values);
                         this.toggleEditDescriptionForm();
-                        return editAward(values);
+                        return editAward(profile.key, values);
                       }}
                     >
                       <Form className="form">

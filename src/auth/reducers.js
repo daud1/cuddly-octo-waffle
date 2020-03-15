@@ -68,14 +68,15 @@ export function fetchLoggedInProfile(user_id, user_type, key) {
 
     return axios
       .get(url, { headers })
-      .then(response =>
+      .then(response => {
+        response.data[0].key = key;
         dispatch(
           fetchLoggedInProfileSuccess({
             profile: response.data[0],
             loading: { isLoading: false }
           })
-        )
-      )
+        );
+      })
       .catch(error =>
         dispatch(
           fetchLoggedInProfileError({

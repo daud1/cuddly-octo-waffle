@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
 import { API_URL } from "../common/utils/constants";
-import { combineReducers } from "redux";
 import axios from "axios";
+import { combineReducers } from "redux";
+import { createSlice } from "@reduxjs/toolkit";
 
 const awardsSlice = createSlice({
   name: "awards",
@@ -19,13 +19,25 @@ const awardsSlice = createSlice({
       const { error, loading } = action.payload;
       state.error = error;
       state.loading = loading;
+    },
+    editAwardsSuccess(state, action) {
+      const { award, loading } = action.payload;
+      state.push(award);
+      state.loading = loading;
+    },
+    editAwardsError(state, action) {
+      const { error, loading } = action.payload;
+      state.error = error;
+      state.loading = loading;
     }
   }
 });
 export const {
   fetchAwardsBegin,
   fetchAwardsError,
-  fetchAwardsSuccess
+  fetchAwardsSuccess,
+  editAwardsError,
+  editAwardsSuccess
 } = awardsSlice.actions;
 
 export function fetchAwards(profile_id, key) {
@@ -50,6 +62,33 @@ export function fetchAwards(profile_id, key) {
           fetchAwardsError({ error: error.data, loading: { isLoading: false } })
         )
       );
+  };
+}
+export function editAward(key, awardEdits) {
+  return dispatch => {
+    const { id } = awardEdits;
+    let url = `${API_URL}/employer/awards/${id}/`;
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${key}`
+    };
+
+    return (
+      axios
+        .patch(url, awardEdits, { headers })
+        .then(response =>
+          dispatch(
+            editAwardsSuccess({
+              award: response.data,
+              loading: { isLoading: false }
+            })
+          )
+        )
+        // .then(this.getAwards())
+        .catch(error =>
+          editAwardsError({ error: error.data, loading: { isLoading: false } })
+        )
+    );
   };
 }
 
@@ -86,9 +125,7 @@ export function fetchJobs(profile_id) {
 
     const headers = { "content-type": "application/json" };
 
-    let url = profile_id
-      ? `${API_URL}/jobs/?employer=${profile_id}`
-      : `${API_URL}/jobs/`;
+    let url = `${API_URL}/jobs/${profile_id ? `?employer=${profile_id}` : ""}`; //Yes, I am ashamed of this.
 
     return axios
       .get(url, { headers })
@@ -144,10 +181,22 @@ const profileSlice = createSlice({
       const { error, loading } = action.payload;
       state.error = error;
       state.loading = loading;
+    },
+    editProfileSuccess(state, action) {
+      const { profile, loading } = action.payload;
+      state.profile = profile;
+      state.loading = loading;
+    },
+    editProfileError(state, action) {
+      const { error, loading } = action.payload;
+      state.error = error;
+      state.loading = loading;
     }
   }
 });
 export const {
+  editProfileSuccess,
+  editProfileError,
   fetchProfileBegin,
   fetchProfileError,
   fetchProfileSuccess
@@ -180,6 +229,35 @@ export function fetchProfile(user_id, key) {
           })
         )
       );
+  };
+}
+export function editProfile(profile_id, key, profile_edits) {
+  console.log("args", key);
+  return dispatch => {
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${key}`
+    };
+    return axios
+      .patch(`${API_URL}/employer/profile/${profile_id}/`, profile_edits, {
+        headers
+      })
+      .then(response => {
+        dispatch(
+          editProfileSuccess({
+            profile: response.data,
+            loading: { isLoading: false }
+          })
+        );
+      })
+      .catch(error => {
+        dispatch(
+          editProfileError({
+            error: error.data,
+            loading: { isLoading: false }
+          })
+        );
+      });
   };
 }
 
