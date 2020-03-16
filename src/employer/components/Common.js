@@ -14,6 +14,7 @@ export const SubTitle = styled.span`
   font-size: 15px;
   font-weight: ${props => (props.bold ? "bold" : "")};
   cursor: ${props => (props.pointer ? "pointer" : "")};
+  margin-bottom: ${props => props.mb};
 
   &:hover {
     color: ${props => (props.hoverEffect ? "black" : "")};
@@ -21,9 +22,11 @@ export const SubTitle = styled.span`
 `;
 
 export const InputLabel = styled.label`
+  color: ${props => (props.blue ? "#3d6de9" : "#000")};
   font-size: 14px;
   font-weight: normal;
   text-align: ${props => (props.centerAlign ? "center" : "")};
+  margin-bottom: ${props => props.mb};
 `;
 
 export const Error = styled.span`
@@ -241,9 +244,9 @@ export const SelectField = styled(Field)`
 export const LabelledInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
-    <Container columns mb="2rem">
+    <Container columns>
       <InputLabel htmlFor={props.id || props.name}>{label}</InputLabel>
-      <Input {...field} {...props} mt="8px" mb="10px" width="100%" />
+      <Input {...field} {...props} mt="3px" mb="8px" width="100%" />
       {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
     </Container>
   );

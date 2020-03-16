@@ -131,6 +131,11 @@ class Profile extends React.Component {
               >
                 <Container columns mt="5px" width="20%">
                   <Form>
+                    <Container mb="15px">
+                      <SubTitle blue bold>
+                        Edit Company details
+                      </SubTitle>
+                    </Container>
                     <LabelledInput
                       label="Company Name"
                       type="text"
@@ -146,7 +151,7 @@ class Profile extends React.Component {
                       type="text"
                       name="phone_number"
                     />
-                    <RightAlign mt="0px" mb="10px">
+                    <RightAlign mt="10px" mb="10px">
                       <Button
                         white
                         width="60px"
@@ -205,8 +210,11 @@ class Profile extends React.Component {
               >
                 <Container width="20%">
                   <Form>
-                    <InputLabel>Edit Social Links</InputLabel>
-                    <br />
+                    <Container mb="10px">
+                      <SubTitle blue bold>
+                        Edit Social Links
+                      </SubTitle>
+                    </Container>
                     {Object.keys(social).map(key => (
                       <Input
                         name={`social[${key}]`}
@@ -294,7 +302,7 @@ class Profile extends React.Component {
                           type="text"
                           name="location"
                         />
-                        <RightAlign mt="0px" mb="10px">
+                        <RightAlign mt="20px" mb="20px">
                           <Button
                             white
                             width="60px"

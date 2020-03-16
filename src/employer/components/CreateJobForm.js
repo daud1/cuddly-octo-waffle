@@ -47,7 +47,11 @@ const CreateJobForm = props => {
 
   return (
     <Container columns width="100%">
-      <SubTitle>Post a Job to Athena</SubTitle>
+      <Container mb="20px">
+        <SubTitle blue bold>
+          Post a Job to Athena
+        </SubTitle>
+      </Container>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
