@@ -9,7 +9,8 @@ import {
   LabelledTextArea,
   ListField,
   SelectField,
-  RightAlign
+  RightAlign,
+  SubTitle
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -46,7 +47,7 @@ const CreateJobForm = props => {
 
   return (
     <Container columns width="100%">
-      <h3 className="section-titles">Post a Job to Athena</h3>
+      <SubTitle>Post a Job to Athena</SubTitle>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

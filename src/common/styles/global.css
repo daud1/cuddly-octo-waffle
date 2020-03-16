@@ -2206,7 +2206,7 @@ button:focus {
     font-weight: bold;
 }
 
-.listContainer div:nth-child(2)  { 
+.listContainer div:nth-child(1)  { 
     border-top: 0;
 }
 

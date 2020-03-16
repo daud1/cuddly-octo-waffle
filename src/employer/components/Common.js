@@ -21,7 +21,7 @@ export const SubTitle = styled.span`
 `;
 
 export const InputLabel = styled.label`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
   text-align: ${props => (props.centerAlign ? "center" : "")};
 `;
@@ -33,7 +33,8 @@ export const Error = styled.span`
 // flexible container
 export const Container = styled.div`
   width: ${props => props.width};
-  height: ${props => (props.height ? props.height : props.scrollable ? "60vh" : "")};
+  height: ${props =>
+    props.height ? props.height : props.scrollable ? "80vh" : ""};
 
   // Display
   display: flex;
@@ -312,3 +313,11 @@ export const ListField = (arrayHelpers, values, { ...props }) => {
 };
 
 export const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
+
+export function NothingToDisplay(props) {
+  return (
+    <Container mt={props.mt}>
+      <GrayTxt>Nothing to display</GrayTxt>
+    </Container>
+  );
+}

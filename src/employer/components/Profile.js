@@ -13,7 +13,8 @@ import {
   RightAlign,
   SocialIcon,
   SubTitle,
-  RoundButton
+  RoundButton,
+  NothingToDisplay
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -163,9 +164,13 @@ class Profile extends React.Component {
               </Formik>
             ) : (
               <>
-                <SubTitle bold blue>
-                  {profile.company_name}
-                </SubTitle>
+                {profile.company_name ? (
+                  <SubTitle bold blue>
+                    {profile.company_name}
+                  </SubTitle>
+                ) : (
+                  <GrayTxt>Edit company details</GrayTxt>
+                )}
                 <EditIcon
                   className="fa fa-pencil"
                   ml="20px"
@@ -178,8 +183,14 @@ class Profile extends React.Component {
           <Container mt="10px" xCenter>
             {!showEditNameForm ? (
               <>
-                <BriefcaseIcon className="fa fa-briefcase"></BriefcaseIcon>
-                {profile.number_of_employees} employees
+                {profile.number_of_employees ? (
+                  <>
+                    <BriefcaseIcon className="fa fa-briefcase"></BriefcaseIcon>
+                    {profile.number_of_employees} employees
+                  </>
+                ) : (
+                  ""
+                )}
               </>
             ) : null}
           </Container>
@@ -220,7 +231,8 @@ class Profile extends React.Component {
               </Formik>
             ) : (
               <Container xCenter>
-                {profile.social &&
+                {profile.social ? (
+                  profile.social &&
                   Object.keys(profile.social).map((key, index) => (
                     // TODO: check and don't render icons for fields with no links/empty string
                     <a
@@ -231,9 +243,12 @@ class Profile extends React.Component {
                     >
                       <SocialIcon className={`fa fa-${key}`}></SocialIcon>
                     </a>
-                  ))}
+                  ))
+                ) : (
+                  <GrayTxt>Add social links</GrayTxt>
+                )}
                 <EditIcon
-                  mg="10px"
+                  ml="10px"
                   className="fa fa-pencil"
                   onClick={this.toggleEditSocialForm}
                 ></EditIcon>
@@ -299,15 +314,15 @@ class Profile extends React.Component {
                   <>
                     <CompanyIntroSec
                       heading="Moontheme Studio Inc."
-                      fieldValue={profile.description}
+                      fieldValue={profile.description || "--"}
                     />
                     <CompanyIntroSec
                       fieldLabel="FIELD / INDUSTRY"
-                      fieldValue={profile.industry}
+                      fieldValue={profile.industry || "--"}
                     />
                     <CompanyIntroSec
                       fieldLabel="LOCATION"
-                      fieldValue={profile.location}
+                      fieldValue={profile.location || "--"}
                     />
                   </>
                 )}
@@ -331,24 +346,32 @@ class Profile extends React.Component {
                   </Absolute>
                 </Relative>
                 <Container width="100%" flexWrap>
-                  {awards.map((award, _) => (
-                    <Award
-                      key={award.id}
-                      title={award.title}
-                      year={award.year}
-                      giver={award.awarded_by}
-                      editProfile={editProfile}
-                    />
-                  ))}
+                  {reviews.legth > 0 ? (
+                    awards.map((award, _) => (
+                      <Award
+                        key={award.id}
+                        title={award.title}
+                        year={award.year}
+                        giver={award.awarded_by}
+                        editProfile={editProfile}
+                      />
+                    ))
+                  ) : (
+                    <NothingToDisplay />
+                  )}
                 </Container>
               </Container>
               {/* Reviews section */}
               <Container columns>
                 <SectionHeading label="RECENT REVIEWS" />
                 <Container columns>
-                  {reviews.map((review, index) => {
-                    return <Review review={review} key={index} />;
-                  })}
+                  {reviews.legth > 0 ? (
+                    reviews.map((review, index) => {
+                      return <Review review={review} key={index} />;
+                    })
+                  ) : (
+                    <NothingToDisplay />
+                  )}
                 </Container>
               </Container>
             </Container>

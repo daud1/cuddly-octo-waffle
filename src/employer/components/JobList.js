@@ -1,7 +1,7 @@
 import React from "react";
 import JobItem from "./JobItem";
 import styled from "styled-components";
-import { Container, Ellipsis, GrayTxt } from "./Common";
+import { Container, NothingToDisplay } from "./Common";
 
 const Sticker = styled.div`
   background-color: #a476f5;
@@ -33,7 +33,7 @@ export function JobList(props) {
   return (
     <Container columns width="100%">
       <Container columns className="listContainer">
-        <Container mt="30px">
+        <Container mt="30px" mb="5px">
           <Container width="50%">
             <Title>{title}</Title>
           </Container>
@@ -41,17 +41,21 @@ export function JobList(props) {
             <Sticker>{stickerLabel}</Sticker>
           </TrendingContainer>
         </Container>
-        <Container scrollable>
-          {jobs.map((job, index) => (
-            <JobItem
-              title={job.title}
-              company={job.employer.company_name}
-              salary_range={job.salary_range}
-              location={job.location}
-              key={index}
-            />
-          ))}
-        </Container>
+        {jobs.length > 0 ? (
+          <Container scrollable columns>
+            {jobs.map((job, index) => (
+              <JobItem
+                title={job.title}
+                company={job.employer.company_name}
+                salary_range={job.salary_range}
+                location={job.location}
+                key={index}
+              />
+            ))}
+          </Container>
+        ) : (
+          <NothingToDisplay mt="10px" />
+        )}
       </Container>
     </Container>
   );
