@@ -8,7 +8,8 @@ import {
   LabelledInput,
   LabelledTextArea,
   ListField,
-  SelectField
+  SelectField,
+  RightAlign
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -132,11 +133,9 @@ const CreateJobForm = props => {
             name="location"
             placeholder="e.g Kampala"
           />
-          <Container mt="5rem" mb="10rem">
-            <Button type="submit" width="120px" mr="30px" height="30px">
-              Post Job Now
-            </Button>
+          <RightAlign mt="3rem" mb="3rem">
             <Button
+              mr="30px"
               white
               width="120px"
               height="30px"
@@ -145,7 +144,10 @@ const CreateJobForm = props => {
             >
               Cancel
             </Button>
-          </Container>
+            <Button type="submit" width="120px" height="30px">
+              Post Job Now
+            </Button>
+          </RightAlign>
         </Form>
       </Formik>
     </Container>

@@ -12,7 +12,6 @@ const Container = styled.div`
   position: fixed;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(5px);
-  // background-color: rgb(105,105,105, 0.4);
 `;
 
 const PopUp = styled.div`

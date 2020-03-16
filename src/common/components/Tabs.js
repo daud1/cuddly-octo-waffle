@@ -4,14 +4,28 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import Tab from "./Tab";
+import { Button } from "../../employer/components/Common";
+import CreateJobForm from "../../employer/components/CreateJobForm";
+import Modal from "../../common/components/Modal";
 
 const TabsBar = styled.div`
-  padding-top: 10px;
   height: 40px;
   background-color: #ebf5f6;
   display: flex;
   align-items: center;
   font-size: 12px;
+`;
+
+const PostButton = styled(Button)`
+  position: fixed;
+  right: 2%;
+  bottom: 3%;
+  width: 106px;
+  height: 35px;
+`;
+
+const TabItem = styled.ul`
+  padding-top: 10px;
 `;
 
 class Tabs extends React.Component {
@@ -34,7 +48,7 @@ class Tabs extends React.Component {
     return (
       <React.Fragment>
         <TabsBar>
-          <ul className="tab-list">
+          <TabItem className="tab-list">
             {children.map(child => {
               const { label } = child.props;
               return (
@@ -46,9 +60,18 @@ class Tabs extends React.Component {
                 />
               );
             })}
-          </ul>
+          </TabItem>
+  
         </TabsBar>
         <div className="tab-content">
+        <Modal
+            height="80%"
+            width="50%"
+            openButton={props => (
+              <PostButton onClick={props.onClose}>Post a Job</PostButton>
+            )}
+            render={props => CreateJobForm({ onClose: props.onClose })}
+          />
           {children.map(child => {
             return child.props.label === activeTab
               ? child.props.children

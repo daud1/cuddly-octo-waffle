@@ -1,4 +1,11 @@
-import { Absolute, Avatar, CameraIcon, Input, Relative } from "./Common";
+import {
+  Absolute,
+  Avatar,
+  CameraIcon,
+  Input,
+  Relative,
+  RightAlign
+} from "./Common";
 import { Form, Formik, useFormikContext } from "formik";
 import { uploadToS3 } from "../../common/utils/cloudStorageUtils";
 
@@ -39,14 +46,14 @@ const CoverPhotoButton = styled.button`
 
 function ActionButtons(props) {
   return (
-    <Container mt="1.5rem">
-      <Button type="submit" mr="30px" height="30px">
-        Submit
-      </Button>
-      <Button white height="30px" type="button" onClick={props.onClose}>
+    <RightAlign mt="1.5rem">
+      <Button white height="30px" type="button" mr="30px" onClick={props.onClose}>
         Cancel
       </Button>
-    </Container>
+      <Button type="submit" height="30px">
+        Submit
+      </Button>
+    </RightAlign>
   );
 }
 
