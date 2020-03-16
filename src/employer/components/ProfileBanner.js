@@ -7,6 +7,7 @@ import React from "react";
 import coverPhoto from "../../common/images/sample_cover_pic.jpg";
 import profilePic from "../../common/images/sample_profile_pic.jpg";
 import styled from "styled-components";
+import { Button, Container } from "./Common";
 
 const CoverPhoto = styled.img`
   width: 100%;
@@ -36,6 +37,19 @@ const CoverPhotoButton = styled.button`
   border: 0;
 `;
 
+function ActionButtons(props) {
+  return (
+    <Container mt="1.5rem">
+      <Button type="submit" mr="30px" height="30px">
+        Submit
+      </Button>
+      <Button white height="30px" type="button" onClick={props.onClose}>
+        Cancel
+      </Button>
+    </Container>
+  );
+}
+
 function EditProfilePhoto(props) {
   const formik = useFormikContext();
 
@@ -58,8 +72,7 @@ function EditProfilePhoto(props) {
             })
           }
         />
-        <button type="submit">submit</button>
-        <button onClick={props.onClose}>cancel</button>
+        <ActionButtons onClose={props.onClose} />
       </Form>
     </Formik>
   );
@@ -87,8 +100,7 @@ function EditCoverPhoto(props) {
             })
           }
         />
-        <button type="submit">submit</button>
-        <button onClick={props.onClose}>cancel</button>
+        <ActionButtons onClose={props.onClose} />
       </Form>
     </Formik>
   );
