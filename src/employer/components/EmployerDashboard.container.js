@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ACTIONS from "../../common/redux/action";
 import { API_URL } from "../../common/utils/constants";
 import Footer from "../../common/components/Footer";
-import JobList from "./JobList";
+import Projects from "./Projects";
 import NavBar from "../../common/components/Navbar";
 import Profile from "./Profile";
 import Tabs from "../../common/components/Tabs";
@@ -208,7 +208,7 @@ class EmployerDashboard extends Component {
         <NavBar />
         <Tabs>
           <div label="Projects">
-            <JobList />
+            <Projects />
           </div>
           <div label="Profile">
             <Profile
