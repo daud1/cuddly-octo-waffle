@@ -6,6 +6,7 @@ import { API_URL } from "../../common/utils/constants";
 import ACTIONS from "../../common/redux/action";
 import JobList from "./JobList";
 import { Container } from "./Common";
+import BriefProfile from "./BriefProfile";
 
 class Projects extends React.Component {
   static propTypes = {
@@ -43,32 +44,45 @@ class Projects extends React.Component {
 
   render() {
     return (
-      <Container bb>
-        <Container className="container">
+        <Container bb columns>
+      <Container className="container">
+        <Container columns br width="73%">
+          <Container mt="30px" mb="30px">
+            <h4>Connect with people you may know</h4>
+          </Container>
+          <Container bb pb="50px">
+            <Container width="50%">
+              <BriefProfile />
+            </Container>
+            <Container width="50%">
+              <BriefProfile />
+            </Container>
+          </Container>
           <JobList
             title="Available Jobs"
             stickerLabel="Available"
             jobs={this.props.jobs}
           />
-          <Container columns width="27%">
-            <Container height="30vh" pd="25px">
-              Welcome back
-            </Container>
-            <Container height="30vh" pd="25px" bt bb>
-              Connections
-            </Container>
-            <Container height="30vh" pd="25px">
-              Who viewed me
-            </Container>
+        </Container>
+        <Container columns width="27%">
+          <Container height="30vh" pd="25px">
+            Welcome back
+          </Container>
+          <Container height="30vh" pd="25px" bt bb>
+            Connections
+          </Container>
+          <Container height="30vh" pd="25px">
+            Who viewed me
           </Container>
         </Container>
       </Container>
+       </Container>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  jobs: state.jobs,
+  jobs: state.employer.jobs.jobs,
   user: state.user
 });
 

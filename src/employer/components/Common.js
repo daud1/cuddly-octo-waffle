@@ -33,7 +33,7 @@ export const Error = styled.span`
 // flexible container
 export const Container = styled.div`
   width: ${props => props.width};
-  height: ${props => props.height};
+  height: ${props => (props.height ? props.height : props.scrollable ? "60vh" : "")};
 
   // Display
   display: flex;
@@ -67,6 +67,9 @@ export const Container = styled.div`
   padding-bottom: ${props => props.pb};
   padding-left: ${props => props.pl};
   padding-right: ${props => props.pr};
+
+  // scrollable div
+  overflow-y: ${props => (props.scrollable ? "auto" : "")};
 
   > * {
     align-self: ${props => (props.end ? "props.alignSelf" : "")};

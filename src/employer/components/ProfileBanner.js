@@ -4,7 +4,8 @@ import {
   CameraIcon,
   Input,
   Relative,
-  RightAlign
+  RightAlign,
+  SubTitle
 } from "./Common";
 import { Form, Formik, useFormikContext } from "formik";
 import { uploadToS3 } from "../../common/utils/cloudStorageUtils";
@@ -47,7 +48,13 @@ const CoverPhotoButton = styled.button`
 function ActionButtons(props) {
   return (
     <RightAlign mt="1.5rem">
-      <Button white height="30px" type="button" mr="30px" onClick={props.onClose}>
+      <Button
+        white
+        height="30px"
+        type="button"
+        mr="30px"
+        onClick={props.onClose}
+      >
         Cancel
       </Button>
       <Button type="submit" height="30px">
@@ -70,7 +77,11 @@ function EditProfilePhoto(props) {
       }}
     >
       <Form>
+        <SubTitle bold blue>
+          Edit profile photo
+        </SubTitle>
         <Input
+          mt="15px"
           type="file"
           accept="image/*"
           name="profile_photo"
@@ -99,7 +110,11 @@ function EditCoverPhoto(props) {
       }}
     >
       <Form>
+        <SubTitle bold blue>
+          Edit cover photo
+        </SubTitle>
         <Input
+          mt="15px"
           type="file"
           accept="image/*"
           name="cover_photo"

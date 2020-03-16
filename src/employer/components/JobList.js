@@ -29,9 +29,9 @@ const Title = styled.span`
 `;
 
 export function JobList(props) {
-  const {title, stickerLabel, jobs} = props;
+  const { title, stickerLabel, jobs } = props;
   return (
-    <Container columns width="100%" br>
+    <Container columns width="100%">
       <Container columns className="listContainer">
         <Container mt="30px">
           <Container width="50%">
@@ -41,19 +41,17 @@ export function JobList(props) {
             <Sticker>{stickerLabel}</Sticker>
           </TrendingContainer>
         </Container>
-        {jobs.map((job, index) => (
-          <JobItem
-            title={job.title}
-            company={job.employer.company_name}
-            salary_range={job.salary_range}
-            location={job.location}
-            key={index}
-          />
-        ))}
-      </Container>
-      <Container xCenter mt="70px" mb="30px">
-        <Ellipsis className="fa fa-ellipsis-h" />
-        <GrayTxt bigger>View more</GrayTxt>
+        <Container scrollable>
+          {jobs.map((job, index) => (
+            <JobItem
+              title={job.title}
+              company={job.employer.company_name}
+              salary_range={job.salary_range}
+              location={job.location}
+              key={index}
+            />
+          ))}
+        </Container>
       </Container>
     </Container>
   );

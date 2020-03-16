@@ -3,9 +3,7 @@ import {
   BriefcaseIcon,
   Button,
   Container,
-  DynamicField,
   EditIcon,
-  Ellipsis,
   GrayTxt,
   Input,
   InputLabel,
@@ -351,11 +349,6 @@ class Profile extends React.Component {
                   {reviews.map((review, index) => {
                     return <Review review={review} key={index} />;
                   })}
-                </Container>
-
-                <Container xCenter mt="40px">
-                  <GrayTxt bigger>Load More Reviews</GrayTxt>
-                  <Ellipsis className="fa fa-ellipsis-h" />
                 </Container>
               </Container>
             </Container>
