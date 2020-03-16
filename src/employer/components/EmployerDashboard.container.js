@@ -20,13 +20,13 @@ class EmployerDashboard extends Component {
       fetchLoggedInProfile,
       fetchAwards,
       fetchReviews,
-      user: { id, key, user_type },
-      profile
+      user: { id, key, user_type }
     } = this.props;
 
-    fetchLoggedInProfile(id, user_type, key);
-    fetchAwards(profile.id, key);
-    fetchReviews(profile.id, key);
+    fetchLoggedInProfile(id, user_type, key, (profile_id, key) => {
+      fetchAwards(profile_id, key);
+      fetchReviews(profile_id, key);
+    });
   }
 
   render() {

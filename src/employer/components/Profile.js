@@ -22,7 +22,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import Award from "../../common/components/Award";
 import Review from "../../common/components/Review";
-import { fetchProfile } from "../reducers";
 
 function SectionHeading(props) {
   const { onClick, editOption } = props;
