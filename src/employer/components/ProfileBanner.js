@@ -59,13 +59,14 @@ function ActionButtons(props) {
 
 function EditProfilePhoto(props) {
   const formik = useFormikContext();
+  const { profile_photo, profile_id, key, editProfile } = props;
 
   return (
     <Formik
-      initialValues={{ profile_photo: props.profile_photo }}
+      initialValues={{ profile_photo: profile_photo }}
       onSubmit={values => {
         values.profile_photo = uploadToS3(values.profile_photo);
-        props.editProfile(values);
+        editProfile(profile_id, key, values);
       }}
     >
       <Form>
@@ -87,13 +88,14 @@ function EditProfilePhoto(props) {
 
 function EditCoverPhoto(props) {
   const formik = useFormikContext();
+  const { cover_photo, profile_id, key, editProfile } = props;
 
   return (
     <Formik
-      initialValues={{ cover_photo: props.cover_photo }}
+      initialValues={{ cover_photo: cover_photo }}
       onSubmit={values => {
         values.cover_photo = uploadToS3(values.cover_photo);
-        props.editProfile(values);
+        editProfile(profile_id, key, values);
       }}
     >
       <Form>

@@ -115,8 +115,8 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  signOn: state.signOn
+  user: state.auth.user,
+  signOn: state.auth.signOn
 });
 
 export default connect(mapStateToProps)(Home);

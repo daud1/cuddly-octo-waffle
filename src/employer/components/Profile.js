@@ -3,6 +3,7 @@ import {
   BriefcaseIcon,
   Button,
   Container,
+  DynamicField,
   EditIcon,
   Ellipsis,
   GrayTxt,
@@ -23,6 +24,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import Award from "../../common/components/Award";
 import Review from "../../common/components/Review";
+import { fetchProfile } from "../reducers";
 
 function SectionHeading(props) {
   const { onClick, editOption } = props;
@@ -88,7 +90,6 @@ class Profile extends React.Component {
     });
   };
 
-  static propTypes = {};
   render() {
     const social = {
       facebook: "",
@@ -100,7 +101,6 @@ class Profile extends React.Component {
       website: ""
     };
     const { profile, reviews, awards, editAward, editProfile } = this.props;
-
     const {
       showEditAwardsForm,
       showEditDescriptionForm,
@@ -110,7 +110,11 @@ class Profile extends React.Component {
 
     return (
       <>
-        <ProfileBanner editProfile={editProfile} />
+        <ProfileBanner
+          editProfile={editProfile}
+          profile_id={profile.id}
+          key={profile.key}
+        />
         <Container bb columns>
           {/*Company Name */}
           <Container mt="100px" xCenter>
@@ -123,7 +127,7 @@ class Profile extends React.Component {
                 }}
                 onSubmit={values => {
                   this.toggleEditNameForm();
-                  return editProfile(values);
+                  editProfile(profile.id, profile.key, values);
                 }}
               >
                 <Container columns mt="5px" width="20%">
@@ -186,7 +190,9 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Formik
                 initialValues={{ social: profile.social }}
-                onSubmit={values => editProfile(values)}
+                onSubmit={values =>
+                  editProfile(profile.id, profile.key, values)
+                }
               >
                 <Container width="20%">
                   <Form>
@@ -216,17 +222,18 @@ class Profile extends React.Component {
               </Formik>
             ) : (
               <Container xCenter>
-                {Object.keys(profile.social).map((key, index) => (
-                  // TODO: check and don't render icons for fields with no links/empty string
-                  <a
-                    href={social[key]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={index}
-                  >
-                    <SocialIcon className={`fa fa-${key}`}></SocialIcon>
-                  </a>
-                ))}
+                {profile.social &&
+                  Object.keys(profile.social).map((key, index) => (
+                    // TODO: check and don't render icons for fields with no links/empty string
+                    <a
+                      href={social[key]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={index}
+                    >
+                      <SocialIcon className={`fa fa-${key}`}></SocialIcon>
+                    </a>
+                  ))}
                 <EditIcon
                   mg="10px"
                   className="fa fa-pencil"
@@ -255,7 +262,7 @@ class Profile extends React.Component {
                     }}
                     onSubmit={values => {
                       this.toggleEditDescriptionForm();
-                      return editProfile(values);
+                      return editProfile(profile.id, profile.key, values);
                     }}
                   >
                     <Form>

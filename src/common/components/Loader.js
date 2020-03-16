@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import LoadingOverlay from "react-loading-overlay";
 
 function Loader(props) {
@@ -14,8 +13,4 @@ function Loader(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  loading: state.loading
-});
-
-export default connect(mapStateToProps)(Loader);
+export default Loader;

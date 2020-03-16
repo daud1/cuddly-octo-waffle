@@ -23,7 +23,11 @@ import {
   GOOGLE_CLIENT_ID
 } from "../../common/utils/constants";
 
-import ACTIONS from "../../common/redux/action";
+import {setUser,
+  setSignOn,
+  setNotification,
+  setLoading,
+  removeSignOn} from "../reducers"
 import bubalusLogo from "../../common/images/bubalus.png";
 import cover from "../../common/images/sample_cover_pic.jpg";
 import followLogo from "../../common/images/follow_logo.jpg";
@@ -42,8 +46,8 @@ class SignupForm extends Component {
 
   toggleSignOn = (event, signOn) => {
     event.preventDefault();
-    const { setSignon } = this.props;
-    setSignon(signOn);
+    const { setSignOn } = this.props;
+    setSignOn(signOn);
   };
 
   passwordMismatch = () => {
@@ -454,7 +458,7 @@ class SignupForm extends Component {
       });
       return;
     }
-    const { user, setLoading, setUser, removeSignon } = this.props;
+    const { user, setLoading, setUser, removeSignOn } = this.props;
     const data = {
       email: emailAddress,
       password1: password,
@@ -476,7 +480,7 @@ class SignupForm extends Component {
         newUser.key = key;
         newUser.email = emailAddress;
         setUser(newUser);
-        removeSignon();
+        removeSignOn();
       })
       .catch(error => {
         setLoading({ isLoading: false });
@@ -655,12 +659,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(ACTIONS.setUser(user)),
-  setSignon: signOn => dispatch(ACTIONS.setSignon(signOn)),
+  setUser: user => dispatch(setUser(user)),
+  setSignOn: signOn => dispatch(setSignOn(signOn)),
   setNotification: notification =>
-    dispatch(ACTIONS.setNotification(notification)),
-  setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
-  removeSignon: () => dispatch(ACTIONS.removeSignon())
+    dispatch(setNotification(notification)),
+  setLoading: loading => dispatch(setLoading(loading)),
+  removeSignOn: () => dispatch(removeSignOn())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
