@@ -22,7 +22,8 @@ import {
   setLoading,
   setNotification,
   removeSignOn,
-  setRememberMe
+  setRememberMe,
+  fetchLoggedInProfile
 } from "../reducers";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
@@ -44,6 +45,7 @@ class SigninForm extends Component {
         loggedInUser.loggedIn = true;
         loggedInUser.key = key;
         setUser(loggedInUser);
+        fetchLoggedInProfile(loggedInUser.id, key);
       })
       .catch(error => {
         setLoading({ isLoading: false });

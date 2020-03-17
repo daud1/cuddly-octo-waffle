@@ -22,7 +22,8 @@ const awardsSlice = createSlice({
     },
     editAwardsSuccess(state, action) {
       const { award, loading } = action.payload;
-      state.push(award);
+      let index = state.awards.findIndex(element => element.id === award.id);
+      state.awards[index] = award;
       state.loading = loading;
     },
     editAwardsError(state, action) {
