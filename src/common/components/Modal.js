@@ -10,6 +10,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
+  top: 0px;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(5px);
 `;
@@ -20,7 +21,6 @@ const PopUp = styled.div`
   height: ${props => props.height};
   padding: 40px 50px;
   overflow-y: auto;
-  margin-bottom: 17vh;
 `;
 
 const Modal = props => {
