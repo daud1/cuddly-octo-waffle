@@ -363,7 +363,7 @@ class Profile extends React.Component {
                   </Absolute>
                 </Relative>
                 <Container width="100%" flexWrap>
-                  {reviews.legth > 0 ? (
+                  {awards.length > 0 ? (
                     awards.map((award, _) => (
                       <Award
                         key={award.id}
@@ -382,7 +382,7 @@ class Profile extends React.Component {
               <Container columns>
                 <SectionHeading label="RECENT REVIEWS" />
                 <Container columns>
-                  {reviews.legth > 0 ? (
+                  {reviews.length > 0 ? (
                     reviews.map((review, index) => {
                       return <Review review={review} key={index} />;
                     })

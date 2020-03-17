@@ -10,7 +10,9 @@ import {
   RightAlign,
   SubTitle,
   SelectField,
-  YEAR_CHOICES
+  YEAR_CHOICES,
+  LabelledInput,
+  InputLabel
 } from "../../employer/components/Common";
 import { Form, Formik } from "formik";
 
@@ -24,7 +26,7 @@ export function Award(props) {
     <>
       <Container
         width="calc(95% / 2)"
-        mb="20px"
+        mb="30px"
         onMouseEnter={() => setDisplay(true)}
         onMouseLeave={() => setDisplay(false)}
       >
@@ -41,15 +43,29 @@ export function Award(props) {
                 // return editProfile(values);
               }}
             >
-              <Form>
-                <Input mb="8px" width="85%" name="title" />
-                <Input mb="8px" width="85%" name="giver" />
-                <SelectField name="year" as="select" width="85%">
+              <Form className="form">
+                <Container columns width="85%">
+                <LabelledInput
+                  label="Title"
+                  type="text"
+                  name="title"
+                  mb="10px"
+                  gray
+                />
+                <LabelledInput
+                  label="Awarded by"
+                  type="text"
+                  name="giver"
+                  mb="10px"
+                  gray
+                />
+                <InputLabel gray>Year</InputLabel>
+                <SelectField name="year" as="select" mt="8px">
                   {YEAR_CHOICES.map((year, _) => (
                     <option value={year}>{year}</option>
                   ))}
                 </SelectField>
-                <RightAlign mt="20px" width="85%">
+                <RightAlign mt="20px">
                   <Button
                     white
                     width="60px"
@@ -62,6 +78,7 @@ export function Award(props) {
                     Save
                   </Button>
                 </RightAlign>
+                </Container>
               </Form>
             </Formik>
           </>
