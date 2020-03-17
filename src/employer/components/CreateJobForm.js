@@ -79,6 +79,7 @@ const CreateJobForm = props => {
             type="text"
             name="title"
             placeholder="e.g Software Engineer"
+            mb="15px"
           />
 
           <LabelledTextArea
@@ -92,6 +93,7 @@ const CreateJobForm = props => {
             type="text"
             name="primary_role"
             placeholder="e.g Create, advise on and maintain software projects.."
+            mb="15px"
           />
 
           <DynamicField
@@ -108,7 +110,7 @@ const CreateJobForm = props => {
             render={ListField}
           />
 
-          <Container>
+          <Container mb="20px">
             <Container columns width="40%" pr="3rem">
               <InputLabel htmlFor="work_time">Type of Working Time</InputLabel>
               <SelectField as="select" name="work_time" mt="10px" pl="3rem">
@@ -137,6 +139,7 @@ const CreateJobForm = props => {
             type="text"
             name="location"
             placeholder="e.g Kampala"
+            mb="15px"
           />
           <RightAlign mt="3rem" mb="3rem">
             <Button

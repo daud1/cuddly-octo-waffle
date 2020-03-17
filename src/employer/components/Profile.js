@@ -140,16 +140,22 @@ class Profile extends React.Component {
                       label="Company Name"
                       type="text"
                       name="company_name"
+                      mb="10px"
+                      gray
                     />
                     <LabelledInput
                       label="Number of Employees"
                       type="text"
                       name="number_of_employees"
+                      mb="10px"
+                      gray
                     />
                     <LabelledInput
                       label="Tel. No"
                       type="text"
                       name="phone_number"
+                      mb="10px"
+                      gray
                     />
                     <RightAlign mt="10px" mb="10px">
                       <Button
@@ -291,18 +297,22 @@ class Profile extends React.Component {
                         <LabelledTextArea
                           label="Description"
                           name="description"
+                          gray
                         />
                         <LabelledInput
                           label="Field / Industry"
                           type="text"
                           name="industry"
+                          mb="10px"
+                          gray
                         />
                         <LabelledInput
                           label="Location"
                           type="text"
                           name="location"
+                          gray
                         />
-                        <RightAlign mt="20px" mb="20px">
+                        <RightAlign mt="25px" mb="30px">
                           <Button
                             white
                             width="60px"

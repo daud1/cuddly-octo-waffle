@@ -22,7 +22,7 @@ export const SubTitle = styled.span`
 `;
 
 export const InputLabel = styled.label`
-  color: ${props => (props.blue ? "#3d6de9" : "#000")};
+  color: ${props => (props.blue ? "#3d6de9" : props.gray ? "#989898" : "#000")};
   font-size: 14px;
   font-weight: normal;
   text-align: ${props => (props.centerAlign ? "center" : "")};
@@ -244,9 +244,9 @@ export const SelectField = styled(Field)`
 export const LabelledInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
-    <Container columns>
-      <InputLabel htmlFor={props.id || props.name}>{label}</InputLabel>
-      <Input {...field} {...props} mt="3px" mb="8px" width="100%" />
+    <Container columns mt={props.mt} mb={props.mb}>
+      <InputLabel {...props} htmlFor={props.id || props.name}>{label}</InputLabel>
+      <Input {...field} {...props} mt="3px" width="100%" />
       {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
     </Container>
   );
@@ -256,7 +256,7 @@ export const LabelledTextArea = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <Container columns mb="2rem">
-      <InputLabel htmlFor={props.id || props.name}>{label}</InputLabel>
+      <InputLabel {...props} htmlFor={props.id || props.name}>{label}</InputLabel>
       <TextArea {...field} {...props} />
       {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
     </Container>
