@@ -107,7 +107,8 @@ class Profile extends React.Component {
       reviews,
       awards,
       addAward,
-      editProfile
+      editProfile,
+      editAward
     } = this.props;
 
     const {
@@ -378,10 +379,12 @@ class Profile extends React.Component {
                     awards.map((award, _) => (
                       <Award
                         key={award.id}
+                        id={award.id}
+                        token={profile.key}
                         title={award.title}
                         year={award.year}
-                        giver={award.awarded_by}
-                        editProfile={editProfile}
+                        awarded_by={award.awarded_by}
+                        editAward={editAward}
                       />
                     ))
                   ) : (
@@ -390,10 +393,14 @@ class Profile extends React.Component {
 
                   {showAddAwardForm ? (
                     <Formik
-                      initialValues={{ title: "", year: "", giver: "" }}
+                      initialValues={{
+                        title: "",
+                        year: 2020,
+                        awarded_by: ""
+                      }}
                       onSubmit={values => {
+                        addAward(profile.id, profile.key, values);
                         this.toggleAddAwardForm();
-                        return addAward(profile.id, profile.key, values);
                       }}
                     >
                       <AwardForm onClose={this.toggleAddAwardForm} />

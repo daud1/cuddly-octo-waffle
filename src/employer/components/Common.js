@@ -1,5 +1,4 @@
 import { Field, FieldArray, useField, useFormikContext } from "formik";
-import _ from "lodash";
 import React from "react";
 import styled from "styled-components";
 
@@ -136,6 +135,13 @@ export const RoundButton = styled.button`
   font-weight: 600;
 `;
 
+export const PostButton = styled(Button)`
+  position: fixed;
+  right: 2%;
+  bottom: 3%;
+  width: 106px;
+  height: 35px;
+`;
 // icons
 export const EditIcon = styled.i`
   font-size: 18px;
@@ -245,7 +251,9 @@ export const LabelledInput = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <Container columns mt={props.mt} mb={props.mb}>
-      <InputLabel {...props} htmlFor={props.id || props.name}>{label}</InputLabel>
+      <InputLabel {...props} htmlFor={props.id || props.name}>
+        {label}
+      </InputLabel>
       <Input {...field} {...props} mt="3px" width="100%" />
       {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
     </Container>
@@ -256,7 +264,9 @@ export const LabelledTextArea = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <Container columns mb="2rem">
-      <InputLabel {...props} htmlFor={props.id || props.name}>{label}</InputLabel>
+      <InputLabel {...props} htmlFor={props.id || props.name}>
+        {label}
+      </InputLabel>
       <TextArea {...field} {...props} />
       {meta.touched && meta.error ? <Error>{meta.error}</Error> : null}
     </Container>
@@ -314,8 +324,6 @@ export const ListField = (arrayHelpers, values, { ...props }) => {
     </Container>
   );
 };
-
-export const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
 
 export function NothingToDisplay(props) {
   return (

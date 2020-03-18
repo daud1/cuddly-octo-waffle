@@ -33,7 +33,7 @@ const Modal = props => {
       {open ? (
         <Container>
           <PopUp className="grey-box-shadow" width={width} height={height}>
-            {render({ onClose: () => setOpen(!open) })}
+            {render({ onClose: () => setOpen(!open), ...props })}
           </PopUp>
         </Container>
       ) : (

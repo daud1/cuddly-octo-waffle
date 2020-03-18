@@ -16,14 +16,6 @@ const TabsBar = styled.div`
   font-size: 12px;
 `;
 
-export const PostButton = styled(Button)`
-  position: fixed;
-  right: 2%;
-  bottom: 3%;
-  width: 106px;
-  height: 35px;
-`;
-
 const TabList = styled.ul`
   padding-top: 10px;
 `;
@@ -63,14 +55,6 @@ class Tabs extends React.Component {
           </TabList>
         </TabsBar>
         <div className="tab-content">
-          <Modal
-            height="80%"
-            width="50%"
-            openButton={props => (
-              <PostButton onClick={props.onClose}>Post a Job</PostButton>
-            )}
-            render={props => CreateJobForm({ onClose: props.onClose })}
-          />
           {children.map(child => {
             return child.props.label === activeTab
               ? child.props.children

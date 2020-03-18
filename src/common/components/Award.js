@@ -1,20 +1,19 @@
-import React, { useState } from "react";
-
 import {
   AwardIcon,
   Button,
   Container,
   EditIcon,
   GrayTxt,
-  Input,
-  RightAlign,
-  SubTitle,
-  SelectField,
-  YEAR_CHOICES,
+  InputLabel,
   LabelledInput,
-  InputLabel
+  RightAlign,
+  SubTitle
 } from "../../employer/components/Common";
-import { Form, Formik } from "formik";
+import { Formik, Form, Field } from "formik";
+import React, { useState } from "react";
+import _ from "lodash";
+
+export const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
 
 export function AwardForm(props) {
   const { onClose } = props;
@@ -25,16 +24,18 @@ export function AwardForm(props) {
         <LabelledInput
           label="Awarded by"
           type="text"
-          name="giver"
+          name="awarded_by"
           mb="10px"
           gray
         />
         <InputLabel gray>Year</InputLabel>
-        <SelectField name="year" as="select" mt="8px">
-          {YEAR_CHOICES.map((year, _) => (
-            <option value={year}>{year}</option>
+        <Field as="select" name="year">
+          {YEAR_CHOICES.map((year, index) => (
+            <option value={year} key={index}>
+              {year}
+            </option>
           ))}
-        </SelectField>
+        </Field>
         <RightAlign mt="20px">
           <Button white width="60px" mr="15px" onClick={onClose}>
             Cancel
@@ -52,7 +53,7 @@ export function Award(props) {
   const [display, setDisplay] = useState(false);
   const [awardForm, setAwardsFormVisibility] = useState(false);
 
-  const { editAward, title, giver, year } = props;
+  const { editAward, title, awarded_by, year, id, token } = props;
 
   return (
     <>
@@ -66,12 +67,13 @@ export function Award(props) {
           <Formik
             initialValues={{
               title: title,
-              giver: giver,
+              awarded_by: awarded_by,
               year: year
             }}
             onSubmit={values => {
+              values.id = id;
               setAwardsFormVisibility(false);
-              return editAward(values);
+              editAward(token, values);
             }}
           >
             <AwardForm onClose={() => setAwardsFormVisibility(false)} />
@@ -82,9 +84,9 @@ export function Award(props) {
               <AwardIcon className="fa fa-empire"></AwardIcon>
             </Container>
             <Container columns width="75%">
-              <SubTitle>{props.title}</SubTitle>
-              <GrayTxt>{props.giver}</GrayTxt>
-              <GrayTxt>{props.year}</GrayTxt>
+              <SubTitle>{title}</SubTitle>
+              <GrayTxt>{awarded_by}</GrayTxt>
+              <GrayTxt>{year}</GrayTxt>
             </Container>
             <Container width="10%">
               {display ? (

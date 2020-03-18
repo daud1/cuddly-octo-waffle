@@ -43,8 +43,7 @@ export function uploadToS3(file) {
     .put(url, file, options)
     .then(res => {
       console.log(res);
+      return url;
     })
     .catch(err => console.err(err));
 }
-
-

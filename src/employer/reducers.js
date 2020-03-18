@@ -104,13 +104,15 @@ export function editAward(key, awardEdits) {
   };
 }
 export function addAward(profile_id, key, award) {
+  console.log(award)
   return dispatch => {
+    award.employer = profile_id;
+
     let url = `${API_URL}/employer/awards/`;
     const headers = {
       "content-type": "application/json",
       Authorization: `Token ${key}`
     };
-    award.employer = profile_id;
 
     return axios
       .post(url, award, { headers })
