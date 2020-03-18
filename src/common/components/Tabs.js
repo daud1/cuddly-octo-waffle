@@ -16,7 +16,7 @@ const TabsBar = styled.div`
   font-size: 12px;
 `;
 
-const PostButton = styled(Button)`
+export const PostButton = styled(Button)`
   position: fixed;
   right: 2%;
   bottom: 3%;
@@ -24,7 +24,7 @@ const PostButton = styled(Button)`
   height: 35px;
 `;
 
-const TabItem = styled.ul`
+const TabList = styled.ul`
   padding-top: 10px;
 `;
 
@@ -37,7 +37,7 @@ class Tabs extends React.Component {
     children: PropTypes.instanceOf(Array).isRequired
   };
 
-  onClickTabItem = tab => {
+  onClickTab = tab => {
     this.setState({ activeTab: tab });
   };
 
@@ -48,7 +48,7 @@ class Tabs extends React.Component {
     return (
       <React.Fragment>
         <TabsBar>
-          <TabItem className="tab-list">
+          <TabList className="tab-list">
             {children.map(child => {
               const { label } = child.props;
               return (
@@ -56,15 +56,14 @@ class Tabs extends React.Component {
                   activeTab={activeTab}
                   key={label}
                   label={label}
-                  onClick={this.onClickTabItem}
+                  onClick={this.onClickTab}
                 />
               );
             })}
-          </TabItem>
-  
+          </TabList>
         </TabsBar>
         <div className="tab-content">
-        <Modal
+          <Modal
             height="80%"
             width="50%"
             openButton={props => (

@@ -20,13 +20,23 @@ const awardsSlice = createSlice({
       state.error = error;
       state.loading = loading;
     },
-    editAwardsSuccess(state, action) {
+    editAwardSuccess(state, action) {
       const { award, loading } = action.payload;
       let index = state.awards.findIndex(element => element.id === award.id);
       state.awards[index] = award;
       state.loading = loading;
     },
-    editAwardsError(state, action) {
+    editAwardError(state, action) {
+      const { error, loading } = action.payload;
+      state.error = error;
+      state.loading = loading;
+    },
+    addAwardSuccess(state, action) {
+      const { award, loading } = action.payload;
+      state.awards.push(award);
+      state.loading = loading;
+    },
+    addAwardError(state, action) {
       const { error, loading } = action.payload;
       state.error = error;
       state.loading = loading;
@@ -37,8 +47,10 @@ export const {
   fetchAwardsBegin,
   fetchAwardsError,
   fetchAwardsSuccess,
-  editAwardsError,
-  editAwardsSuccess
+  editAwardError,
+  editAwardSuccess,
+  addAwardSuccess,
+  addAwardError
 } = awardsSlice.actions;
 
 export function fetchAwards(profile_id, key) {
@@ -58,11 +70,11 @@ export function fetchAwards(profile_id, key) {
           })
         );
       })
-      .catch(error =>
+      .catch(error => {
         dispatch(
           fetchAwardsError({ error: error.data, loading: { isLoading: false } })
-        )
-      );
+        );
+      });
   };
 }
 export function editAward(key, awardEdits) {
@@ -74,22 +86,47 @@ export function editAward(key, awardEdits) {
       Authorization: `Token ${key}`
     };
 
-    return (
-      axios
-        .patch(url, awardEdits, { headers })
-        .then(response =>
-          dispatch(
-            editAwardsSuccess({
-              award: response.data,
-              loading: { isLoading: false }
-            })
-          )
+    return axios
+      .patch(url, awardEdits, { headers })
+      .then(response =>
+        dispatch(
+          editAwardSuccess({
+            award: response.data,
+            loading: { isLoading: false }
+          })
         )
-        // .then(this.getAwards())
-        .catch(error =>
-          editAwardsError({ error: error.data, loading: { isLoading: false } })
+      )
+      .catch(error =>
+        dispatch(
+          editAwardError({ error: error.data, loading: { isLoading: false } })
         )
-    );
+      );
+  };
+}
+export function addAward(profile_id, key, award) {
+  return dispatch => {
+    let url = `${API_URL}/employer/awards/`;
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${key}`
+    };
+    award.employer = profile_id;
+
+    return axios
+      .post(url, award, { headers })
+      .then(response =>
+        dispatch(
+          addAwardSuccess({
+            award: response.data,
+            loading: { isLoading: false }
+          })
+        )
+      )
+      .catch(error =>
+        dispatch(
+          addAwardError({ error: error.data, loading: { isLoading: false } })
+        )
+      );
   };
 }
 
@@ -111,13 +148,25 @@ const jobsSlice = createSlice({
       const { error, loading } = action.payload;
       state.error = error;
       state.loading = loading;
+    },
+    addJobsSuccess(state, action) {
+      const { job, loading } = action.payload;
+      state.jobs.push(job);
+      state.loading = loading;
+    },
+    addJobError(state, action) {
+      const { error, loading } = action.payload;
+      state.error = error;
+      state.loading = loading;
     }
   }
 });
 export const {
   fetchJobsBegin,
   fetchJobsError,
-  fetchJobsSuccess
+  fetchJobsSuccess,
+  addJobError,
+  addJobSuccess
 } = jobsSlice.actions;
 
 export function fetchJobs(profile_id) {
@@ -143,6 +192,26 @@ export function fetchJobs(profile_id) {
           fetchJobsError({ error: error.data, loading: { isLoading: false } })
         );
       });
+  };
+}
+export function addJob(profile_id, key, job) {
+  return dispatch => {
+    const headers = {
+      "content-type": "application/json",
+      Authorization: `Token ${key}`
+    };
+    let url = `${API_URL}/jobs/`;
+
+    job.employer_id = profile_id;
+
+    return axios
+      .post(url, job, { headers })
+      .then(response =>
+        addJobSuccess({ job: response.data, loading: { isLoading: false } })
+      )
+      .catch(error =>
+        addJobError({ error: error, loading: { isLoading: false } })
+      );
   };
 }
 

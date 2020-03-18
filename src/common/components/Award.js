@@ -16,11 +16,43 @@ import {
 } from "../../employer/components/Common";
 import { Form, Formik } from "formik";
 
+export function AwardForm(props) {
+  const { onClose } = props;
+  return (
+    <Form className="form">
+      <Container columns width="85%">
+        <LabelledInput label="Title" type="text" name="title" mb="10px" gray />
+        <LabelledInput
+          label="Awarded by"
+          type="text"
+          name="giver"
+          mb="10px"
+          gray
+        />
+        <InputLabel gray>Year</InputLabel>
+        <SelectField name="year" as="select" mt="8px">
+          {YEAR_CHOICES.map((year, _) => (
+            <option value={year}>{year}</option>
+          ))}
+        </SelectField>
+        <RightAlign mt="20px">
+          <Button white width="60px" mr="15px" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button width="60px" type="submit">
+            Save
+          </Button>
+        </RightAlign>
+      </Container>
+    </Form>
+  );
+}
+
 export function Award(props) {
   const [display, setDisplay] = useState(false);
   const [awardForm, setAwardsFormVisibility] = useState(false);
 
-  const { editProfile, title, giver, year } = props;
+  const { editAward, title, giver, year } = props;
 
   return (
     <>
@@ -31,57 +63,19 @@ export function Award(props) {
         onMouseLeave={() => setDisplay(false)}
       >
         {awardForm ? (
-          <>
-            <Formik
-              initialValues={{
-                title: title,
-                giver: giver,
-                year: year
-              }}
-              onSubmit={values => {
-                awardForm();
-                // return editProfile(values);
-              }}
-            >
-              <Form className="form">
-                <Container columns width="85%">
-                <LabelledInput
-                  label="Title"
-                  type="text"
-                  name="title"
-                  mb="10px"
-                  gray
-                />
-                <LabelledInput
-                  label="Awarded by"
-                  type="text"
-                  name="giver"
-                  mb="10px"
-                  gray
-                />
-                <InputLabel gray>Year</InputLabel>
-                <SelectField name="year" as="select" mt="8px">
-                  {YEAR_CHOICES.map((year, _) => (
-                    <option value={year}>{year}</option>
-                  ))}
-                </SelectField>
-                <RightAlign mt="20px">
-                  <Button
-                    white
-                    width="60px"
-                    mr="15px"
-                    onClick={() => setAwardsFormVisibility(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button width="60px" type="submit">
-                    Save
-                  </Button>
-                </RightAlign>
-                </Container>
-              </Form>
-            </Formik>
-          </>
+          <Formik
+            initialValues={{
+              title: title,
+              giver: giver,
+              year: year
+            }}
+            onSubmit={values => {
+              setAwardsFormVisibility(false);
+              return editAward(values);
+            }}
+          >
+            <AwardForm onClose={() => setAwardsFormVisibility(false)} />
+          </Formik>
         ) : (
           <>
             <Container width="10%" pt="3px">
@@ -108,5 +102,3 @@ export function Award(props) {
     </>
   );
 }
-
-export default Award;

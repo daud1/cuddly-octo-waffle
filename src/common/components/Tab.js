@@ -13,31 +13,23 @@ const TabItem = styled.li`
   text-align: center;
 `;
 
-class Tab extends React.Component {
-  static propTypes = {
-    activeTab: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
-  };
+export default function Tab(props) {
+  const { activeTab, label, onClick } = props;
+  let className = "tab-list-item";
 
-  onClick = () => {
-    const { label, onClick } = this.props;
-    onClick(label);
-  };
-
-  render() {
-    const { activeTab, label } = this.props;
-    let className = "tab-list-item";
-    if (activeTab === label) {
-      className += " active-tab-item";
-    }
-
-    return (
-      <TabItem className={className} onClick={this.onClick}>
-        {label}
-      </TabItem>
-    );
+  if (activeTab === label) {
+    className += " active-tab-item";
   }
+
+  return (
+    <TabItem className={className} onClick={() => onClick(label)}>
+      {label}
+    </TabItem>
+  );
 }
 
-export default Tab;
+Tab.propTypes = {
+  activeTab: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired
+};

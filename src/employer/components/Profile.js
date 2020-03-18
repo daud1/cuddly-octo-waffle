@@ -6,22 +6,21 @@ import {
   EditIcon,
   GrayTxt,
   Input,
-  InputLabel,
   LabelledInput,
   LabelledTextArea,
+  NothingToDisplay,
   Relative,
   RightAlign,
-  SocialIcon,
-  SubTitle,
   RoundButton,
-  NothingToDisplay
+  SocialIcon,
+  SubTitle
 } from "./Common";
+import { Award, AwardForm } from "../../common/components/Award";
 import { Form, Formik } from "formik";
 
 import ProfileBanner from "./ProfileBanner";
 import PropTypes from "prop-types";
 import React from "react";
-import Award from "../../common/components/Award";
 import Review from "../../common/components/Review";
 
 function SectionHeading(props) {
@@ -64,7 +63,7 @@ function CompanyIntroSec(props) {
 class Profile extends React.Component {
   state = {
     showEditSocialForm: false,
-    showEditAwardsForm: false,
+    showAddAwardForm: false,
     showEditDescriptionForm: false,
     showEditNameForm: false,
     showEditReviewsForm: false
@@ -88,6 +87,10 @@ class Profile extends React.Component {
     });
   };
 
+  toggleAddAwardForm = () => {
+    this.setState({ showAddAwardForm: !this.state.showAddAwardForm });
+  };
+
   render() {
     const social = {
       facebook: "",
@@ -98,9 +101,17 @@ class Profile extends React.Component {
       github: "",
       website: ""
     };
-    const { profile, reviews, awards, editAward, editProfile } = this.props;
+
     const {
-      showEditAwardsForm,
+      profile,
+      reviews,
+      awards,
+      addAward,
+      editProfile
+    } = this.props;
+
+    const {
+      showAddAwardForm,
       showEditDescriptionForm,
       showEditNameForm,
       showEditSocialForm
@@ -356,7 +367,7 @@ class Profile extends React.Component {
                     <RoundButton
                       blue
                       type="button"
-                      // onClick={() => arrayHelpers.push({})}
+                      onClick={this.toggleAddAwardForm}
                     >
                       +
                     </RoundButton>
@@ -376,6 +387,18 @@ class Profile extends React.Component {
                   ) : (
                     <NothingToDisplay />
                   )}
+
+                  {showAddAwardForm ? (
+                    <Formik
+                      initialValues={{ title: "", year: "", giver: "" }}
+                      onSubmit={values => {
+                        this.toggleAddAwardForm();
+                        return addAward(profile.id, profile.key, values);
+                      }}
+                    >
+                      <AwardForm onClose={this.toggleAddAwardForm} />
+                    </Formik>
+                  ) : null}
                 </Container>
               </Container>
               {/* Reviews section */}

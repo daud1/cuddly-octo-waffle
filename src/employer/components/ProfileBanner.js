@@ -15,7 +15,7 @@ import React from "react";
 import coverPhoto from "../../common/images/sample_cover_pic.jpg";
 import profilePic from "../../common/images/sample_profile_pic.jpg";
 import styled from "styled-components";
-import { Button, Container } from "./Common";
+import { Button } from "./Common";
 
 const CoverPhoto = styled.img`
   width: 100%;

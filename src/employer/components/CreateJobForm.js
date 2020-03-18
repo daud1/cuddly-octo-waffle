@@ -8,43 +8,40 @@ import {
   LabelledInput,
   LabelledTextArea,
   ListField,
-  SelectField,
   RightAlign,
+  SelectField,
   SubTitle
 } from "./Common";
 import { Form, Formik } from "formik";
 
-import { API_URL } from "../../common/utils/constants";
 import PropTypes from "prop-types";
 import React from "react";
-import axios from "axios";
 
-const CreateJobForm = props => {
-  const initialValues = {
-    title: "",
-    description: "",
-    skills_required: [],
-    primary_role: "",
-    other_roles: [],
-    salary_range: "",
-    currency: "UGX",
-    work_time: "Full-Time",
-    location: ""
-  };
-  const validationSchema = yup.object().shape({
-    title: yup.string().required("Required"),
-    description: yup.string().required("Required"),
-    skills_required: yup.array().of(yup.string()),
-    other_roles: yup.array().of(yup.string()),
-    primary_role: yup.string().required("Required"),
-    work_time: yup
-      .string()
-      .required("Required")
-      .oneOf(["full-time", "part-time"]),
-    salary_range: yup.string(),
-    location: yup.string().required("Required")
-  });
-
+const initialValues = {
+  title: "",
+  description: "",
+  skills_required: [],
+  primary_role: "",
+  other_roles: [],
+  salary_range: "",
+  currency: "UGX",
+  work_time: "Full-Time",
+  location: ""
+};
+const validationSchema = yup.object().shape({
+  title: yup.string().required("Required"),
+  description: yup.string().required("Required"),
+  skills_required: yup.array().of(yup.string()),
+  other_roles: yup.array().of(yup.string()),
+  primary_role: yup.string().required("Required"),
+  work_time: yup
+    .string()
+    .required("Required")
+    .oneOf(["full-time", "part-time"]),
+  salary_range: yup.string(),
+  location: yup.string().required("Required")
+});
+export default function CreateJobForm(props) {
   return (
     <Container columns width="100%">
       <Container mb="20px">
@@ -56,21 +53,8 @@ const CreateJobForm = props => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={values => {
-          const { loggedInProfileId } = this.props;
-          const url = `${API_URL}/jobs/`;
-          const headers = {
-            Authorization: `Token ${localStorage.getItem("key")}`
-          };
-          values["employer_id"] = loggedInProfileId;
-
-          axios
-            .post(url, values, { headers })
-            .then(response => {
-              console.log(response);
-            })
-            .catch(error => {
-              console.error(error);
-            });
+          const { profile_id, key, addJob } = props;
+          addJob(profile_id, key, values);
         }}
       >
         <Form>
@@ -160,9 +144,11 @@ const CreateJobForm = props => {
       </Formik>
     </Container>
   );
-};
+}
 
 CreateJobForm.propTypes = {
-  onClose: PropTypes.func
+  onClose: PropTypes.func.isRequired,
+  addJob: PropTypes.func.isRequired,
+  profile_id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired
 };
-export default CreateJobForm;

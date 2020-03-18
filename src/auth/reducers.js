@@ -53,7 +53,7 @@ const authSlice = createSlice({
   }
 });
 
-export function fetchLoggedInProfile(user_id, user_type, key, func) {
+export function fetchLoggedInProfile(user_id, user_type, key, after) {
   return dispatch => {
     dispatch(fetchLoggedInProfileBegin({ loading: { isLoading: true } }));
 
@@ -76,7 +76,7 @@ export function fetchLoggedInProfile(user_id, user_type, key, func) {
             loading: { isLoading: false }
           })
         );
-        func && func(response.data[0].id, key);
+        after(response.data[0].id, key);
       })
       .catch(error =>
         dispatch(
