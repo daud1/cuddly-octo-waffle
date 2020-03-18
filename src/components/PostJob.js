@@ -107,6 +107,7 @@ class PostJob extends Component {
 
   handleGoogleLocationAutocompleteChange = location => {
     console.log("LOCATION REQUEST VALUE ===========> ", location);
+    const placesOptions = [];
     const callbacks = {
       success: res => {
         console.log("GOOGLE RES ========> ", res);
@@ -118,12 +119,14 @@ class PostJob extends Component {
           }
           this.setState({ placesOptions });
         } else {
-          this.setState({ value: location, label: location });
+          placesOptions.push({ value: location, label: location });
+          this.setState({ placesOptions });
         }
       },
       failure: error => {
         console.log("GOOGLE ERROR ========> ", error);
-        this.setState({ value: location, label: location });
+        placesOptions.push({ value: location, label: location });
+        this.setState({ placesOptions });
       }
     };
     handleHTTPRequest(
