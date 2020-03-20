@@ -2,20 +2,19 @@ import {
   Absolute,
   Avatar,
   CameraIcon,
-  Input,
   Relative,
   RightAlign,
   SubTitle
 } from "./Common";
-import { Form, Formik, useFormikContext } from "formik";
-import { uploadToS3 } from "../../common/utils/cloudStorageUtils";
+import { Form, Formik } from "formik";
+import * as yup from "yup";
 
+import { Button } from "./Common";
 import Modal from "../../common/components/Modal";
 import React from "react";
 import coverPhoto from "../../common/images/sample_cover_pic.jpg";
 import profilePic from "../../common/images/sample_profile_pic.jpg";
 import styled from "styled-components";
-import { Button } from "./Common";
 
 const CoverPhoto = styled.img`
   width: 100%;
@@ -65,67 +64,91 @@ function ActionButtons(props) {
 }
 
 function EditProfilePhoto(props) {
-  const formik = useFormikContext();
-  const { profile_photo, profile_id, key, editProfile } = props;
+  const { profile_id, token, editProfile } = props;
 
   return (
     <Formik
-      initialValues={{ profile_photo: profile_photo }}
+      initialValues={{ profile_photo: null }}
       onSubmit={values => {
-        values.profile_photo = uploadToS3(values.profile_photo);
-        editProfile(profile_id, key, values);
+        let form = new FormData();
+        form.append("profile_photo", values.profile_photo.data);
+        form.append("file_name", values.profile_photo.data.name);
+        form.append("file_type", values.profile_photo.data.type);
+
+        editProfile(profile_id, token, form);
+        props.onClose();
       }}
+      validationSchema={yup.object().shape({
+        profile_photo: yup.mixed().required()
+      })}
     >
-      <Form>
-        <SubTitle bold blue>
-          Edit profile photo
-        </SubTitle>
-        <Input
-          mt="15px"
-          type="file"
-          accept="image/*"
-          name="profile_photo"
-          onChange={event =>
-            formik.setFieldValue({
-              profile_photo: event.currentTarget.files[0]
-            })
-          }
-        />
-        <ActionButtons onClose={props.onClose} />
-      </Form>
+      {({ setFieldValue }) => {
+        return (
+          <Form>
+            <SubTitle bold blue>
+              Edit profile photo
+            </SubTitle>
+            <input
+              mt="15px"
+              type="file"
+              accept="image/*"
+              name="profile_photo"
+              onChange={event => {
+                const file = event.currentTarget.files[0];
+                setFieldValue("profile_photo", {
+                  data: file,
+                  file_name: file.name,
+                  file_type: file.type
+                });
+              }}
+            />
+            <ActionButtons onClose={props.onClose} />
+          </Form>
+        );
+      }}
     </Formik>
   );
 }
 
 function EditCoverPhoto(props) {
-  const formik = useFormikContext();
-  const { cover_photo, profile_id, key, editProfile } = props;
+  const { profile_id, token, editProfile } = props;
 
   return (
     <Formik
-      initialValues={{ cover_photo: cover_photo }}
+      initialValues={{ cover_photo: null }}
       onSubmit={values => {
-        values.cover_photo = uploadToS3(values.cover_photo);
-        editProfile(profile_id, key, values);
+        let form = new FormData();
+        form.append("profile_photo", values.profile_photo.data);
+        form.append("file_name", values.profile_photo.data.name);
+        form.append("file_type", values.profile_photo.data.type);
+        editProfile(profile_id, token, values);
       }}
+      validationSchema={yup.object().shape({
+        cover_photo: yup.mixed().required()
+      })}
     >
-      <Form>
-        <SubTitle bold blue>
-          Edit cover photo
-        </SubTitle>
-        <Input
-          mt="15px"
-          type="file"
-          accept="image/*"
-          name="cover_photo"
-          onChange={event =>
-            formik.setFieldValue({
-              cover_photo: event.currentTarget.files[0]
-            })
-          }
-        />
-        <ActionButtons onClose={props.onClose} />
-      </Form>
+      {({ setFieldValue }) => (
+        <Form>
+          <SubTitle bold blue>
+            Edit cover photo
+          </SubTitle>
+          <input
+            mt="15px"
+            type="file"
+            accept="image/*"
+            name="cover_photo"
+            onChange={event => {
+              const file = event.currentTarget.files[0];
+              setFieldValue("cover_photo", {
+                data: file,
+                file_name: file.name,
+                file_type: file.type
+              });
+            }}
+          />
+          <ActionButtons onClose={props.onClose} />
+        </Form>
+      )}
     </Formik>
   );
 }
@@ -141,6 +164,7 @@ function ProfileBanner(props) {
 
       <Modal // edit profile_photo form/modal
         render={EditProfilePhoto}
+        {...props}
         openButton={props => (
           <Absolute width="100%" xCenter bottom="30px" left="40px">
             <ProfilePicButton onClick={props.onClose}>
@@ -152,6 +176,7 @@ function ProfileBanner(props) {
 
       <Modal // edit cover_photo form/modal
         render={EditCoverPhoto}
+        {...props}
         openButton={props => (
           <Absolute bottom="30px" right="30px">
             <CoverPhotoButton onClick={props.onClose}>

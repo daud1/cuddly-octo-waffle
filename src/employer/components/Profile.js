@@ -123,7 +123,7 @@ class Profile extends React.Component {
         <ProfileBanner
           editProfile={editProfile}
           profile_id={profile.id}
-          key={profile.key}
+          token={profile.key}
         />
         <Container bb columns>
           {/*Company Name */}

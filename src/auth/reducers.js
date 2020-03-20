@@ -26,6 +26,16 @@ const authSlice = createSlice({
       state.error = error;
       state.loading = loading;
     },
+    editLoggedInProfileSuccess(state, action) {
+      const { profile, loading } = action.payload;
+      state.profile = profile;
+      state.loading = loading;
+    },
+    editLoggedInProfileError(state, action) {
+      const { error, loading } = action.payload;
+      state.error = error;
+      state.loading = loading;
+    },
     setUser(state, action) {
       state.user = action.payload;
     },
@@ -58,7 +68,7 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
     dispatch(fetchLoggedInProfileBegin({ loading: { isLoading: true } }));
 
     const headers = {
-      "content-type": "application/json",
+      "content-type": "application/json, image/*",
       Authorization: `Token ${key}`
     };
     let url =
@@ -89,6 +99,35 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
   };
 }
 
+export function editLoggedInProfile(profile_id, key, profile_edits) {
+  return dispatch => {
+    const headers = {
+      "content-type": "multipart/form-data, application/json",
+      Authorization: `Token ${key}`
+    };
+    return axios
+      .patch(`${API_URL}/employer/profile/${profile_id}/`, profile_edits, {
+        headers
+      })
+      .then(response => {
+        dispatch(
+          editLoggedInProfileSuccess({
+            profile: response.data,
+            loading: { isLoading: false }
+          })
+        );
+      })
+      .catch(error => {
+        dispatch(
+          editLoggedInProfileError({
+            error: error.data,
+            loading: { isLoading: false }
+          })
+        );
+      });
+  };
+}
+
 export const {
   setRememberMe,
   setSignOn,
@@ -100,7 +139,9 @@ export const {
   clearNotification,
   fetchLoggedInProfileBegin,
   fetchLoggedInProfileError,
-  fetchLoggedInProfileSuccess
+  fetchLoggedInProfileSuccess,
+  editLoggedInProfileSuccess,
+  editLoggedInProfileError
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   addAward,
   editAward,
-  editProfile,
   fetchAwards,
   fetchReviews,
   fetchJobs
@@ -16,7 +15,7 @@ import { PostButton } from "./Common";
 import CreateJobForm from "./CreateJobForm";
 import Tabs from "../../common/components/Tabs";
 import { connect } from "react-redux";
-import { fetchLoggedInProfile } from "../../auth/reducers";
+import { fetchLoggedInProfile, editLoggedInProfile } from "../../auth/reducers";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -48,7 +47,7 @@ class EmployerDashboard extends Component {
       awards,
       jobs,
       reviews,
-      editProfile,
+      editLoggedInProfile,
       editAward,
       addAward
     } = this.props;
@@ -72,7 +71,7 @@ class EmployerDashboard extends Component {
           </div>
           <div label="Profile">
             <Profile
-              editProfile={editProfile}
+              editProfile={editLoggedInProfile}
               editAward={editAward}
               addAward={addAward}
               profile={profile}
@@ -101,8 +100,8 @@ const mapDispatchToProps = dispatch => ({
   fetchLoggedInProfile: (user_id, user_type, key, func) =>
     dispatch(fetchLoggedInProfile(user_id, user_type, key, func)),
 
-  editProfile: (profile_id, key, profile_edits) =>
-    dispatch(editProfile(profile_id, key, profile_edits)),
+    editLoggedInProfile: (profile_id, key, profile_edits) =>
+    dispatch(editLoggedInProfile(profile_id, key, profile_edits)),
 
   addAward: (profile_id, key, award) =>
     dispatch(addAward(profile_id, key, award)),
