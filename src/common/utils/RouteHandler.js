@@ -40,7 +40,7 @@ class RouteHandler extends Component {
           />
 
           {/* Authorized Routes */}
-          <Route path="/employer" component={EmployerDashboard} />
+          <PrivateRoute path="/employer" component={EmployerDashboard} />
           <PrivateRoute path="/settings" component={Settings} />
         </Switch>
       </Router>
