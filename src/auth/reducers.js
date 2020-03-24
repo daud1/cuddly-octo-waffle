@@ -1,6 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  getImage,
+  get_obj_name,
+  imgToLocalStore
+} from "../common/utils/helpers";
+
 import { API_URL } from "../common/utils/constants";
 import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
   name: "auth",
@@ -28,7 +34,7 @@ const authSlice = createSlice({
     },
     editLoggedInProfileSuccess(state, action) {
       const { profile, loading } = action.payload;
-      state.profile = profile;
+      state.loggedInProfile = profile;
       state.loading = loading;
     },
     editLoggedInProfileError(state, action) {
@@ -79,7 +85,17 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
     return axios
       .get(url, { headers })
       .then(response => {
+        let cover_url, profile_url;
+        cover_url = response.data[0]["cover_photo"];
+        profile_url = response.data[0]["profile_photo"];
+
+        response.data[0]["cover_photo"] = get_obj_name(cover_url);
+        response.data[0]["profile_photo"] = get_obj_name(profile_url);
         response.data[0].key = key;
+
+        getImage(cover_url, "cover_photo");
+        getImage(profile_url, "profile_photo");
+
         dispatch(
           fetchLoggedInProfileSuccess({
             profile: response.data[0],
@@ -102,7 +118,7 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
 export function editLoggedInProfile(profile_id, key, profile_edits) {
   return dispatch => {
     const headers = {
-      "content-type": "multipart/form-data, application/json",
+      "Content-Type": "multipart/form-data, application/json",
       Authorization: `Token ${key}`
     };
     return axios
@@ -110,6 +126,11 @@ export function editLoggedInProfile(profile_id, key, profile_edits) {
         headers
       })
       .then(response => {
+        const fieldName = profile_edits.keys().next()["value"];
+        response.data[fieldName] = get_obj_name(response.data[fieldName]);
+        response.data["key"] = key;
+        imgToLocalStore(profile_edits.get(fieldName), fieldName, true);
+
         dispatch(
           editLoggedInProfileSuccess({
             profile: response.data,

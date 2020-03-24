@@ -8,6 +8,7 @@ import {
 } from "../reducers";
 import Footer from "../../common/components/Footer";
 import NavBar from "../../common/components/Navbar";
+import AccountDropDown from "../../auth/components/AccountDropDown"
 import Profile from "./Profile";
 import Modal from "../../common/components/Modal";
 import Projects from "./Projects";
@@ -55,6 +56,8 @@ class EmployerDashboard extends Component {
     return (
       <Container>
         <NavBar />
+        <AccountDropDown />
+
         <Modal
           height="80%"
           width="50%"

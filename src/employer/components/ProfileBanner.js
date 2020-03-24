@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 import {
   Absolute,
   Avatar,
@@ -7,13 +9,10 @@ import {
   SubTitle
 } from "./Common";
 import { Form, Formik } from "formik";
-import * as yup from "yup";
 
 import { Button } from "./Common";
 import Modal from "../../common/components/Modal";
 import React from "react";
-import coverPhoto from "../../common/images/sample_cover_pic.jpg";
-import profilePic from "../../common/images/sample_profile_pic.jpg";
 import styled from "styled-components";
 
 const CoverPhoto = styled.img`
@@ -71,9 +70,9 @@ function EditProfilePhoto(props) {
       initialValues={{ profile_photo: null }}
       onSubmit={values => {
         let form = new FormData();
-        form.append("profile_photo", values.profile_photo.data);
-        form.append("file_name", values.profile_photo.data.name);
-        form.append("file_type", values.profile_photo.data.type);
+        form.append("profile_photo", values.profile_photo);
+        form.append("file_name", values.profile_photo.name);
+        form.append("file_type", values.profile_photo.type);
 
         editProfile(profile_id, token, form);
         props.onClose();
@@ -93,14 +92,9 @@ function EditProfilePhoto(props) {
               type="file"
               accept="image/*"
               name="profile_photo"
-              onChange={event => {
-                const file = event.currentTarget.files[0];
-                setFieldValue("profile_photo", {
-                  data: file,
-                  file_name: file.name,
-                  file_type: file.type
-                });
-              }}
+              onChange={event =>
+                setFieldValue("profile_photo", event.currentTarget.files[0])
+              }
             />
             <ActionButtons onClose={props.onClose} />
           </Form>
@@ -118,10 +112,12 @@ function EditCoverPhoto(props) {
       initialValues={{ cover_photo: null }}
       onSubmit={values => {
         let form = new FormData();
-        form.append("profile_photo", values.profile_photo.data);
-        form.append("file_name", values.profile_photo.data.name);
-        form.append("file_type", values.profile_photo.data.type);
-        editProfile(profile_id, token, values);
+        form.append("cover_photo", values.cover_photo);
+        form.append("file_name", values.cover_photo.name);
+        form.append("file_type", values.cover_photo.type);
+
+        editProfile(profile_id, token, form);
+        props.onClose();
       }}
       validationSchema={yup.object().shape({
         cover_photo: yup.mixed().required()
@@ -137,14 +133,9 @@ function EditCoverPhoto(props) {
             type="file"
             accept="image/*"
             name="cover_photo"
-            onChange={event => {
-              const file = event.currentTarget.files[0];
-              setFieldValue("cover_photo", {
-                data: file,
-                file_name: file.name,
-                file_type: file.type
-              });
-            }}
+            onChange={event =>
+              setFieldValue("cover_photo", event.currentTarget.files[0])
+            }
           />
           <ActionButtons onClose={props.onClose} />
         </Form>
@@ -154,15 +145,18 @@ function EditCoverPhoto(props) {
 }
 
 function ProfileBanner(props) {
+  const coverPhoto = localStorage.getItem("cover_photo");
+  const profilePhoto = localStorage.getItem("profile_photo");
   return (
     <Relative columns>
       <CoverPhoto src={coverPhoto} />
 
       <Absolute bottom="-60px" width="100%" xCenter>
-        <ProfilePic src={profilePic} rounded width="120px" height="120px" />
+        <ProfilePic src={profilePhoto} rounded width="120px" height="120px" />
       </Absolute>
 
-      <Modal // edit profile_photo form/modal
+      {/* edit profile_photo form/modal */}
+      <Modal
         render={EditProfilePhoto}
         {...props}
         openButton={props => (
@@ -174,7 +168,8 @@ function ProfileBanner(props) {
         )}
       />
 
-      <Modal // edit cover_photo form/modal
+      {/* edit cover_photo form/modal */}
+      <Modal
         render={EditCoverPhoto}
         {...props}
         openButton={props => (

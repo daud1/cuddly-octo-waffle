@@ -1,5 +1,6 @@
 import $ from "jquery";
 import _ from "lodash";
+import axios from "axios";
 import sampleProfilePic from "../images/sample_profile_pic.jpg";
 
 var ACCOUNT_TYPES = [
@@ -511,3 +512,28 @@ export const googleSignOn = (response, props) => {
   };
   setSocialSignOn(profile, accessToken, "google", props);
 };
+
+export function getImage(url, fieldName) {
+  if (!localStorage.getItem(fieldName)) {
+    axios
+      .get(url, { responseType: "arraybuffer" })
+      .then(res => {
+        imgToLocalStore(new Blob([new Uint8Array(res.data)]), fieldName);
+      })
+      .catch(err => console.log(err));
+  }
+}
+
+export function imgToLocalStore(file, fieldName) {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = function() {
+    if (!localStorage.getItem(fieldName))
+      localStorage.setItem(fieldName, reader.result);
+  };
+}
+
+export function get_obj_name(url) {
+  let new_re = /^((http[s]?|ftp):\/)?\/?([^:/\s]+)((\/\w+)*\/)([\w-.]+[^#?\s]+)(.*)?(#[\w-]+)?$/;
+  return new_re.exec(url)[6];
+}
