@@ -19,6 +19,16 @@ const authSlice = createSlice({
     notification: {}
   },
   reducers: {
+    createNewProfileSuccess(state, action) {
+      const { profile, loading } = action.payload;
+      state.loggedInProfile = profile;
+      state.loading = loading;
+    },
+    createNewProfileError(state, action) {
+      const { error, loading } = action.payload;
+      state.error = error;
+      state.loading = loading;
+    },
     fetchLoggedInProfileBegin(state, action) {
       state.loading = action.payload;
     },
@@ -115,6 +125,36 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
   };
 }
 
+export function createNewProfile(user_type, user_id, key) {
+  return dispatch => {
+    const url =
+      user_type === "EMP"
+        ? `${API_URL}/employer/profile/`
+        : `${API_URL}/employee/profile/`;
+    const headers = { Authorization: `Token ${key}` };
+    const data = { user_id: user_id };
+
+    return axios
+      .post(url, data, { headers })
+      .then(response => {
+        dispatch(
+          createNewProfileSuccess({
+            profile: response.data,
+            loading: { isLoading: false }
+          })
+        );
+      })
+      .catch(error =>
+        dispatch(
+          createNewProfileError({
+            error: error.data,
+            loading: { isLoading: false }
+          })
+        )
+      );
+  };
+}
+
 export function editLoggedInProfile(profile_id, key, profile_edits) {
   return dispatch => {
     const headers = {
@@ -158,6 +198,8 @@ export const {
   removeUser,
   setNotification,
   clearNotification,
+  createNewProfileSuccess,
+  createNewProfileError,
   fetchLoggedInProfileBegin,
   fetchLoggedInProfileError,
   fetchLoggedInProfileSuccess,

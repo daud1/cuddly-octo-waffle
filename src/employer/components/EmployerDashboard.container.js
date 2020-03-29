@@ -8,7 +8,7 @@ import {
 } from "../reducers";
 import Footer from "../../common/components/Footer";
 import NavBar from "../../common/components/Navbar";
-import AccountDropDown from "../../auth/components/AccountDropDown"
+import AccountDropDown from "../../auth/components/AccountDropDown";
 import Profile from "./Profile";
 import Modal from "../../common/components/Modal";
 import Projects from "./Projects";
@@ -103,7 +103,7 @@ const mapDispatchToProps = dispatch => ({
   fetchLoggedInProfile: (user_id, user_type, key, func) =>
     dispatch(fetchLoggedInProfile(user_id, user_type, key, func)),
 
-    editLoggedInProfile: (profile_id, key, profile_edits) =>
+  editLoggedInProfile: (profile_id, key, profile_edits) =>
     dispatch(editLoggedInProfile(profile_id, key, profile_edits)),
 
   addAward: (profile_id, key, award) =>

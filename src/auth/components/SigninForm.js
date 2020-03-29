@@ -188,7 +188,6 @@ class SigninForm extends Component {
       setInputError(name, "Password required!");
       errorFields.push(name);
     }
-
     if (!isEmpty(errorFields)) {
       scrollToElement(errorFields[0]);
       return;
@@ -201,8 +200,6 @@ class SigninForm extends Component {
       password
     };
 
-    let token;
-
     setLoading({ isLoading: true, loadingText: "Signing in..." });
 
     axios
@@ -211,11 +208,11 @@ class SigninForm extends Component {
         const {
           data: { key }
         } = res;
-        token = key;
         setLoading({ isLoading: false });
+        return key;
       })
-      .then(() => {
-        this.getUserDetails(token);
+      .then(key => {
+        this.getUserDetails(key);
         removeSignOn();
       })
       .catch(error => {

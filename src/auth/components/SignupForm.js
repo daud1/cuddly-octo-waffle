@@ -23,11 +23,14 @@ import {
   GOOGLE_CLIENT_ID
 } from "../../common/utils/constants";
 
-import {setUser,
+import {
+  setUser,
   setSignOn,
   setNotification,
   setLoading,
-  removeSignOn} from "../reducers"
+  removeSignOn,
+  createNewProfile
+} from "../reducers";
 import bubalusLogo from "../../common/images/bubalus.png";
 import cover from "../../common/images/sample_cover_pic.jpg";
 import followLogo from "../../common/images/follow_logo.jpg";
@@ -458,7 +461,7 @@ class SignupForm extends Component {
       });
       return;
     }
-    const { user, setLoading, setUser, removeSignOn } = this.props;
+    const { user, setLoading, removeSignOn } = this.props;
     const data = {
       email: emailAddress,
       password1: password,
@@ -470,17 +473,42 @@ class SignupForm extends Component {
     axios
       .post(`${API_URL}/auth/register/`, data)
       .then(res => {
+        console.log(res);
         const {
           data: { key }
         } = res;
-        const newUser = { ...user };
 
         setLoading({ isLoading: false });
+        return key;
+      })
+      .then(key => {
+        this.getUserDetails(key);
+        removeSignOn();
+      })
+      .catch(error => {
+        setLoading({ isLoading: false });
+        showAPIErrors(error, setNotification);
+      });
+  };
+
+  getUserDetails = key => {
+    const url = `${API_URL}/auth/user/`;
+    const headers = { Authorization: `Token ${key}` };
+    const {
+      setUser,
+      setLoading,
+      setNotification,
+      createNewProfile
+    } = this.props;
+
+    axios
+      .get(url, { headers })
+      .then(response => {
+        let newUser = { ...response.data };
         newUser.loggedIn = true;
         newUser.key = key;
-        newUser.email = emailAddress;
+        createNewProfile(newUser.user_type, newUser.id, key);
         setUser(newUser);
-        removeSignOn();
       })
       .catch(error => {
         setLoading({ isLoading: false });
@@ -654,17 +682,18 @@ class SignupForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  signOn: state.signOn
+  user: state.auth.user,
+  signOn: state.auth.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUser(user)),
   setSignOn: signOn => dispatch(setSignOn(signOn)),
-  setNotification: notification =>
-    dispatch(setNotification(notification)),
+  setNotification: notification => dispatch(setNotification(notification)),
   setLoading: loading => dispatch(setLoading(loading)),
-  removeSignOn: () => dispatch(removeSignOn())
+  removeSignOn: () => dispatch(removeSignOn()),
+  createNewProfile: (user_type, user_id, key) =>
+    dispatch(createNewProfile(user_type, user_id, key))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

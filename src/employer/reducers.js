@@ -212,7 +212,7 @@ export function addJob(profile_id, key, job) {
         addJobSuccess({ job: response.data, loading: { isLoading: false } })
       )
       .catch(error =>
-        addJobError({ error: error, loading: { isLoading: false } })
+        addJobError({ error: error.data, loading: { isLoading: false } })
       );
   };
 }
