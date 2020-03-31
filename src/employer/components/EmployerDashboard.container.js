@@ -54,7 +54,8 @@ class EmployerDashboard extends Component {
       reviews,
       editLoggedInProfile,
       editAward,
-      addAward
+      addAward,
+      addJob
     } = this.props;
 
     return (
@@ -67,6 +68,7 @@ class EmployerDashboard extends Component {
           width="50%"
           profile_id={profile.id}
           token={profile.key}
+          addJob={addJob}
           openButton={props => (
             <PostButton onClick={props.onClose}>Post a Job</PostButton>
           )}
