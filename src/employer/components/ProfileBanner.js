@@ -74,7 +74,12 @@ function EditProfilePhoto(props) {
         form.append("file_name", values.profile_photo.name);
         form.append("file_type", values.profile_photo.type);
 
-        editProfile(profile_id, token, form);
+        editProfile(
+          profile_id,
+          token,
+          form,
+          "multipart/form-data, application/json"
+        );
         props.onClose();
       }}
       validationSchema={yup.object().shape({
@@ -116,7 +121,12 @@ function EditCoverPhoto(props) {
         form.append("file_name", values.cover_photo.name);
         form.append("file_type", values.cover_photo.type);
 
-        editProfile(profile_id, token, form);
+        editProfile(
+          profile_id,
+          token,
+          form,
+          "multipart/form-data, application/json"
+        );
         props.onClose();
       }}
       validationSchema={yup.object().shape({

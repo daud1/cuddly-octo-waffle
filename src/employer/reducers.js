@@ -104,7 +104,6 @@ export function editAward(key, awardEdits) {
   };
 }
 export function addAward(profile_id, key, award) {
-  console.log(award)
   return dispatch => {
     award.employer = profile_id;
 
@@ -209,11 +208,16 @@ export function addJob(profile_id, key, job) {
     return axios
       .post(url, job, { headers })
       .then(response =>
-        addJobSuccess({ job: response.data, loading: { isLoading: false } })
+        dispatch(
+          addJobSuccess({ job: response.data, loading: { isLoading: false } })
+        )
       )
-      .catch(error =>
-        addJobError({ error: error.data, loading: { isLoading: false } })
-      );
+      .catch(error => {
+        console.log(error);
+        dispatch(
+          addJobError({ error: error.data, loading: { isLoading: false } })
+        );
+      });
   };
 }
 

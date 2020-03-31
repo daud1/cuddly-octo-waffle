@@ -49,12 +49,15 @@ export default function CreateJobForm(props) {
           Post a Job to Athena
         </SubTitle>
       </Container>
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={values => {
           const { profile_id, key, addJob } = props;
+          console.log(props);
           addJob(profile_id, key, values);
+          props.onClose();
         }}
       >
         <Form>
@@ -136,9 +139,9 @@ export default function CreateJobForm(props) {
             >
               Cancel
             </Button>
-            <Button type="submit" width="120px" height="30px">
+            <button type="submit" width="120px" height="30px">
               Post Job Now
-            </Button>
+            </button>
           </RightAlign>
         </Form>
       </Formik>

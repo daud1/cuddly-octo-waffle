@@ -79,6 +79,37 @@ const authSlice = createSlice({
   }
 });
 
+export function createNewProfile(user_type, user_id, key) {
+  return dispatch => {
+    const url =
+      user_type === "EMP"
+        ? `${API_URL}/employer/profile/`
+        : `${API_URL}/employee/profile/`;
+    const headers = { Authorization: `Token ${key}` };
+    const data = { user_id: user_id };
+
+    return axios
+      .post(url, data, { headers })
+      .then(response => {
+        response.data.key = key;
+        dispatch(
+          createNewProfileSuccess({
+            profile: response.data,
+            loading: { isLoading: false }
+          })
+        );
+      })
+      .catch(error =>
+        dispatch(
+          createNewProfileError({
+            error: error.data,
+            loading: { isLoading: false }
+          })
+        )
+      );
+  };
+}
+
 export function fetchLoggedInProfile(user_id, user_type, key, after) {
   return dispatch => {
     dispatch(fetchLoggedInProfileBegin({ loading: { isLoading: true } }));
@@ -125,61 +156,40 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
   };
 }
 
-export function createNewProfile(user_type, user_id, key) {
+export function editLoggedInProfile(
+  profile_id,
+  key,
+  profile_edits,
+  contentType = "application/json"
+) {
   return dispatch => {
-    const url =
-      user_type === "EMP"
-        ? `${API_URL}/employer/profile/`
-        : `${API_URL}/employee/profile/`;
-    const headers = { Authorization: `Token ${key}` };
-    const data = { user_id: user_id };
-
-    return axios
-      .post(url, data, { headers })
-      .then(response => {
-        response.data.key = key
-        dispatch(
-          createNewProfileSuccess({
-            profile: response.data,
-            loading: { isLoading: false }
-          })
-        );
-      })
-      .catch(error =>
-        dispatch(
-          createNewProfileError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
-        )
-      );
-  };
-}
-
-export function editLoggedInProfile(profile_id, key, profile_edits) {
-  return dispatch => {
+    let url = `${API_URL}/employer/profile/${profile_id}/`;
     const headers = {
-      "Content-Type": "multipart/form-data, application/json",
+      "Content-Type": contentType,
       Authorization: `Token ${key}`
     };
+
     return axios
-      .patch(`${API_URL}/employer/profile/${profile_id}/`, profile_edits, {
+      .patch(url, profile_edits, {
         headers
       })
       .then(response => {
-        const fieldName = profile_edits.keys().next()["value"];
-        response.data[fieldName] = get_obj_name(response.data[fieldName]);
-        response.data["key"] = key;
-        imgToLocalStore(profile_edits.get(fieldName), fieldName, true);
+        if (contentType !== "application/json") {
+          const fieldName = profile_edits.keys().next()["value"];
+          imgToLocalStore(profile_edits.get(fieldName), fieldName);
+        }
 
+        response.data.key = key;
         dispatch(
           editLoggedInProfileSuccess({
             profile: response.data,
             loading: { isLoading: false }
           })
         );
+        window.location.reload(false);
       })
       .catch(error => {
+        console.log(error);
         dispatch(
           editLoggedInProfileError({
             error: error.data,

@@ -513,24 +513,26 @@ export const googleSignOn = (response, props) => {
   setSocialSignOn(profile, accessToken, "google", props);
 };
 
-export function getImage(url, fieldName) {
-  if (!localStorage.getItem(fieldName)) {
-    axios
-      .get(url, { responseType: "arraybuffer" })
-      .then(res => {
-        imgToLocalStore(new Blob([new Uint8Array(res.data)]), fieldName);
-      })
-      .catch(err => console.log(err));
-  }
-}
-
 export function imgToLocalStore(file, fieldName) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onloadend = function() {
-    if (!localStorage.getItem(fieldName))
-      localStorage.setItem(fieldName, reader.result);
+    localStorage.setItem(fieldName, reader.result);
   };
+}
+
+/**
+ *
+ * @param {string} url presigned aws s3 url for object
+ * @param {string} fieldName name of key in ls
+ */
+export function getImage(url, fieldName) {
+  axios
+    .get(url, { responseType: "arraybuffer" })
+    .then(res => {
+      imgToLocalStore(new Blob([new Uint8Array(res.data)]), fieldName);
+    })
+    .catch(err => console.log(err));
 }
 
 export function get_obj_name(url) {

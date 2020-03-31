@@ -4,6 +4,7 @@ import {
   editAward,
   fetchAwards,
   fetchJobs,
+  addJob,
   fetchReviews
 } from "../reducers";
 import { editLoggedInProfile, fetchLoggedInProfile } from "../../auth/reducers";
@@ -18,7 +19,6 @@ import Profile from "./Profile";
 import Projects from "./Projects";
 import Tabs from "../../common/components/Tabs";
 import { connect } from "react-redux";
-import { isEmpty } from "../../common/utils/helpers";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -32,8 +32,7 @@ class EmployerDashboard extends Component {
       fetchAwards,
       fetchReviews,
       fetchJobs,
-      user: { id, key, user_type },
-      profile
+      user: { id, key, user_type }
     } = this.props;
 
     function after(profile_id, key) {
@@ -41,9 +40,7 @@ class EmployerDashboard extends Component {
       fetchAwards(profile_id, key);
       fetchReviews(profile_id, key);
     }
-    if (isEmpty(profile)) {
-      fetchLoggedInProfile(id, user_type, key, after);
-    }
+    fetchLoggedInProfile(id, user_type, key, after);
   }
 
   render() {
@@ -69,15 +66,12 @@ class EmployerDashboard extends Component {
           profile_id={profile.id}
           token={profile.key}
           addJob={addJob}
+          render={props => CreateJobForm(props)}
           openButton={props => (
             <PostButton onClick={props.onClose}>Post a Job</PostButton>
           )}
-          render={props => CreateJobForm(props)}
         />
         <Tabs>
-          <div label="Projects">
-            <Projects jobs={jobs} />
-          </div>
           <div label="Profile">
             <Profile
               editProfile={editLoggedInProfile}
@@ -87,6 +81,9 @@ class EmployerDashboard extends Component {
               reviews={reviews}
               awards={awards}
             />
+          </div>
+          <div label="Projects">
+            <Projects jobs={jobs} />
           </div>
           <div label="Inbox"></div>
           <div label="Feedback"></div>
@@ -109,15 +106,13 @@ const mapDispatchToProps = dispatch => ({
   fetchLoggedInProfile: (user_id, user_type, key, func) =>
     dispatch(fetchLoggedInProfile(user_id, user_type, key, func)),
 
-  editLoggedInProfile: (profile_id, key, profile_edits) =>
-    dispatch(editLoggedInProfile(profile_id, key, profile_edits)),
+  editLoggedInProfile: (profile_id, key, profile_edits, contentType) =>
+    dispatch(editLoggedInProfile(profile_id, key, profile_edits, contentType)),
 
   addAward: (profile_id, key, award) =>
     dispatch(addAward(profile_id, key, award)),
 
-  addJob: (profile_id, key, award) =>
-    dispatch(editAward(profile_id, key, award)),
-
+  addJob: (profile_id, key, job) => dispatch(addJob(profile_id, key, job)),
   fetchReviews: (profile_id, key) => dispatch(fetchReviews(profile_id, key)),
   fetchAwards: (profile_id, key) => dispatch(fetchAwards(profile_id, key)),
   fetchJobs: profile_id => dispatch(fetchJobs(profile_id)),

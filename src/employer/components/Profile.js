@@ -209,6 +209,8 @@ class Profile extends React.Component {
                   <>
                     <BriefcaseIcon className="fa fa-briefcase"></BriefcaseIcon>
                     {profile.number_of_employees} employees
+                    <br />
+                    {profile.phone_number}
                   </>
                 ) : (
                   ""
