@@ -137,6 +137,7 @@ export function createNewProfile(user_type, user_id, key) {
     return axios
       .post(url, data, { headers })
       .then(response => {
+        response.data.key = key
         dispatch(
           createNewProfileSuccess({
             profile: response.data,

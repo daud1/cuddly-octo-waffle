@@ -507,8 +507,8 @@ class SignupForm extends Component {
         let newUser = { ...response.data };
         newUser.loggedIn = true;
         newUser.key = key;
-        createNewProfile(newUser.user_type, newUser.id, key);
         setUser(newUser);
+        createNewProfile(newUser.user_type, newUser.id, key);
       })
       .catch(error => {
         setLoading({ isLoading: false });

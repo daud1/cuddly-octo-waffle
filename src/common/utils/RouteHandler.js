@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import {
   Redirect,
   Route,
@@ -11,6 +10,7 @@ import EmployerDashboard from "../../employer/components/EmployerDashboard.conta
 import Home from "../../homePage/components/Home.container";
 import PasswordResetConfirmation from "../../auth/components/PasswordResetConfirmation";
 import Settings from "../components/Settings";
+import { connect } from "react-redux";
 import { isLoggedIn } from "../utils/helpers";
 
 class RouteHandler extends Component {

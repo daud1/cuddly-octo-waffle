@@ -3,20 +3,22 @@ import {
   addAward,
   editAward,
   fetchAwards,
-  fetchReviews,
-  fetchJobs
+  fetchJobs,
+  fetchReviews
 } from "../reducers";
-import Footer from "../../common/components/Footer";
-import NavBar from "../../common/components/Navbar";
+import { editLoggedInProfile, fetchLoggedInProfile } from "../../auth/reducers";
+
 import AccountDropDown from "../../auth/components/AccountDropDown";
-import Profile from "./Profile";
-import Modal from "../../common/components/Modal";
-import Projects from "./Projects";
-import { PostButton } from "./Common";
 import CreateJobForm from "./CreateJobForm";
+import Footer from "../../common/components/Footer";
+import Modal from "../../common/components/Modal";
+import NavBar from "../../common/components/Navbar";
+import { PostButton } from "./Common";
+import Profile from "./Profile";
+import Projects from "./Projects";
 import Tabs from "../../common/components/Tabs";
 import { connect } from "react-redux";
-import { fetchLoggedInProfile, editLoggedInProfile } from "../../auth/reducers";
+import { isEmpty } from "../../common/utils/helpers";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -30,16 +32,18 @@ class EmployerDashboard extends Component {
       fetchAwards,
       fetchReviews,
       fetchJobs,
-      user: { id, key, user_type }
+      user: { id, key, user_type },
+      profile
     } = this.props;
 
     function after(profile_id, key) {
+      fetchJobs(profile_id);
       fetchAwards(profile_id, key);
       fetchReviews(profile_id, key);
-      fetchJobs(profile_id);
     }
-
-    fetchLoggedInProfile(id, user_type, key, after);
+    if (isEmpty(profile)) {
+      fetchLoggedInProfile(id, user_type, key, after);
+    }
   }
 
   render() {
