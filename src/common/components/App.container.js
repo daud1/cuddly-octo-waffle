@@ -6,7 +6,7 @@ import configureStore from "../redux";
 import { forceHTTPS } from "../utils/helpers";
 
 // const reduxStore = configureStore(window.REDUX_INITIAL_DATA);
-const { store, persistor } = configureStore
+const { store, persistor } = configureStore;
 
 class App extends Component {
   UNSAFE_componentWillMount() {

@@ -2195,21 +2195,21 @@ button:focus {
 }
 
 /* naki was here */
-  .active-tab-item{
-    border-bottom: solid 2px #6B85F2;
-    font-weight: bold;
+.active-tab-item {
+  border-bottom: solid 2px #6b85f2;
+  font-weight: bold;
 }
 
 .tab-list li:hover {
-    border-bottom: solid 2px #6B85F2;
-    font-size: 13px;
-    font-weight: bold;
+  border-bottom: solid 2px #6b85f2;
+  font-size: 13px;
+  font-weight: bold;
 }
 
-.listContainer div:nth-child(1)  { 
-    border-top: 0;
+.listContainer div:nth-child(1) {
+  border-top: 0;
 }
 
-.form{
+.form {
   width: 100%;
 }

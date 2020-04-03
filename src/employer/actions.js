@@ -5,7 +5,7 @@ export const FETCH_AWARDS_SUCCESS = "FETCH_AWARDS_SUCCESS";
 export const FETCH_AWARDS_ERROR = "FETCH_AWARDS_ERROR";
 
 export function fetchAwards(dispatch) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(fetchAwardsBegin());
     return axios
       .get(url, headers)

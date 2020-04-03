@@ -1,7 +1,9 @@
 import { API_URL } from "../common/utils/constants";
+import {setNotification} from "../auth/reducers"
 import axios from "axios";
 import { combineReducers } from "redux";
 import { createSlice } from "@reduxjs/toolkit";
+import { showAPIErrors } from "../common/utils/helpers";
 
 const awardsSlice = createSlice({
   name: "awards",
@@ -74,6 +76,7 @@ export function fetchAwards(profile_id, key) {
         dispatch(
           fetchAwardsError({ error: error.data, loading: { isLoading: false } })
         );
+        showAPIErrors(error, setNotification);
       });
   };
 }
@@ -96,11 +99,12 @@ export function editAward(key, awardEdits) {
           })
         )
       )
-      .catch(error =>
+      .catch(error => {
         dispatch(
           editAwardError({ error: error.data, loading: { isLoading: false } })
-        )
-      );
+        );
+        showAPIErrors(error, setNotification);
+      });
   };
 }
 export function addAward(profile_id, key, award) {
@@ -123,17 +127,18 @@ export function addAward(profile_id, key, award) {
           })
         )
       )
-      .catch(error =>
+      .catch(error => {
         dispatch(
           addAwardError({ error: error.data, loading: { isLoading: false } })
-        )
-      );
+        );
+        showAPIErrors(error, setNotification);
+      });
   };
 }
 
 const jobsSlice = createSlice({
   name: "jobs",
-  initialState: { jobs: [], loading: false, error: null },
+  initialState: { jobs: [], loading: false, error: null},
   reducers: {
     fetchJobsBegin(state, action) {
       const { loading } = action.payload;
@@ -192,6 +197,7 @@ export function fetchJobs(profile_id) {
         dispatch(
           fetchJobsError({ error: error.data, loading: { isLoading: false } })
         );
+        showAPIErrors(error, setNotification);
       });
   };
 }
@@ -217,6 +223,7 @@ export function addJob(profile_id, key, job) {
         dispatch(
           addJobError({ error: error.data, loading: { isLoading: false } })
         );
+        showAPIErrors(error, setNotification);
       });
   };
 }
@@ -297,18 +304,18 @@ export function fetchProfile(user_id, key) {
           })
         )
       )
-      .catch(error =>
+      .catch(error => {
         dispatch(
           fetchProfileError({
             error: error.data,
             loading: { isLoading: false }
           })
-        )
-      );
+        );
+        showAPIErrors(error, setNotification);
+      });
   };
 }
 export function editProfile(profile_id, key, profile_edits) {
-  console.log("args", key);
   return dispatch => {
     const headers = {
       "content-type": "application/json",
@@ -333,13 +340,14 @@ export function editProfile(profile_id, key, profile_edits) {
             loading: { isLoading: false }
           })
         );
+        showAPIErrors(error, setNotification);
       });
   };
 }
 
 const reviewsSlice = createSlice({
   name: "reviews",
-  initialState: { reviews: [], loading: false, error: null },
+  initialState: { reviews: [], loading: false, error: null},
   reducers: {
     fetchReviewsBegin(state, action) {
       const { loading } = action.payload;
@@ -380,14 +388,15 @@ export function fetchReviews(profile_id, key) {
           })
         );
       })
-      .catch(error =>
+      .catch(error => {
         dispatch(
           fetchReviewsError({
             error: error.data,
             loading: { isLoading: false }
           })
-        )
-      );
+        );
+        showAPIErrors(error, setNotification);
+      });
   };
 }
 

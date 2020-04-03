@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {
   addAward,
+  addJob,
   editAward,
   fetchAwards,
   fetchJobs,
-  addJob,
   fetchReviews
 } from "../reducers";
 import { editLoggedInProfile, fetchLoggedInProfile } from "../../auth/reducers";
@@ -18,8 +18,11 @@ import { PostButton } from "./Common";
 import Profile from "./Profile";
 import Projects from "./Projects";
 import Tabs from "../../common/components/Tabs";
+import { clearNotification } from "../../auth/reducers";
 import { connect } from "react-redux";
+import { isEmpty } from "../../common/utils/helpers";
 import styled from "styled-components";
+import toast from "toasted-notes";
 
 const Container = styled.div`
   font-size: 13px;
@@ -41,6 +44,16 @@ class EmployerDashboard extends Component {
       fetchReviews(profile_id, key);
     }
     fetchLoggedInProfile(id, user_type, key, after);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { notification, clearNotifications } = this.props;
+
+    if (prevProps.notification !== notification && !isEmpty(notification)) {
+      const { message, options } = notification;
+      toast.notify(message, options);
+      clearNotifications();
+    }
   }
 
   render() {
@@ -99,7 +112,8 @@ const mapStateToProps = state => ({
   reviews: state.employer.reviews.reviews,
   awards: state.employer.awards.awards,
   jobs: state.employer.jobs.jobs,
-  user: state.auth.user
+  user: state.auth.user,
+  notification: state.auth.notification
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -116,7 +130,8 @@ const mapDispatchToProps = dispatch => ({
   fetchReviews: (profile_id, key) => dispatch(fetchReviews(profile_id, key)),
   fetchAwards: (profile_id, key) => dispatch(fetchAwards(profile_id, key)),
   fetchJobs: profile_id => dispatch(fetchJobs(profile_id)),
-  editAward: (key, awardEdits) => dispatch(editAward(key, awardEdits))
+  editAward: (key, awardEdits) => dispatch(editAward(key, awardEdits)),
+  clearNotifications: () => dispatch(clearNotification())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployerDashboard);

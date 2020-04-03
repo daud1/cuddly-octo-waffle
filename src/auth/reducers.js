@@ -1,7 +1,8 @@
 import {
   getImage,
   get_obj_name,
-  imgToLocalStore
+  imgToLocalStore,
+  showAPIErrors
 } from "../common/utils/helpers";
 
 import { API_URL } from "../common/utils/constants";
@@ -99,14 +100,15 @@ export function createNewProfile(user_type, user_id, key) {
           })
         );
       })
-      .catch(error =>
+      .catch(error => {
         dispatch(
           createNewProfileError({
             error: error.data,
             loading: { isLoading: false }
           })
-        )
-      );
+        );
+        showAPIErrors(error, setNotification);
+      });
   };
 }
 
@@ -145,14 +147,15 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
         );
         after(response.data[0].id, key);
       })
-      .catch(error =>
+      .catch(error => {
         dispatch(
           fetchLoggedInProfileError({
             error: error.data,
             loading: { isLoading: false }
           })
-        )
-      );
+        );
+        showAPIErrors(error, setNotification);
+      });
   };
 }
 
@@ -186,7 +189,7 @@ export function editLoggedInProfile(
             loading: { isLoading: false }
           })
         );
-        window.location.reload(false);
+        window.location.reload(false); // bad hack
       })
       .catch(error => {
         console.log(error);
@@ -196,6 +199,7 @@ export function editLoggedInProfile(
             loading: { isLoading: false }
           })
         );
+        showAPIErrors(error, setNotification);
       });
   };
 }

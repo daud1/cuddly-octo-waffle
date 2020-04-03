@@ -14,7 +14,9 @@ const JobItem = props => {
       </Container>
       <Container columns ml="15px" mb="25px">
         <Container>
-          <SubTitle hoverEffect blue>{title}</SubTitle>
+          <SubTitle hoverEffect blue>
+            {title}
+          </SubTitle>
         </Container>
         <Container mb="5px">
           <GrayTxt>In {company}</GrayTxt>
