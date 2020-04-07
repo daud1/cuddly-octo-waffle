@@ -1,5 +1,5 @@
 import { API_URL } from "../common/utils/constants";
-import {setNotification} from "../auth/reducers"
+import { setNotification } from "../auth/reducers";
 import axios from "axios";
 import { combineReducers } from "redux";
 import { createSlice } from "@reduxjs/toolkit";
@@ -138,7 +138,7 @@ export function addAward(profile_id, key, award) {
 
 const jobsSlice = createSlice({
   name: "jobs",
-  initialState: { jobs: [], loading: false, error: null},
+  initialState: { jobs: [], loading: false, error: null },
   reducers: {
     fetchJobsBegin(state, action) {
       const { loading } = action.payload;
@@ -155,7 +155,7 @@ const jobsSlice = createSlice({
       state.error = error;
       state.loading = loading;
     },
-    addJobsSuccess(state, action) {
+    addJobSuccess(state, action) {
       const { job, loading } = action.payload;
       state.jobs.push(job);
       state.loading = loading;
@@ -219,7 +219,6 @@ export function addJob(profile_id, key, job) {
         )
       )
       .catch(error => {
-        console.log(error);
         dispatch(
           addJobError({ error: error.data, loading: { isLoading: false } })
         );
@@ -347,7 +346,7 @@ export function editProfile(profile_id, key, profile_edits) {
 
 const reviewsSlice = createSlice({
   name: "reviews",
-  initialState: { reviews: [], loading: false, error: null},
+  initialState: { reviews: [], loading: false, error: null },
   reducers: {
     fetchReviewsBegin(state, action) {
       const { loading } = action.payload;

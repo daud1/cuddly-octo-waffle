@@ -119,13 +119,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchLoggedInProfile: (user_id, user_type, key, func) =>
     dispatch(fetchLoggedInProfile(user_id, user_type, key, func)),
-
   editLoggedInProfile: (profile_id, key, profile_edits, contentType) =>
     dispatch(editLoggedInProfile(profile_id, key, profile_edits, contentType)),
-
   addAward: (profile_id, key, award) =>
     dispatch(addAward(profile_id, key, award)),
-
   addJob: (profile_id, key, job) => dispatch(addJob(profile_id, key, job)),
   fetchReviews: (profile_id, key) => dispatch(fetchReviews(profile_id, key)),
   fetchAwards: (profile_id, key) => dispatch(fetchAwards(profile_id, key)),

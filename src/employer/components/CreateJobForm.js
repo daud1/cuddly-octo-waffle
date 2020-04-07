@@ -33,15 +33,18 @@ const validationSchema = yup.object().shape({
   description: yup.string().required("Required"),
   skills_required: yup.array().of(yup.string()),
   other_roles: yup.array().of(yup.string()),
-  primary_role: yup.string().required("Required"),
+  primary_role: yup.string(),
   work_time: yup
     .string()
-    .required("Required")
-    .oneOf(["full-time", "part-time"]),
+    .oneOf(["Full-Time", "Part-Time"])
+    .required("Required"),
   salary_range: yup.string(),
+  currency: yup.string().required("Required"),
   location: yup.string().required("Required")
 });
 export default function CreateJobForm(props) {
+  const { profile_id, token, addJob, onClose } = props;
+
   return (
     <Container columns width="100%">
       <Container mb="20px">
@@ -54,10 +57,8 @@ export default function CreateJobForm(props) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={values => {
-          const { profile_id, key, addJob } = props;
-          console.log(props);
-          addJob(profile_id, key, values);
-          props.onClose();
+          addJob(profile_id, token, values);
+          onClose();
         }}
       >
         <Form>
@@ -115,8 +116,8 @@ export default function CreateJobForm(props) {
             </Container>
             <Container columns width="15%">
               <SelectField as="select" name="currency" mt="35px">
-                <option value="USD">USD</option>
                 <option value="UGX">UGX</option>
+                <option value="USD">USD</option>
               </SelectField>
             </Container>
           </Container>
@@ -128,20 +129,20 @@ export default function CreateJobForm(props) {
             placeholder="e.g Kampala"
             mb="15px"
           />
+
           <RightAlign mt="3rem" mb="3rem">
             <Button
               mr="30px"
               white
               width="120px"
               height="30px"
-              type="button"
-              onClick={props.onClose}
+              onClick={onClose}
             >
               Cancel
             </Button>
-            <button type="submit" width="120px" height="30px">
+            <Button width="120px" height="30px" type="submit">
               Post Job Now
-            </button>
+            </Button>
           </RightAlign>
         </Form>
       </Formik>
@@ -153,5 +154,5 @@ CreateJobForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   addJob: PropTypes.func.isRequired,
   profile_id: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired
 };
