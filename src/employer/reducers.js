@@ -91,14 +91,15 @@ export function editAward(key, awardEdits) {
 
     return axios
       .patch(url, awardEdits, { headers })
-      .then(response =>
+      .then(response => {
         dispatch(
           editAwardSuccess({
             award: response.data,
             loading: { isLoading: false }
           })
-        )
-      )
+        );
+        dispatch(setNotification({ message: "Changes Saved!" }));
+      })
       .catch(error => {
         dispatch(
           editAwardError({ error: error.data, loading: { isLoading: false } })
@@ -119,14 +120,15 @@ export function addAward(profile_id, key, award) {
 
     return axios
       .post(url, award, { headers })
-      .then(response =>
+      .then(response => {
         dispatch(
           addAwardSuccess({
             award: response.data,
             loading: { isLoading: false }
           })
-        )
-      )
+        );
+        dispatch(setNotification({ message: "Award added!" }));
+      })
       .catch(error => {
         dispatch(
           addAwardError({ error: error.data, loading: { isLoading: false } })
@@ -213,11 +215,12 @@ export function addJob(profile_id, key, job) {
 
     return axios
       .post(url, job, { headers })
-      .then(response =>
+      .then(response => {
         dispatch(
           addJobSuccess({ job: response.data, loading: { isLoading: false } })
-        )
-      )
+        );
+        dispatch(setNotification({ message: "Job posted successfully!" }));
+      })
       .catch(error => {
         dispatch(
           addJobError({ error: error.data, loading: { isLoading: false } })
@@ -331,6 +334,7 @@ export function editProfile(profile_id, key, profile_edits) {
             loading: { isLoading: false }
           })
         );
+        dispatch(setNotification({ message: "Changes Saved!" }));
       })
       .catch(error => {
         dispatch(
