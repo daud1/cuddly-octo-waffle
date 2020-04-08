@@ -1,9 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
-
-import styled from "styled-components";
-
+import React from "react";
 import Tab from "./Tab";
+import styled from "styled-components";
 
 const TabsBar = styled.div`
   height: 40px;

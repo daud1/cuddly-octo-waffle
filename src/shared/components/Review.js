@@ -1,9 +1,9 @@
-import React from "react";
+import { Avatar, Container, SubTitle } from "../../employer/components/Common";
+
 import BeautyStars from "beauty-stars";
 import PropTypes from "prop-types";
-
+import React from "react";
 import samplePic from "../images/bubalus.png";
-import { Avatar, Container, SubTitle } from "../../employer/components/Common";
 
 const Review = props => {
   const { title, author, rating, description, date_posted } = props.review;

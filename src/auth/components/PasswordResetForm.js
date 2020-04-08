@@ -1,22 +1,22 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-
 import {
-  setUser,
+  clearInputError,
+  isEmpty,
+  scrollToElement,
+  setInputError,
+  showAPIErrors,
+  validateEmail
+} from "../../shared/utils/helpers";
+import {
+  removeSignOn,
   setLoading,
   setNotification,
-  removeSignOn
+  setUser
 } from "../reducers";
-import {
-  validateEmail,
-  setInputError,
-  clearInputError,
-  scrollToElement,
-  isEmpty,
-  showAPIErrors
-} from "../../shared/utils/helpers";
+
 import { API_URL } from "../../shared/utils/constants";
+import axios from "axios";
+import { connect } from "react-redux";
 
 class PasswordResetForm extends Component {
   constructor(props) {

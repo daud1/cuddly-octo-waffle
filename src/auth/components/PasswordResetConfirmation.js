@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { connect } from "react-redux";
-
 import {
   clearInputError,
   comparePasswords,
@@ -13,10 +10,13 @@ import {
   setInputError,
   showAPIErrors
 } from "../../shared/utils/helpers";
-import { setUser, setLoading, setNotification, setSignOn } from "../reducers";
+import { setLoading, setNotification, setSignOn, setUser } from "../reducers";
+
 import { API_URL } from "../../shared/utils/constants";
 import Footer from "../../shared/components/Footer";
 import NavBar from "../../shared/components/Navbar";
+import axios from "axios";
+import { connect } from "react-redux";
 
 class PasswordResetConfirmation extends Component {
   constructor(props) {

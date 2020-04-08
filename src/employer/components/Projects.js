@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import JobList from "./JobList";
-import { Container } from "./Common";
 import BriefProfile from "./BriefProfile";
+import { Container } from "./Common";
+import JobList from "./JobList";
+import PropTypes from "prop-types";
+import React from "react";
 
 export default function Projects(props) {
   return (

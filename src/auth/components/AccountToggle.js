@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+
 import { connect } from "react-redux";
-import { setUser } from "../reducers";
 import { selectRadioButton } from "../../shared/utils/helpers";
+import { setUser } from "../reducers";
 
 class AccountToggle extends Component {
   constructor(props) {

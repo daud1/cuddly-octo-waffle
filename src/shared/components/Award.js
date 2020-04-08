@@ -9,8 +9,9 @@ import {
   RightAlign,
   SubTitle
 } from "../../employer/components/Common";
-import { Formik, Form, Field } from "formik";
+import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
+
 import _ from "lodash";
 
 export const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);

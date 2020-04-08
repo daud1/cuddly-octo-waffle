@@ -1,7 +1,8 @@
-import React from "react";
-import JobItem from "./JobItem";
-import styled from "styled-components";
 import { Container, NothingToDisplay } from "./Common";
+
+import JobItem from "./JobItem";
+import React from "react";
+import styled from "styled-components";
 
 const Sticker = styled.div`
   background-color: #a476f5;

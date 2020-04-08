@@ -1,9 +1,8 @@
-import React from "react";
+import { Avatar, Container, GrayTxt, SubTitle } from "./Common";
+
 import PropTypes from "prop-types";
-
+import React from "react";
 import profilePic from "../../shared/images/sample_profile_pic.jpg";
-
-import { Avatar, GrayTxt, SubTitle, Container } from "./Common";
 
 const JobItem = props => {
   const { title, company, salary_range, location } = props;

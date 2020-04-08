@@ -1,6 +1,3 @@
-import React from "react";
-import axios from "axios";
-
 import {
   getNameFromUser,
   getTitleFromUser,
@@ -9,8 +6,11 @@ import {
   showAPIErrors,
   stopPropagation
 } from "../../shared/utils/helpers";
-import { setLoading, setNotification, removeUser } from "../reducers";
+import { removeUser, setLoading, setNotification } from "../reducers";
+
 import { API_URL } from "../../shared/utils/constants";
+import React from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import sampleCoverPic from "../../shared/images/sample_cover_pic.jpg";
 

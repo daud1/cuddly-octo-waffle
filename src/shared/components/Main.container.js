@@ -1,13 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import toast from "toasted-notes";
-import { clearNotification, removeUser } from "../../auth/reducers";
-import { isEmpty } from "../utils/helpers";
-import RouteHandler from "../utils/RouteHandler";
-import Loader from "../components/Loader";
 import "toasted-notes/src/styles.css";
 import "../styles/global.css";
 import "../styles/home.css";
+
+import React, { Component } from "react";
+import { clearNotification, removeUser } from "../../auth/reducers";
+
+import Loader from "../components/Loader";
+import RouteHandler from "../utils/RouteHandler";
+import { connect } from "react-redux";
+import { isEmpty } from "../utils/helpers";
+import toast from "toasted-notes";
 
 class MainContainer extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {

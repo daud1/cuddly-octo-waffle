@@ -15,16 +15,16 @@ import {
   showAPIErrors,
   validateEmail
 } from "../../shared/utils/helpers";
-
 import {
-  setUser,
-  setSignOn,
+  fetchLoggedInProfile,
+  removeSignOn,
   setLoading,
   setNotification,
-  removeSignOn,
   setRememberMe,
-  fetchLoggedInProfile
+  setSignOn,
+  setUser
 } from "../reducers";
+
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 import axios from "axios";

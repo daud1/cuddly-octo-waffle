@@ -1,13 +1,4 @@
-import axios from "axios";
 import React, { Component } from "react";
-import { connect } from "react-redux";
-
-import AccountDropDown from "../../auth/components/AccountDropDown";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import sampleProfilePic from "../../shared/images/sample_profile_pic.jpg";
-import ACTIONS from "../../shared/redux/action";
-import { API_URL } from "../../shared/utils/constants";
 import {
   clearInputError,
   comparePasswords,
@@ -18,6 +9,15 @@ import {
   setInputError,
   showAPIErrors
 } from "../utils/helpers";
+import { removeUser, setLoading, setNotification } from "../../auth/reducers"
+
+import { API_URL } from "../../shared/utils/constants";
+import AccountDropDown from "../../auth/components/AccountDropDown";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import axios from "axios";
+import { connect } from "react-redux";
+import sampleProfilePic from "../../shared/images/sample_profile_pic.jpg";
 
 class Settings extends Component {
   constructor(props) {
@@ -579,10 +579,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setLoading: loading => dispatch(ACTIONS.setLoading(loading)),
+  setLoading: loading => dispatch(setLoading(loading)),
   setNotification: notification =>
-    dispatch(ACTIONS.setNotification(notification)),
-  removeUser: () => dispatch(ACTIONS.removeUser())
+    dispatch(setNotification(notification)),
+  removeUser: () => dispatch(removeUser())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

@@ -1,17 +1,18 @@
 //eslint-disable jsx-a11y/anchor-is-valid
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { setSignOn, removeUser, removeSignOn } from "../../auth/reducers";
 import {
-  isLoggedIn,
-  stopPropagation,
-  showOverlay,
   dismissOverlay,
+  getUserImage,
+  isLoggedIn,
   openRoute,
-  getUserImage
+  showOverlay,
+  stopPropagation
 } from "../utils/helpers";
-import logo from "../images/athena_logo.png";
+import { removeSignOn, removeUser, setSignOn } from "../../auth/reducers";
+
 import binderIcon from "../images/binder_icon.png";
+import { connect } from "react-redux";
+import logo from "../images/athena_logo.png";
 import logoWhite from "../images/athena_logo_long_white.png";
 
 class Navbar extends Component {
