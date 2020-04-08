@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import AccountDropDown from "../../auth/components/AccountDropDown";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import sampleProfilePic from "../../common/images/sample_profile_pic.jpg";
-import ACTIONS from "../../common/redux/action";
-import { API_URL } from "../../common/utils/constants";
+import sampleProfilePic from "../../shared/images/sample_profile_pic.jpg";
+import ACTIONS from "../../shared/redux/action";
+import { API_URL } from "../../shared/utils/constants";
 import {
   clearInputError,
   comparePasswords,

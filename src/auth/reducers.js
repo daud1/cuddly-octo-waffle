@@ -3,9 +3,9 @@ import {
   get_obj_name,
   imgToLocalStore,
   showAPIErrors
-} from "../common/utils/helpers";
+} from "../shared/utils/helpers";
 
-import { API_URL } from "../common/utils/constants";
+import { API_URL } from "../shared/utils/constants";
 import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 

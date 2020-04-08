@@ -15,8 +15,8 @@ import {
   scrollToElement,
   isEmpty,
   showAPIErrors
-} from "../../common/utils/helpers";
-import { API_URL } from "../../common/utils/constants";
+} from "../../shared/utils/helpers";
+import { API_URL } from "../../shared/utils/constants";
 
 class PasswordResetForm extends Component {
   constructor(props) {

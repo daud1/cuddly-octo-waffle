@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import AccountDropDown from "../../auth/components/AccountDropDown";
 import AccountSelector from "../../auth/components/AccountSelector";
-import Footer from "../../common/components/Footer";
+import Footer from "../../shared/components/Footer";
 import HomeHeader from "./HomeHeader";
 import HomeSection1 from "./HomeSection1";
 import HomeSection2 from "./HomeSection2";
@@ -11,12 +11,12 @@ import HomeSection4 from "./HomeSection4";
 import HomeSection5 from "./HomeSection5";
 import HomeSection6 from "./HomeSection6";
 import HomeSection7 from "./HomeSection7";
-import Navbar from "../../common/components/Navbar";
+import Navbar from "../../shared/components/Navbar";
 import PasswordResetForm from "../../auth/components/PasswordResetForm";
 import SigninForm from "../../auth/components/SigninForm";
 import SignupForm from "../../auth/components/SignupForm";
 import { connect } from "react-redux";
-import { isLoggedIn } from "../../common/utils/helpers";
+import { isLoggedIn } from "../../shared/utils/helpers";
 
 class Home extends Component {
   constructor(props) {

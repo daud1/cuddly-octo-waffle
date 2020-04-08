@@ -1,6 +1,6 @@
 import React from "react";
-import pencilRuler from "../../common/images/pencil_ruler.svg";
-import binderIcon from "../../common/images/binder_icon.png";
+import pencilRuler from "../../shared/images/pencil_ruler.svg";
+import binderIcon from "../../shared/images/binder_icon.png";
 
 function HomeSection1() {
   return (

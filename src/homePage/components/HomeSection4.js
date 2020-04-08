@@ -1,5 +1,5 @@
 import React from "react";
-import cover from "../../common/images/sample_cover_pic.jpg";
+import cover from "../../shared/images/sample_cover_pic.jpg";
 
 function HomeSection4() {
   return (

@@ -1,10 +1,10 @@
 import React from "react";
-import talkingDogLogo from "../../common/images/talking_dog_logo.png";
-import followLogo from "../../common/images/follow_logo.jpg";
-import bubalusLogo from "../../common/images/bubalus.png";
-import elefontLogo from "../../common/images/elefont.jpg";
-import fiveTwentyLogo from "../../common/images/five-twenty-logo.jpg";
-import americanStoriesLogo from "../../common/images/american-stories-logo.jpg";
+import talkingDogLogo from "../../shared/images/talking_dog_logo.png";
+import followLogo from "../../shared/images/follow_logo.jpg";
+import bubalusLogo from "../../shared/images/bubalus.png";
+import elefontLogo from "../../shared/images/elefont.jpg";
+import fiveTwentyLogo from "../../shared/images/five-twenty-logo.jpg";
+import americanStoriesLogo from "../../shared/images/american-stories-logo.jpg";
 
 function HomeSection6() {
   return (

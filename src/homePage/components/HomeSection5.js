@@ -1,6 +1,6 @@
 import React from "react";
-import robot from "../../common/images/robot.png";
-import spaceStation from "../../common/images/space_station.png";
+import robot from "../../shared/images/robot.png";
+import spaceStation from "../../shared/images/space_station.png";
 
 function HomeSection5() {
   return (

@@ -3,7 +3,7 @@ import {
   Redirect,
   Route,
   BrowserRouter as Router,
-  Switch
+  Switch,
 } from "react-router-dom";
 
 import EmployerDashboard from "../../employer/components/EmployerDashboard.container";
@@ -19,7 +19,7 @@ class RouteHandler extends Component {
     const PrivateRoute = ({ component: Component, ...rest }) => (
       <Route
         {...rest}
-        render={props =>
+        render={(props) =>
           isLoggedIn(user) ? (
             <Component {...props} />
           ) : (
@@ -48,8 +48,8 @@ class RouteHandler extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
+const mapStateToProps = (state) => ({
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps)(RouteHandler);

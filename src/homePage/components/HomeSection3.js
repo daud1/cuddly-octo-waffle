@@ -1,8 +1,8 @@
 import React from "react";
-import arrowBackground from "../../common/images/arrow_background.png";
-import spaceStation from "../../common/images/space_station.png";
-import marsRover from "../../common/images/mars_rover.png";
-import rocket from "../../common/images/rocket.png";
+import arrowBackground from "../../shared/images/arrow_background.png";
+import spaceStation from "../../shared/images/space_station.png";
+import marsRover from "../../shared/images/mars_rover.png";
+import rocket from "../../shared/images/rocket.png";
 
 function HomeSection3() {
   return (

@@ -2,7 +2,7 @@ import {
   API_URL,
   FACEBOOK_APP_ID,
   GOOGLE_CLIENT_ID
-} from "../../common/utils/constants";
+} from "../../shared/utils/constants";
 import React, { Component } from "react";
 import {
   clearInputError,
@@ -14,7 +14,7 @@ import {
   setInputError,
   showAPIErrors,
   validateEmail
-} from "../../common/utils/helpers";
+} from "../../shared/utils/helpers";
 
 import {
   setUser,

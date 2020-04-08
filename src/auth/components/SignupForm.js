@@ -16,12 +16,12 @@ import {
   setInputError,
   showAPIErrors,
   validateEmail
-} from "../../common/utils/helpers";
+} from "../../shared/utils/helpers";
 import {
   API_URL,
   FACEBOOK_APP_ID,
   GOOGLE_CLIENT_ID
-} from "../../common/utils/constants";
+} from "../../shared/utils/constants";
 
 import {
   setUser,
@@ -31,15 +31,15 @@ import {
   removeSignOn,
   createNewProfile
 } from "../reducers";
-import bubalusLogo from "../../common/images/bubalus.png";
-import cover from "../../common/images/sample_cover_pic.jpg";
-import followLogo from "../../common/images/follow_logo.jpg";
-import logo from "../../common/images/athena_logo_image.jpg";
-import profile12 from "../../common/images/sample_profile_pic_12.jpg";
-import profile13 from "../../common/images/sample_profile_pic_13.jpg";
-import profile15 from "../../common/images/sample_profile_pic_15.jpg";
-import profile16 from "../../common/images/sample_profile_pic_16.jpg";
-import profile17 from "../../common/images/sample_profile_pic_17.jpg";
+import bubalusLogo from "../../shared/images/bubalus.png";
+import cover from "../../shared/images/sample_cover_pic.jpg";
+import followLogo from "../../shared/images/follow_logo.jpg";
+import logo from "../../shared/images/athena_logo_image.jpg";
+import profile12 from "../../shared/images/sample_profile_pic_12.jpg";
+import profile13 from "../../shared/images/sample_profile_pic_13.jpg";
+import profile15 from "../../shared/images/sample_profile_pic_15.jpg";
+import profile16 from "../../shared/images/sample_profile_pic_16.jpg";
+import profile17 from "../../shared/images/sample_profile_pic_17.jpg";
 
 class SignupForm extends Component {
   constructor(props) {

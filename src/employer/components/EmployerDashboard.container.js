@@ -11,16 +11,16 @@ import { editLoggedInProfile, fetchLoggedInProfile } from "../../auth/reducers";
 
 import AccountDropDown from "../../auth/components/AccountDropDown";
 import CreateJobForm from "./CreateJobForm";
-import Footer from "../../common/components/Footer";
-import Modal from "../../common/components/Modal";
-import NavBar from "../../common/components/Navbar";
+import Footer from "../../shared/components/Footer";
+import Modal from "../../shared/components/Modal";
+import NavBar from "../../shared/components/Navbar";
 import { PostButton } from "./Common";
 import Profile from "./Profile";
 import Projects from "./Projects";
-import Tabs from "../../common/components/Tabs";
+import Tabs from "../../shared/components/Tabs";
 import { clearNotification } from "../../auth/reducers";
 import { connect } from "react-redux";
-import { isEmpty } from "../../common/utils/helpers";
+import { isEmpty } from "../../shared/utils/helpers";
 import styled from "styled-components";
 import toast from "toasted-notes";
 

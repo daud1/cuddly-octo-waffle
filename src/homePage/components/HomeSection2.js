@@ -1,11 +1,11 @@
 import React from "react";
-import laptop from "../../common/images/laptop.png";
-import browser from "../../common/images/browser.png";
-import screenEdit from "../../common/images/screen_edit.png";
-import targetUp from "../../common/images/target_up.png";
-import tablet from "../../common/images/tablet.png";
-import applePencil from "../../common/images/apple_pencil.png";
-import bangAndOlufsenEarbuds from "../../common/images/bang_and_olufsen_earbuds.png";
+import laptop from "../../shared/images/laptop.png";
+import browser from "../../shared/images/browser.png";
+import screenEdit from "../../shared/images/screen_edit.png";
+import targetUp from "../../shared/images/target_up.png";
+import tablet from "../../shared/images/tablet.png";
+import applePencil from "../../shared/images/apple_pencil.png";
+import bangAndOlufsenEarbuds from "../../shared/images/bang_and_olufsen_earbuds.png";
 
 function HomeSection2() {
   return (

@@ -15,13 +15,13 @@ import {
   SocialIcon,
   SubTitle
 } from "./Common";
-import { Award, AwardForm } from "../../common/components/Award";
+import { Award, AwardForm } from "../../shared/components/Award";
 import { Form, Formik } from "formik";
 
 import ProfileBanner from "./ProfileBanner";
 import PropTypes from "prop-types";
 import React from "react";
-import Review from "../../common/components/Review";
+import Review from "../../shared/components/Review";
 
 function SectionHeading(props) {
   const { onClick, editOption } = props;

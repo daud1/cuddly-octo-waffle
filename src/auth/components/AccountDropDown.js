@@ -8,11 +8,11 @@ import {
   openRoute,
   showAPIErrors,
   stopPropagation
-} from "../../common/utils/helpers";
+} from "../../shared/utils/helpers";
 import { setLoading, setNotification, removeUser } from "../reducers";
-import { API_URL } from "../../common/utils/constants";
+import { API_URL } from "../../shared/utils/constants";
 import { connect } from "react-redux";
-import sampleCoverPic from "../../common/images/sample_cover_pic.jpg";
+import sampleCoverPic from "../../shared/images/sample_cover_pic.jpg";
 
 function AccountDropDown(props) {
   const { user, setLoading, setNotification, removeUser } = props;

@@ -11,7 +11,7 @@ import {
 import { Form, Formik } from "formik";
 
 import { Button } from "./Common";
-import Modal from "../../common/components/Modal";
+import Modal from "../../shared/components/Modal";
 import React from "react";
 import styled from "styled-components";
 

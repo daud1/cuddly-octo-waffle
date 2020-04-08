@@ -12,11 +12,11 @@ import {
   scrollToElement,
   setInputError,
   showAPIErrors
-} from "../../common/utils/helpers";
+} from "../../shared/utils/helpers";
 import { setUser, setLoading, setNotification, setSignOn } from "../reducers";
-import { API_URL } from "../../common/utils/constants";
-import Footer from "../../common/components/Footer";
-import NavBar from "../../common/components/Navbar";
+import { API_URL } from "../../shared/utils/constants";
+import Footer from "../../shared/components/Footer";
+import NavBar from "../../shared/components/Navbar";
 
 class PasswordResetConfirmation extends Component {
   constructor(props) {

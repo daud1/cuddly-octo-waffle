@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container, Avatar, SubTitle, GrayTxt, Button } from "./Common";
-import profileImage from "../../common/images/sample_profile_pic.jpg";
+import profileImage from "../../shared/images/sample_profile_pic.jpg";
 
 export const BriefProfile = props => {
   return (

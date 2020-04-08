@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import profilePic from "../../common/images/sample_profile_pic.jpg";
+import profilePic from "../../shared/images/sample_profile_pic.jpg";
 
 import { Avatar, GrayTxt, SubTitle, Container } from "./Common";
 

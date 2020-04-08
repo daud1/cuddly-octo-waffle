@@ -1,9 +1,9 @@
-import { API_URL } from "../common/utils/constants";
+import { API_URL } from "../shared/utils/constants";
 import { setNotification } from "../auth/reducers";
 import axios from "axios";
 import { combineReducers } from "redux";
 import { createSlice } from "@reduxjs/toolkit";
-import { showAPIErrors } from "../common/utils/helpers";
+import { showAPIErrors } from "../shared/utils/helpers";
 
 const awardsSlice = createSlice({
   name: "awards",
