@@ -9,7 +9,7 @@ import {
   setInputError,
   showAPIErrors
 } from "../utils/helpers";
-import { removeUser, setLoading, setNotification } from "../../auth/reducers"
+import { removeUser, setLoading, setNotification } from "../../auth/reducers";
 
 import { API_URL } from "../../shared/utils/constants";
 import AccountDropDown from "../../auth/components/AccountDropDown";
@@ -420,11 +420,7 @@ class Settings extends Component {
               className="btn--rounded--tiny"
               style={{ margin: "1em 0 0 0" }}
               onClick={event =>
-                this.submitForm(
-                  event,
-                  "edit-education-section",
-                  "show-education-section"
-                )
+                this.submitForm(event, "edit-education-section", "show-education-section")
               }
             >
               Save
@@ -482,9 +478,7 @@ class Settings extends Component {
                                     <div className="connection-images-inner">
                                       <img
                                         src={sampleProfilePic}
-                                        onError={i =>
-                                          (i.target.style.display = "none")
-                                        }
+                                        onError={i => (i.target.style.display = "none")}
                                         alt="Logo"
                                       />
                                     </div>
@@ -493,9 +487,7 @@ class Settings extends Component {
                                     <div className="connection-images-inner">
                                       <img
                                         src={sampleProfilePic}
-                                        onError={i =>
-                                          (i.target.style.display = "none")
-                                        }
+                                        onError={i => (i.target.style.display = "none")}
                                         alt="Logo"
                                       />
                                     </div>
@@ -504,9 +496,7 @@ class Settings extends Component {
                                     <div className="connection-images-inner">
                                       <img
                                         src={sampleProfilePic}
-                                        onError={i =>
-                                          (i.target.style.display = "none")
-                                        }
+                                        onError={i => (i.target.style.display = "none")}
                                         alt="Logo"
                                       />
                                     </div>
@@ -515,9 +505,7 @@ class Settings extends Component {
                                     <div className="connection-images-inner">
                                       <img
                                         src={""}
-                                        onError={i =>
-                                          (i.target.style.display = "none")
-                                        }
+                                        onError={i => (i.target.style.display = "none")}
                                         alt="Logo"
                                       />
                                     </div>
@@ -526,29 +514,19 @@ class Settings extends Component {
                               </td>
                               <td>
                                 <div className="connections-summary-inner light-grey font-size-12">
-                                  <span className="display-block">
-                                    163 Connections
-                                  </span>
-                                  <span className="display-block">
-                                    290 Followers
-                                  </span>
-                                  <span className="display-block">
-                                    Following 36
-                                  </span>
+                                  <span className="display-block">163 Connections</span>
+                                  <span className="display-block">290 Followers</span>
+                                  <span className="display-block">Following 36</span>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                      <div className="light-grey font-size-10px">
-                        To see more people
-                      </div>
+                      <div className="light-grey font-size-10px">To see more people</div>
                       <div className="margin-top-and-bottom-2em">
                         <a href="/">
-                          <span className="btn--rounded--tiny">
-                            Add Connections
-                          </span>
+                          <span className="btn--rounded--tiny">Add Connections</span>
                         </a>
                       </div>
                     </div>
@@ -580,8 +558,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setLoading: loading => dispatch(setLoading(loading)),
-  setNotification: notification =>
-    dispatch(setNotification(notification)),
+  setNotification: notification => dispatch(setNotification(notification)),
   removeUser: () => dispatch(removeUser())
 });
 

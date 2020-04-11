@@ -70,14 +70,10 @@ function Footer(props) {
                 Email Newsletters
                 <p />
                 <p className="profile-user-info">
-                  Keep me up to date with content, updates, and offers from
-                  Athena
+                  Keep me up to date with content, updates, and offers from Athena
                 </p>
                 <div className="margin-top-1em">
-                  <input
-                    placeholder="Email address"
-                    className="rounded-input"
-                  />
+                  <input placeholder="Email address" className="rounded-input" />
                   <button className="rounded-input-button">SUBSCRIBE</button>
                 </div>
               </td>
@@ -115,8 +111,7 @@ function Footer(props) {
       </div>
       <div className={infoClass} style={infoStyles}>
         <span className="profile-user-info" style={whiteFont}>
-          &copy; {now.getFullYear()} Athena - All Rights Reserved. Made by
-          Moontheme
+          &copy; {now.getFullYear()} Athena - All Rights Reserved. Made by Moontheme
         </span>
         <div className="display-inline-block float-right">
           <span

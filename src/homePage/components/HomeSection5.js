@@ -15,8 +15,8 @@ function HomeSection5() {
           />
           <h1 className="whiteish">Smarter. Faster. Better</h1>
           <div className="white-small-and-thin-text font-size-12">
-            Pellentesque vehicula fermentum tupis eu cursus. Cras convallis
-            tellus et elit aliquet, vitae dignissim ligula sodales
+            Pellentesque vehicula fermentum tupis eu cursus. Cras convallis tellus et elit
+            aliquet, vitae dignissim ligula sodales
           </div>
         </div>
         <div className="half-banner purple-background center padding-left-and-right-12-em">
@@ -28,8 +28,8 @@ function HomeSection5() {
           />
           <h1 className="whiteish">Full - time, freelance, or consulting</h1>
           <div className="white-small-and-thin-text font-size-12">
-            Pellentesque vehicula fermentum tupis eu cursus. Cras convallis
-            tellus et elit aliquet, vitae dignissim ligula sodales
+            Pellentesque vehicula fermentum tupis eu cursus. Cras convallis tellus et elit
+            aliquet, vitae dignissim ligula sodales
           </div>
         </div>
       </div>

@@ -51,9 +51,7 @@ class Tabs extends React.Component {
         </TabsBar>
         <div className="tab-content">
           {children.map(child => {
-            return child.props.label === activeTab
-              ? child.props.children
-              : undefined;
+            return child.props.label === activeTab ? child.props.children : undefined;
           })}
         </div>
       </React.Fragment>

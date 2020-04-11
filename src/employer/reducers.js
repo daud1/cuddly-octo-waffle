@@ -2,51 +2,36 @@ import { API_URL } from "../shared/utils/constants";
 import axios from "axios";
 import { combineReducers } from "redux";
 import { createSlice } from "@reduxjs/toolkit";
-import { setNotification } from "../auth/reducers";
+import { setNotification, setLoading } from "../auth/reducers";
 import { showAPIErrors } from "../shared/utils/helpers";
 
 const awardsSlice = createSlice({
   name: "awards",
-  initialState: { awards: [], loading: false, error: null },
+  initialState: { awards: [], error: null },
   reducers: {
-    fetchAwardsBegin(state, action) {
-      state.loading = action.payload;
-    },
     fetchAwardsSuccess(state, action) {
-      const { awards, loading } = action.payload;
-      state.awards = awards;
-      state.loading = loading;
+      state.awards = action.payload.awards;
     },
     fetchAwardsError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     },
     editAwardSuccess(state, action) {
-      const { award, loading } = action.payload;
+      const { award } = action.payload;
       let index = state.awards.findIndex(element => element.id === award.id);
       state.awards[index] = award;
-      state.loading = loading;
     },
     editAwardError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     },
     addAwardSuccess(state, action) {
-      const { award, loading } = action.payload;
-      state.awards.push(award);
-      state.loading = loading;
+      state.awards.push(action.payload.award);
     },
     addAwardError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     }
   }
 });
 export const {
-  fetchAwardsBegin,
   fetchAwardsError,
   fetchAwardsSuccess,
   editAwardError,
@@ -55,84 +40,58 @@ export const {
   addAwardError
 } = awardsSlice.actions;
 
-export function fetchAwards(profile_id, key) {
+export function fetchAwards(profileId, key) {
   return dispatch => {
-    dispatch(fetchAwardsBegin({ loading: { isLoading: true } }));
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
+    dispatch(setLoading({ isLoading: true, loadingText: "Fetching Your Data..." }));
+
+    const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
+
     return axios
-      .get(`${API_URL}/employer/awards/?employer=${profile_id}`, { headers })
+      .get(`${API_URL}/employer/awards/?employer=${profileId}`, { headers })
       .then(response => {
-        dispatch(
-          fetchAwardsSuccess({
-            awards: response.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(fetchAwardsSuccess({ awards: response.data }));
+        dispatch(setLoading({ isLoading: false }));
       })
       .catch(error => {
-        dispatch(
-          fetchAwardsError({ error: error.data, loading: { isLoading: false } })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(fetchAwardsError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };
 }
 export function editAward(key, awardEdits) {
   return dispatch => {
-    const { id } = awardEdits;
-    let url = `${API_URL}/employer/awards/${id}/`;
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
+    const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
 
     return axios
-      .patch(url, awardEdits, { headers })
+      .patch(`${API_URL}/employer/awards/${awardEdits.id}/`, awardEdits, { headers })
       .then(response => {
-        dispatch(
-          editAwardSuccess({
-            award: response.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(editAwardSuccess({ award: response.data }));
+        dispatch(setLoading({ isLoading: false }));
         dispatch(setNotification({ message: "Changes Saved!" }));
       })
       .catch(error => {
-        dispatch(
-          editAwardError({ error: error.data, loading: { isLoading: false } })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(editAwardError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };
 }
-export function addAward(profile_id, key, award) {
+export function addAward(profileId, key, award) {
   return dispatch => {
-    award.employer = profile_id;
-
-    let url = `${API_URL}/employer/awards/`;
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
+    const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
+    award.employer = profileId;
 
     return axios
-      .post(url, award, { headers })
+      .post(`${API_URL}/employer/awards/`, award, { headers })
       .then(response => {
-        dispatch(
-          addAwardSuccess({
-            award: response.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(addAwardSuccess({ award: response.data }));
+        dispatch(setLoading({ isLoading: false }));
         dispatch(setNotification({ message: "Award added!" }));
       })
       .catch(error => {
-        dispatch(
-          addAwardError({ error: error.data, loading: { isLoading: false } })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(addAwardError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };
@@ -140,91 +99,65 @@ export function addAward(profile_id, key, award) {
 
 const jobsSlice = createSlice({
   name: "jobs",
-  initialState: { jobs: [], loading: false, error: null },
+  initialState: { jobs: [], error: null },
   reducers: {
-    fetchJobsBegin(state, action) {
-      const { loading } = action.payload;
-      state.loading = loading;
-    },
     fetchJobsSuccess(state, action) {
-      const { jobs, loading } = action.payload;
-
-      state.jobs = jobs;
-      state.loading = loading;
+      state.jobs = action.payload.jobs;
     },
     fetchJobsError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     },
     addJobSuccess(state, action) {
-      const { job, loading } = action.payload;
-      state.jobs.push(job);
-      state.loading = loading;
+      state.jobs.push(action.payload.job);
     },
     addJobError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     }
   }
 });
 export const {
-  fetchJobsBegin,
   fetchJobsError,
   fetchJobsSuccess,
   addJobError,
   addJobSuccess
 } = jobsSlice.actions;
 
-export function fetchJobs(profile_id) {
+export function fetchJobs(profileId) {
   return dispatch => {
-    dispatch(fetchJobsBegin({ loading: { isLoading: false } }));
+    dispatch(setLoading({ isLoading: false }));
 
     const headers = { "content-type": "application/json" };
-
-    let url = `${API_URL}/jobs/${profile_id ? `?employer=${profile_id}` : ""}`; //Yes, I am ashamed of this.
+    const url = `${API_URL}/jobs/${profileId ? `?employer=${profileId}` : ""}`; //Yes, I am ashamed of this.
 
     return axios
       .get(url, { headers })
       .then(response => {
-        dispatch(
-          fetchJobsSuccess({
-            jobs: response.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(fetchJobsSuccess({ jobs: response.data }));
+        dispatch(setLoading({ isLoading: false }));
       })
       .catch(error => {
-        dispatch(
-          fetchJobsError({ error: error.data, loading: { isLoading: false } })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(fetchJobsError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };
 }
-export function addJob(profile_id, key, job) {
-  return dispatch => {
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
-    let url = `${API_URL}/jobs/`;
 
-    job.employer_id = profile_id;
+export function addJob(profileId, key, job) {
+  return dispatch => {
+    const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
+    job.employer_id = profileId;
 
     return axios
-      .post(url, job, { headers })
+      .post(`${API_URL}/jobs/`, job, { headers })
       .then(response => {
-        dispatch(
-          addJobSuccess({ job: response.data, loading: { isLoading: false } })
-        );
-        dispatch(setNotification({ message: "Job posted successfully!" }));
+        dispatch(addJobSuccess({ job: response.data }));
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(setNotification({ message: "Job post created!" }));
       })
       .catch(error => {
-        dispatch(
-          addJobError({ error: error.data, loading: { isLoading: false } })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(addJobError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };
@@ -249,100 +182,45 @@ const profileSlice = createSlice({
         website: ""
       },
       description: ""
-    },
-    loading: { isLoading: false, loadingText: "" }
+    }
   },
   reducers: {
-    fetchProfileBegin(state, action) {
-      const { loading } = action.payload;
-      state.loading = loading;
-    },
     fetchProfileSuccess(state, action) {
-      const { profile, loading } = action.payload;
-      state.profile = profile;
-      state.loading = loading;
+      state.profile = action.payload.profile;
     },
     fetchProfileError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     },
     editProfileSuccess(state, action) {
-      const { profile, loading } = action.payload;
-      state.profile = profile;
-      state.loading = loading;
+      state.profile = action.payload.profile;
     },
     editProfileError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     }
   }
 });
 export const {
   editProfileSuccess,
   editProfileError,
-  fetchProfileBegin,
   fetchProfileError,
   fetchProfileSuccess
 } = profileSlice.actions;
 
-export function fetchProfile(user_id, key) {
+export function fetchProfile(userId, key) {
   return dispatch => {
-    dispatch(fetchProfileBegin({ loading: { isLoading: true } }));
+    dispatch(setLoading({ isLoading: true }));
 
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
+    const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
 
     return axios
-      .get(`${API_URL}/employer/profile/?user=${user_id}`, { headers })
-      .then(response =>
-        dispatch(
-          fetchProfileSuccess({
-            profile: response.data[0],
-            loading: { isLoading: false }
-          })
-        )
-      )
-      .catch(error => {
-        dispatch(
-          fetchProfileError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
-        );
-        showAPIErrors(error, setNotification);
-      });
-  };
-}
-export function editProfile(profile_id, key, profile_edits) {
-  return dispatch => {
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
-    return axios
-      .patch(`${API_URL}/employer/profile/${profile_id}/`, profile_edits, {
-        headers
-      })
+      .get(`${API_URL}/employer/profile/?user=${userId}`, { headers })
       .then(response => {
-        dispatch(
-          editProfileSuccess({
-            profile: response.data,
-            loading: { isLoading: false }
-          })
-        );
-        dispatch(setNotification({ message: "Changes Saved!" }));
+        dispatch(fetchProfileSuccess({ profile: response.data[0] }));
+        dispatch(setLoading({ isLoading: false }));
       })
       .catch(error => {
-        dispatch(
-          editProfileError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(fetchProfileError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };
@@ -350,54 +228,33 @@ export function editProfile(profile_id, key, profile_edits) {
 
 const reviewsSlice = createSlice({
   name: "reviews",
-  initialState: { reviews: [], loading: false, error: null },
+  initialState: { reviews: [], error: null },
   reducers: {
-    fetchReviewsBegin(state, action) {
-      const { loading } = action.payload;
-      state.loading = loading;
-    },
     fetchReviewsSuccess(state, action) {
-      const { reviews, loading } = action.payload;
-      state.reviews = reviews;
-      state.loading = loading;
+      state.reviews = action.payload.reviews;
     },
     fetchReviewsError(state, action) {
-      const { error, loading } = action.payload;
-      state.error = error;
-      state.loading = loading;
+      state.error = action.payload.error;
     }
   }
 });
-export const {
-  fetchReviewsBegin,
-  fetchReviewsError,
-  fetchReviewsSuccess
-} = reviewsSlice.actions;
+export const { fetchReviewsError, fetchReviewsSuccess } = reviewsSlice.actions;
 
-export function fetchReviews(profile_id, key) {
+export function fetchReviews(profileId, key) {
   return dispatch => {
-    dispatch(fetchReviewsBegin({ loading: { isLoading: true } }));
-    const headers = {
-      "content-type": "application/json",
-      Authorization: `Token ${key}`
-    };
+    dispatch(setLoading({ isLoading: true }));
+
+    const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
+
     return axios
-      .get(`${API_URL}/employer/reviews/?employer=${profile_id}`, { headers })
+      .get(`${API_URL}/employer/reviews/?employer=${profileId}`, { headers })
       .then(response => {
-        dispatch(
-          fetchReviewsSuccess({
-            reviews: response.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(fetchReviewsSuccess({ reviews: response.data }));
+        dispatch(setLoading({ isLoading: false }));
       })
       .catch(error => {
-        dispatch(
-          fetchReviewsError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(fetchReviewsError({ error: error.data }));
         showAPIErrors(error, setNotification);
       });
   };

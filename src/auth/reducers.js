@@ -1,6 +1,6 @@
 import {
   getImage,
-  get_obj_name,
+  getObjName,
   imgToLocalStore,
   showAPIErrors
 } from "../shared/utils/helpers";
@@ -17,7 +17,8 @@ const authSlice = createSlice({
     rememberMe: false,
     signOn: "",
     user: {},
-    notification: {}
+    notification: {},
+    error: null
   },
   reducers: {
     createNewProfileSuccess(state, action) {
@@ -29,9 +30,6 @@ const authSlice = createSlice({
       const { error, loading } = action.payload;
       state.error = error;
       state.loading = loading;
-    },
-    fetchLoggedInProfileBegin(state, action) {
-      state.loading = action.payload;
     },
     fetchLoggedInProfileSuccess(state, action) {
       const { profile, loading } = action.payload;
@@ -57,6 +55,8 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
     removeUser(state) {
+      localStorage.removeItem("cover_photo");
+      localStorage.removeItem("profile_photo");
       state.user = {};
     },
     setSignOn(state, action) {
@@ -80,64 +80,67 @@ const authSlice = createSlice({
   }
 });
 
-export function createNewProfile(user_type, user_id, key) {
+export function createNewProfile(user_type, userId, key) {
   return dispatch => {
+    const headers = { Authorization: `Token ${key}` };
+    const data = { userId: userId };
     const url =
       user_type === "EMP"
         ? `${API_URL}/employer/profile/`
         : `${API_URL}/employee/profile/`;
-    const headers = { Authorization: `Token ${key}` };
-    const data = { user_id: user_id };
 
     return axios
       .post(url, data, { headers })
       .then(response => {
-        response.data.key = key;
         dispatch(
           createNewProfileSuccess({
-            profile: response.data,
+            profile: { ...response.data, key },
             loading: { isLoading: false }
           })
         );
       })
       .catch(error => {
         dispatch(
-          createNewProfileError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
+          createNewProfileError({ error: error.data, loading: { isLoading: false } })
         );
         showAPIErrors(error, setNotification);
       });
   };
 }
 
-export function fetchLoggedInProfile(user_id, user_type, key, after) {
+export function fetchLoggedInProfile(userId, user_type, key) {
   return dispatch => {
-    dispatch(fetchLoggedInProfileBegin({ loading: { isLoading: true } }));
+    dispatch(setLoading({ isLoading: true, loadingText: "Fetching Profile..." }));
 
     const headers = {
       "content-type": "application/json, image/*",
       Authorization: `Token ${key}`
     };
-    let url =
+    const url =
       user_type === "EMP"
-        ? `${API_URL}/employer/profile/?user=${user_id}`
-        : `${API_URL}/employee/profile/?user=${user_id}`;
+        ? `${API_URL}/employer/profile/?user=${userId}`
+        : `${API_URL}/employee/profile/?user=${userId}`;
 
     return axios
       .get(url, { headers })
-      .then(response => {
-        let cover_url, profile_url;
-        cover_url = response.data[0]["cover_photo"];
-        profile_url = response.data[0]["profile_photo"];
+      .then(async response => {
+        async function fetchImages(response, key) {
+          let p = [];
+          const { cover_photo: coverUrl, profile_photo: profileUrl } = response;
 
-        response.data[0]["cover_photo"] = get_obj_name(cover_url);
-        response.data[0]["profile_photo"] = get_obj_name(profile_url);
-        response.data[0].key = key;
+          if (coverUrl) {
+            p.push(getImage(coverUrl, "cover_photo"));
+            response.cover_photo = getObjName(coverUrl);
+          }
+          if (profileUrl) {
+            p.push(getImage(profileUrl, "profile_photo"));
+            response.profile_photo = getObjName(profileUrl);
+          }
 
-        getImage(cover_url, "cover_photo");
-        getImage(profile_url, "profile_photo");
+          await Promise.all(p);
+        }
+
+        await fetchImages(response.data[0], key);
 
         dispatch(
           fetchLoggedInProfileSuccess({
@@ -145,14 +148,10 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
             loading: { isLoading: false }
           })
         );
-        after(response.data[0].id, key);
       })
       .catch(error => {
         dispatch(
-          fetchLoggedInProfileError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
+          fetchLoggedInProfileError({ error: error.data, loading: { isLoading: false } })
         );
         showAPIErrors(error, setNotification);
       });
@@ -160,44 +159,32 @@ export function fetchLoggedInProfile(user_id, user_type, key, after) {
 }
 
 export function editLoggedInProfile(
-  profile_id,
+  profileId,
   key,
-  profile_edits,
+  changes,
   contentType = "application/json"
 ) {
   return dispatch => {
-    let url = `${API_URL}/employer/profile/${profile_id}/`;
-    const headers = {
-      "Content-Type": contentType,
-      Authorization: `Token ${key}`
-    };
+    const headers = { "Content-Type": contentType, Authorization: `Token ${key}` };
 
     return axios
-      .patch(url, profile_edits, {
-        headers
-      })
+      .patch(`${API_URL}/employer/profile/${profileId}/`, changes, { headers })
       .then(response => {
-        if (contentType !== "application/json") {
-          const fieldName = profile_edits.keys().next()["value"];
-          imgToLocalStore(profile_edits.get(fieldName), fieldName);
-        }
-
-        response.data.key = key;
         dispatch(
           editLoggedInProfileSuccess({
-            profile: response.data,
+            profile: { ...response.data, key },
             loading: { isLoading: false }
           })
         );
-        window.location.reload(false); // bad hack
+
+        const fieldName =
+          contentType !== "application/json" ? changes.keys().next()["value"] : null;
+
+        fieldName && imgToLocalStore(changes.get(fieldName), fieldName);
       })
       .catch(error => {
-        console.log(error);
         dispatch(
-          editLoggedInProfileError({
-            error: error.data,
-            loading: { isLoading: false }
-          })
+          editLoggedInProfileError({ error: error.data, loading: { isLoading: false } })
         );
         showAPIErrors(error, setNotification);
       });
@@ -215,7 +202,6 @@ export const {
   clearNotification,
   createNewProfileSuccess,
   createNewProfileError,
-  fetchLoggedInProfileBegin,
   fetchLoggedInProfileError,
   fetchLoggedInProfileSuccess,
   editLoggedInProfileSuccess,

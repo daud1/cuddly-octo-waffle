@@ -22,13 +22,7 @@ export function AwardForm(props) {
     <Form className="form">
       <Container columns width="85%">
         <LabelledInput label="Title" type="text" name="title" mb="10px" gray />
-        <LabelledInput
-          label="Awarded by"
-          type="text"
-          name="awarded_by"
-          mb="10px"
-          gray
-        />
+        <LabelledInput label="Awarded by" type="text" name="awarded_by" mb="10px" gray />
         <InputLabel gray>Year</InputLabel>
         <Field as="select" name="year">
           {YEAR_CHOICES.map((year, index) => (

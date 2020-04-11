@@ -32,9 +32,7 @@ function HomeSection3() {
               />
               <div className="margin-top-and-bottom-2em">
                 <span className="purple-bubble">1</span>
-                <span className="white-medium-and-bold">
-                  Sign up for an account
-                </span>
+                <span className="white-medium-and-bold">Sign up for an account</span>
               </div>
             </td>
             <td

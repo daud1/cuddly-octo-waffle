@@ -189,8 +189,8 @@ class PasswordResetConfirmation extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user,
-  signOn: state.signOn
+  user: state.auth.user,
+  signOn: state.auth.signOn
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -200,7 +200,4 @@ const mapDispatchToProps = dispatch => ({
   setSignOn: signOn => dispatch(setSignOn(signOn))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PasswordResetConfirmation);
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordResetConfirmation);

@@ -3,17 +3,8 @@ import _ from "lodash";
 import axios from "axios";
 import sampleProfilePic from "../images/sample_profile_pic.jpg";
 
-var ACCOUNT_TYPES = [
-  "employer_signup",
-  "freelancer_signup",
-  "employer_signin",
-  "freelancer_signin"
-];
-var POPUPS = [
-  "portfolio-upload-modal",
-  "portfolio-view-modal",
-  "hire-me-modal"
-];
+var ACCOUNT_TYPES = ["EMP", "FRE"];
+var POPUPS = ["portfolio-upload-modal", "portfolio-view-modal", "hire-me-modal"];
 
 export const insertAndExecute = (domelement, text) => {
   domelement.innerHTML = text;
@@ -26,9 +17,7 @@ export const insertAndExecute = (domelement, text) => {
       nodeName(ret[i], "script") &&
       (!ret[i].type || ret[i].type.toLowerCase() === "text/javascript")
     ) {
-      scripts.push(
-        ret[i].parentNode ? ret[i].parentNode.removeChild(ret[i]) : ret[i]
-      );
+      scripts.push(ret[i].parentNode ? ret[i].parentNode.removeChild(ret[i]) : ret[i]);
     }
   }
 
@@ -44,8 +33,7 @@ export const nodeName = (elem, name) =>
 export const evalScript = elem => {
   var data = elem.text || elem.textContent || elem.innerHTML || "";
 
-  var head =
-      document.getElementsByTagName("head")[0] || document.documentElement,
+  var head = document.getElementsByTagName("head")[0] || document.documentElement,
     script = document.createElement("script");
   script.type = "text/javascript";
   script.appendChild(document.createTextNode(data));
@@ -146,13 +134,11 @@ export const renderRatings = () => {
     var emptyStars = "";
 
     for (let i = 0; i < wholeNumber; i++) {
-      fullStars =
-        fullStars + '<i class="fa fa-star blue margin-right-0-point-2-em"></i>';
+      fullStars = fullStars + '<i class="fa fa-star blue margin-right-0-point-2-em"></i>';
     }
     for (let i = 0; i < emptyNumber; i++) {
       emptyStars =
-        emptyStars +
-        '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
+        emptyStars + '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
     }
     if (decimalPoint > 3) {
       halfStars =
@@ -160,8 +146,7 @@ export const renderRatings = () => {
         '<i class="fa fa-star-half blue" style = "position: absolute; margin-left: -0.94em; margin-top: 0.27em;" ></i > ';
     } else if (decimalPoint >= 0 && decimalPoint <= 3 && wholeNumber < 5) {
       emptyStars =
-        emptyStars +
-        '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
+        emptyStars + '<i class="fa fa-star light-grey margin-right-0-point-2-em"></i>';
     }
 
     ratingContainers[idx].innerHTML = fullStars + halfStars + emptyStars;
@@ -169,14 +154,11 @@ export const renderRatings = () => {
   return;
 };
 
-export const selectRadioButton = (event, radioButtonClass, accountType) => {
+export const selectRadioButton = (event, radioButtonClass, user_type) => {
   var i, radioButtons;
   radioButtons = document.getElementsByClassName(radioButtonClass);
   for (i = 0; i < radioButtons.length; i++) {
-    radioButtons[i].className = radioButtons[i].className.replace(
-      " active",
-      ""
-    );
+    radioButtons[i].className = radioButtons[i].className.replace(" active", "");
   }
   if (event) {
     event.currentTarget.className += " active";
@@ -188,16 +170,16 @@ export const selectRadioButton = (event, radioButtonClass, accountType) => {
       radioButton.className += " active";
     }
   }
-  if (accountType) {
-    localStorage.ACCOUNT_TYPE = accountType;
+  if (user_type) {
+    localStorage.ACCOUNT_TYPE = user_type;
   }
   return;
 };
 
 export const openAccountPage = () => {
-  var accountType = localStorage.ACCOUNT_TYPE;
-  if (ACCOUNT_TYPES.includes(accountType)) {
-    openPage(null, accountType, "tablinks", "tabcontent");
+  var user_type = localStorage.ACCOUNT_TYPE;
+  if (ACCOUNT_TYPES.includes(user_type)) {
+    openPage(null, user_type, "tablinks", "tabcontent");
     localStorage.ACCOUNT_TYPE = "";
   } else {
     openPage(null, "home", "tablinks", "tabcontent");
@@ -207,10 +189,7 @@ export const openAccountPage = () => {
 
 export const selectSingleRadioButton = (event, callback = null) => {
   if (event.currentTarget.className.includes(" active")) {
-    event.currentTarget.className = event.currentTarget.className.replace(
-      " active",
-      ""
-    );
+    event.currentTarget.className = event.currentTarget.className.replace(" active", "");
     if (callback) callback(false);
   } else {
     event.currentTarget.className += " active";
@@ -423,13 +402,10 @@ export const getNameFromUser = user => {
 
 export const getTitleFromUser = user => {
   const newUser = { ...user };
-  let { accountType, companyName } = newUser;
-  if (
-    accountType === "freelancer" ||
-    (accountType === "employer" && !companyName)
-  ) {
-    return _.capitalize(accountType);
-  } else if (accountType && accountType === "employer" && companyName) {
+  let { user_type, companyName } = newUser;
+  if (user_type === "FRE" || (user_type === "EMP" && !companyName)) {
+    return _.capitalize(user_type);
+  } else if (user_type && user_type === "EMP" && companyName) {
     return `Member ${_.capitalize(companyName)}`;
   }
   return "";
@@ -445,23 +421,19 @@ export const getUrlParameter = name => {
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
   var results = regex.exec(document.location.search);
-  return results === null
-    ? ""
-    : decodeURIComponent(results[1].replace(/\+/g, " "));
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
 export const isLocalHost = () => {
   return (
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
   );
 };
 
 export const forceHTTPS = () => {
   if (window.location.protocol !== "https:" && !isLocalHost()) {
     window.location.href =
-      "https:" +
-      window.location.href.substring(window.location.protocol.length);
+      "https:" + window.location.href.substring(window.location.protocol.length);
   }
 };
 
@@ -494,8 +466,7 @@ export const facebookSignOn = (response, props) => {
   const profile = {
     email,
     name,
-    image:
-      "https://graph.facebook.com/" + userID + "/picture?height=512&width=512"
+    image: "https://graph.facebook.com/" + userID + "/picture?height=512&width=512"
   };
   setSocialSignOn(profile, accessToken, "facebook", props);
 };
@@ -526,16 +497,16 @@ export function imgToLocalStore(file, fieldName) {
  * @param {string} url presigned aws s3 url for object
  * @param {string} fieldName name of key in ls
  */
-export function getImage(url, fieldName) {
-  axios
-    .get(url, { responseType: "arraybuffer" })
-    .then(res => {
-      imgToLocalStore(new Blob([new Uint8Array(res.data)]), fieldName);
-    })
-    .catch(err => console.log(err));
+export async function getImage(url, fieldName) {
+  try {
+    const res = await axios.get(url, { responseType: "arraybuffer" });
+    imgToLocalStore(new Blob([new Uint8Array(res.data)]), fieldName);
+  } catch {
+    throw Error(`Failed to fetch ${fieldName.replace("_", " ")}!`);
+  }
 }
 
-export function get_obj_name(url) {
+export function getObjName(url) {
   let new_re = /^((http[s]?|ftp):\/)?\/?([^:/\s]+)((\/\w+)*\/)([\w-.]+[^#?\s]+)(.*)?(#[\w-]+)?$/;
   return new_re.exec(url)[6];
 }

@@ -36,8 +36,7 @@ export const Error = styled.span`
 // flexible container
 export const Container = styled.div`
   width: ${props => props.width};
-  height: ${props =>
-    props.height ? props.height : props.scrollable ? "80vh" : ""};
+  height: ${props => (props.height ? props.height : props.scrollable ? "80vh" : "")};
 
   // Display
   display: flex;
@@ -46,9 +45,7 @@ export const Container = styled.div`
   justify-content: ${props =>
     props.xCenter ? "center" : ""}; //horizontally align content to the center
   flex-direction: ${props =>
-    props.columns
-      ? "column"
-      : "row"}; //container children will be rows by default
+    props.columns ? "column" : "row"}; //container children will be rows by default
   flex-wrap: ${props => (props.flexWrap ? "wrap" : "no-wrap")};
   justify-content: ${props => (props.spaceBetween ? "space-between" : "")};
 

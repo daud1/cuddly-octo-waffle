@@ -1,8 +1,4 @@
-import {
-  API_URL,
-  FACEBOOK_APP_ID,
-  GOOGLE_CLIENT_ID
-} from "../../shared/utils/constants";
+import { API_URL, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from "../../shared/utils/constants";
 import React, { Component } from "react";
 import {
   clearInputError,
@@ -29,23 +25,55 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 import GoogleLogin from "react-google-login";
 import axios from "axios";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-class SigninForm extends Component {
+class SignInForm extends Component {
   state = {};
 
-  getUserDetails = key => {
-    const url = `${API_URL}/auth/user/`;
-    const headers = { Authorization: `Token ${key}` };
-    const { setUser, setLoading, setNotification } = this.props;
+  getUserDetails = async key => {
+    const { fetchLoggedInProfile, setUser } = this.props;
+    const response = await axios.get(`${API_URL}/auth/user/`, {
+      headers: { Authorization: `Token ${key}` }
+    });
+    const loggedInUser = { ...response.data, loggedIn: true, key: key };
 
+    setUser(loggedInUser);
+    await fetchLoggedInProfile(loggedInUser.id, loggedInUser.user_type, key);
+  };
+
+  signIn = event => {
+    event.preventDefault();
+    const errorFields = [];
+    const { emailAddress, password } = this.state;
+
+    if (!emailAddress) {
+      const name = "emailAddress";
+      setInputError(name, "Email required!");
+      errorFields.push(name);
+    }
+    if (!password) {
+      const name = "password";
+      setInputError(name, "Password required!");
+      errorFields.push(name);
+    }
+    if (!isEmpty(errorFields)) {
+      scrollToElement(errorFields[0]);
+      return;
+    }
+
+    const { setLoading, setNotification, removeSignOn } = this.props;
+    const data = {
+      email: emailAddress,
+      password
+    };
+
+    setLoading({ isLoading: true, loadingText: "Signing in..." });
     axios
-      .get(url, { headers })
-      .then(response => {
-        let loggedInUser = { ...response.data };
-        loggedInUser.loggedIn = true;
-        loggedInUser.key = key;
-        setUser(loggedInUser);
-        fetchLoggedInProfile(loggedInUser.id, key);
+      .post(`${API_URL}/auth/login/`, data)
+      .then(async response => {
+        await this.getUserDetails(response.data.key);
+        removeSignOn();
+        this.props.history.push("/dashboard");
       })
       .catch(error => {
         setLoading({ isLoading: false });
@@ -59,11 +87,11 @@ class SigninForm extends Component {
     setSignOn(signOn);
   };
 
-  changeAccountType = (event, accountType) => {
+  changeAccountType = (event, user_type) => {
     event.preventDefault();
     const { setUser, user } = this.props;
     const newUser = { ...user };
-    newUser.accountType = accountType;
+    newUser.user_type = user_type;
     this.setState({ user: newUser });
     setUser(newUser);
   };
@@ -87,16 +115,13 @@ class SigninForm extends Component {
 
   renderFormHeader = () => {
     const { user } = this.props;
-    if (user.accountType === "employer") {
+    if (user.user_type === "EMP") {
       return (
-        <span
-          className="display-block"
-          style={{ fontSize: "12px", margin: "1em 0 2em" }}
-        >
+        <span className="display-block" style={{ fontSize: "12px", margin: "1em 0 2em" }}>
           Sign in now to Access Your Dashboard
         </span>
       );
-    } else if (user.accountType === "freelancer") {
+    } else if (user.user_type === "FRE") {
       return (
         <div>
           <span
@@ -166,71 +191,21 @@ class SigninForm extends Component {
   getInputText = () => {
     const { user } = this.props;
     const inputLabels = ["Company ", "User", "name or Email"];
-    if (user.accountType === "employer") {
+    if (user.user_type === "EMP") {
       return `${inputLabels[0]}${inputLabels[2]}`;
-    } else if (user.accountType === "freelancer") {
+    } else if (user.user_type === "FRE") {
       return `${inputLabels[1]}${inputLabels[2]}`;
     }
   };
 
-  signIn = event => {
-    event.preventDefault();
-    const errorFields = [];
-    const { emailAddress, password } = this.state;
-
-    if (!emailAddress) {
-      const name = "emailAddress";
-      setInputError(name, "Email required!");
-      errorFields.push(name);
-    }
-    if (!password) {
-      const name = "password";
-      setInputError(name, "Password required!");
-      errorFields.push(name);
-    }
-    if (!isEmpty(errorFields)) {
-      scrollToElement(errorFields[0]);
-      return;
-    }
-
-    const { setLoading, setNotification, removeSignOn } = this.props;
-
-    const data = {
-      email: emailAddress,
-      password
-    };
-
-    setLoading({ isLoading: true, loadingText: "Signing in..." });
-
-    axios
-      .post(`${API_URL}/auth/login/`, data)
-      .then(res => {
-        const {
-          data: { key }
-        } = res;
-        setLoading({ isLoading: false });
-        return key;
-      })
-      .then(key => {
-        this.getUserDetails(key);
-        removeSignOn();
-      })
-      .catch(error => {
-        setLoading({ isLoading: false });
-        showAPIErrors(error, setNotification);
-      });
-  };
-
   render() {
     const {
-      user: { accountType },
+      user: { user_type },
       signOn,
       setRememberMe,
       rememberMe
     } = this.props;
-    const rememberMeClasses = `border-radio-button ${
-      rememberMe ? "active" : ""
-    }`;
+    const rememberMeClasses = `border-radio-button ${rememberMe ? "active" : ""}`;
     return (
       <div
         id="employer_signin"
@@ -287,9 +262,7 @@ class SigninForm extends Component {
                     <td>
                       <span
                         className={rememberMeClasses}
-                        onClick={event =>
-                          selectSingleRadioButton(event, setRememberMe)
-                        }
+                        onClick={event => selectSingleRadioButton(event, setRememberMe)}
                       >
                         <span></span>
                       </span>
@@ -303,9 +276,7 @@ class SigninForm extends Component {
                       </span>
                       <span
                         className="font-size-11px float-right all-links"
-                        onClick={event =>
-                          this.toggleSignOn(event, "Reset Password")
-                        }
+                        onClick={event => this.toggleSignOn(event, "Reset Password")}
                       >
                         Forgot password?
                       </span>
@@ -323,10 +294,7 @@ class SigninForm extends Component {
               Login
             </button>
           </a>
-          <span
-            className="font-size-11px display-inline-block"
-            style={{ lineHeight: 2 }}
-          >
+          <span className="font-size-11px display-inline-block" style={{ lineHeight: 2 }}>
             Don't have an account?&nbsp;
             <span
               className="blue all-links"
@@ -335,21 +303,15 @@ class SigninForm extends Component {
               Sign up now!
             </span>
           </span>
-          <span
-            className="font-size-11px display-block"
-            style={{ lineHeight: 2 }}
-          >
-            Sign in as {accountType === "freelancer" ? "an" : "a"}&nbsp;
+          <span className="font-size-11px display-block" style={{ lineHeight: 2 }}>
+            Sign in as {user_type === "FRE" ? "an" : "a"}&nbsp;
             <span
               className="blue all-links"
               onClick={event =>
-                this.changeAccountType(
-                  event,
-                  `${accountType === "freelancer" ? "employer" : "freelancer"}`
-                )
+                this.changeAccountType(event, `${user_type === "FRE" ? "EMP" : "FRE"}`)
               }
             >
-              {`${accountType === "freelancer" ? "Employer" : "Freelancer"}!`}
+              {`${user_type === "FRE" ? "Employer" : "Freelancer"}!`}
             </span>
           </span>
         </div>
@@ -371,7 +333,11 @@ const mapDispatchToProps = dispatch => ({
   setLoading: loading => dispatch(setLoading(loading)),
   setNotification: notification => dispatch(setNotification(notification)),
   removeSignOn: () => dispatch(removeSignOn()),
-  setRememberMe: rememberMe => dispatch(setRememberMe(rememberMe))
+  setRememberMe: rememberMe => dispatch(setRememberMe(rememberMe)),
+  fetchLoggedInProfile: (id, user_type, key) =>
+    dispatch(fetchLoggedInProfile(id, user_type, key))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SigninForm);
+const SignInFormWithRouter = withRouter(SignInForm);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignInFormWithRouter);

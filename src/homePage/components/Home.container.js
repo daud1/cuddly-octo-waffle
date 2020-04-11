@@ -13,8 +13,8 @@ import HomeSection6 from "./HomeSection6";
 import HomeSection7 from "./HomeSection7";
 import Navbar from "../../shared/components/Navbar";
 import PasswordResetForm from "../../auth/components/PasswordResetForm";
-import SigninForm from "../../auth/components/SigninForm";
-import SignupForm from "../../auth/components/SignupForm";
+import SignUpForm from "../../auth/components/SignupForm";
+import SignInForm from "../../auth/components/SigninForm";
 import { connect } from "react-redux";
 import { isLoggedIn } from "../../shared/utils/helpers";
 
@@ -35,14 +35,14 @@ class Home extends Component {
     if (signOn === "Sign In") {
       return (
         <div>
-          <SigninForm user={user} />
+          <SignInForm user={user} />
           <Footer />
         </div>
       );
     } else if (signOn === "Sign up for free") {
       return (
         <div>
-          <SignupForm />
+          <SignUpForm />
           <Footer />
         </div>
       );
@@ -73,6 +73,7 @@ class Home extends Component {
   renderHome = () => {
     const { user, signOn } = this.props;
     const { renderForms } = this.state;
+
     if (isLoggedIn(user)) {
       return (
         <div>
@@ -95,8 +96,7 @@ class Home extends Component {
       );
     } else if (
       !isLoggedIn(user) &&
-      ((user.accountType && signOn && renderForms) ||
-        signOn === "Reset Password")
+      ((user.user_type && signOn && renderForms) || signOn === "Reset Password")
     ) {
       return this.renderSignOnForms();
     } else if (!isLoggedIn(user)) {

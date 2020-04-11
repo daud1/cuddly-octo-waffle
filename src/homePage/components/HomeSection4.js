@@ -15,8 +15,8 @@ function HomeSection4() {
           <h1 className="whiteish">Benefits for freelancer</h1>
         </div>
         <div className="white-small-and-thin-text font-size-12">
-          Pellentesque vehicula fermentum tupis eu cursus. Cras convallis tellus
-          et elit aliquet, vitae dignissim ligula sodales
+          Pellentesque vehicula fermentum tupis eu cursus. Cras convallis tellus et elit
+          aliquet, vitae dignissim ligula sodales
         </div>
         <div>
           <table>
@@ -49,9 +49,7 @@ function HomeSection4() {
           </table>
         </div>
         <div>
-          <button className="full-rounded-input-button normal">
-            Learn more
-          </button>
+          <button className="full-rounded-input-button normal">Learn more</button>
         </div>
       </div>
     </div>

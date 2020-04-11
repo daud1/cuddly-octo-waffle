@@ -18,8 +18,8 @@ function HomeHeader() {
           <strong>Athena Freelancers</strong>
         </p>
         <span>
-          Where the world meets startups. Millions of small businesses use
-          Freelancer to turn their ideas into reality
+          Where the world meets startups. Millions of small businesses use Freelancer to
+          turn their ideas into reality
         </span>
         <div className="margin-top-1em margin-bottom-1em">
           <i id="place-holder-icon" className="fa fa-search input-icon"></i>
@@ -27,9 +27,7 @@ function HomeHeader() {
             placeholder="Enter job title, position, skills..."
             className="full-rounded-input"
           />
-          <button className="full-rounded-input-button gradient">
-            FIND JOBS
-          </button>
+          <button className="full-rounded-input-button gradient">FIND JOBS</button>
         </div>
         <span>
           Update the latest jobs and announcements from Athena.
@@ -45,16 +43,10 @@ function HomeHeader() {
           ></i>
         </div>
         <div>
-          <i
-            className="fa fa-circle-thin spaced"
-            style={{ marginTop: "0.2em" }}
-          ></i>
+          <i className="fa fa-circle-thin spaced" style={{ marginTop: "0.2em" }}></i>
         </div>
         <div>
-          <i
-            className="fa fa-circle-thin spaced"
-            style={{ marginTop: "0.2em" }}
-          ></i>
+          <i className="fa fa-circle-thin spaced" style={{ marginTop: "0.2em" }}></i>
         </div>
       </span>
     </div>

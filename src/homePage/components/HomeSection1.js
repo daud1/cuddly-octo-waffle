@@ -7,9 +7,8 @@ function HomeSection1() {
     <div className="center word-banner">
       <h1 className="blueish">Get it to your job</h1>
       <span className="profile-user-info home-paragraph">
-        Vestibulum imperdiet nibh vel magna lacinia ultrices. Sed id interdum
-        urna. Nam ac elit a ante commodo tristique. Duis lacus urna condimentum
-        a vehicula.
+        Vestibulum imperdiet nibh vel magna lacinia ultrices. Sed id interdum urna. Nam ac
+        elit a ante commodo tristique. Duis lacus urna condimentum a vehicula.
       </span>
       <div>
         <button className="full-rounded-button gradient">

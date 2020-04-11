@@ -1,18 +1,33 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+  persistStore
+} from "redux-persist";
+import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
 import authReducer from "../auth/reducers";
 import employerReducer from "../employer/reducers";
+import storage from "redux-persist/lib/storage";
 
-// import employeeReducer from "../../employee/reducers";
-
-const rootReducer = combineReducers({
-  auth: authReducer,
-  employer: employerReducer,
-  // employee: employeeReducer,
-});
+const persistedReducer = persistReducer(
+  { key: "root", storage },
+  combineReducers({ auth: authReducer, employer: employerReducer })
+);
 
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+    }
+  })
 });
 
-export default { store };
+const persistor = persistStore(store);
+
+export default { store, persistor };

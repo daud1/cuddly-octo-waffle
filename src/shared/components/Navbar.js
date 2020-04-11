@@ -68,9 +68,7 @@ class Navbar extends Component {
     const buttons = TITLES.map((signOn, index) => {
       const isSignIn = signOn.toLocaleLowerCase().includes("sign in");
 
-      const styles = isSignIn
-        ? loginSelectorPageStyles
-        : signUpSelectorPageStyles;
+      const styles = isSignIn ? loginSelectorPageStyles : signUpSelectorPageStyles;
       const label = isSignIn ? "Login" : "Sign Up";
       const classes = `navbar-button ${isSignIn ? "plain" : "active"}`;
 
@@ -244,10 +242,7 @@ class Navbar extends Component {
       );
     } else if (!isLoggedIn(user) && side === "right") {
       return (
-        <ul
-          className="nav navbar-nav navbar-right"
-          style={rightMenuSelectorPageStyles}
-        >
+        <ul className="nav navbar-nav navbar-right" style={rightMenuSelectorPageStyles}>
           {this.renderRightMenuItems()}
 
           {this.renderAccountButtons()}
@@ -362,9 +357,7 @@ class Navbar extends Component {
       isLoggedIn(user) ? "navbar-default" : "navbar-transparent"
     }`;
     const navStyle = isLoggedIn(user) ? { background: "transparent" } : {};
-    const navContainerStyle = `container-fluid${
-      isLoggedIn(user) ? "" : " center"
-    }`;
+    const navContainerStyle = `container-fluid${isLoggedIn(user) ? "" : " center"}`;
     return (
       <nav className={navClass} style={navStyle}>
         <div className={navContainerStyle}>

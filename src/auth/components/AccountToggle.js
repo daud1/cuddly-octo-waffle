@@ -14,9 +14,9 @@ class AccountToggle extends Component {
 
   componentDidMount() {
     const { user, setUser } = this.props;
-    if (!user.accountType) {
+    if (!user.user_type) {
       let newUser = { ...user };
-      newUser.accountType = "employer";
+      newUser.user_type = "EMP";
       this.setState({ user: newUser });
       setUser(newUser);
     } else {
@@ -24,19 +24,19 @@ class AccountToggle extends Component {
     }
   }
 
-  changeAccountType = (event, accountType) => {
+  changeAccountType = (event, user_type) => {
     const { setUser, user } = this.props;
     const newUser = { ...user };
-    newUser.accountType = accountType;
+    newUser.user_type = user_type;
     this.setState({ user: newUser });
     setUser(newUser);
-    selectRadioButton(event, "sign-up-radio-buttons", accountType);
+    selectRadioButton(event, "sign-up-radio-buttons", user_type);
   };
 
   next = event => {
     const { proceed, user } = this.props;
     event.preventDefault();
-    if (user.accountType) {
+    if (user.user_type) {
       proceed();
     } else {
     }
@@ -46,10 +46,10 @@ class AccountToggle extends Component {
     const { user } = this.state;
     const { signOn } = this.props;
     const employerRadioClasses = `radio-button sign-up-radio-buttons ${
-      user.accountType === "employer" ? "active" : ""
+      user.user_type === "EMP" ? "active" : ""
     }`;
     const freelancerRadioClasses = `radio-button sign-up-radio-buttons ${
-      user.accountType === "freelancer" ? "active" : ""
+      user.user_type === "FRE" ? "active" : ""
     }`;
 
     return (
@@ -85,14 +85,11 @@ class AccountToggle extends Component {
           <table style={{ color: "white" }}>
             <tbody>
               <tr>
-                <td
-                  className="vertical-align-top"
-                  style={{ padding: "0 0 1em 0" }}
-                >
+                <td className="vertical-align-top" style={{ padding: "0 0 1em 0" }}>
                   <span
                     id="employer_signin-radio-btn"
                     className={employerRadioClasses}
-                    onClick={event => this.changeAccountType(event, "employer")}
+                    onClick={event => this.changeAccountType(event, "EMP")}
                   ></span>
                 </td>
                 <td
@@ -109,22 +106,17 @@ class AccountToggle extends Component {
                     className="display-block font-weight-300"
                     style={{ fontSize: "12px", margin: "0 0 1em 1em" }}
                   >
-                    Consectetur adipiscing elit. Ut accumsan quam in diam porta,
-                    quis hendrerit urna eleifend.
+                    Consectetur adipiscing elit. Ut accumsan quam in diam porta, quis
+                    hendrerit urna eleifend.
                   </span>
                 </td>
               </tr>
               <tr>
-                <td
-                  className="vertical-align-top"
-                  style={{ padding: "0 0 1em 0" }}
-                >
+                <td className="vertical-align-top" style={{ padding: "0 0 1em 0" }}>
                   <span
                     id="freelancer_signin-radio-btn"
                     className={freelancerRadioClasses}
-                    onClick={event =>
-                      this.changeAccountType(event, "freelancer")
-                    }
+                    onClick={event => this.changeAccountType(event, "FRE")}
                   ></span>
                 </td>
                 <td
@@ -141,9 +133,8 @@ class AccountToggle extends Component {
                     className="display-block font-weight-300"
                     style={{ fontSize: "12px", margin: "0 0 0.5em 1em" }}
                   >
-                    Auis hendrerit urna eleifend. Cras eget velit non leo
-                    malesuada ullamcorper. Phasellus facilisis et dui id
-                    maximus.
+                    Auis hendrerit urna eleifend. Cras eget velit non leo malesuada
+                    ullamcorper. Phasellus facilisis et dui id maximus.
                   </span>
                 </td>
               </tr>

@@ -20,11 +20,7 @@ export default function Projects(props) {
               <BriefProfile />
             </Container>
           </Container>
-          <JobList
-            title="Available Jobs"
-            stickerLabel="Available"
-            jobs={props.jobs}
-          />
+          <JobList title="Available Jobs" stickerLabel="Available" jobs={props.jobs} />
         </Container>
         <Container columns width="27%">
           <Container height="30vh" pd="25px">

@@ -32,14 +32,18 @@ class MainContainer extends Component {
   }
 
   render() {
-    return <Loader children={<RouteHandler />} loading={this.props.loading} />;
+    const { user } = this.props;
+    return (
+      <Loader children={<RouteHandler user={user} />} loading={this.props.loading} />
+    );
   }
 }
 
 const mapStateToProps = state => ({
   notification: state.auth.notification,
   rememberMe: state.auth.rememberMe,
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  user: state.auth.user
 });
 
 const mapDispatchToProps = dispatch => ({

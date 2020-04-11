@@ -1,8 +1,4 @@
-import {
-  API_URL,
-  FACEBOOK_APP_ID,
-  GOOGLE_CLIENT_ID
-} from "../../shared/utils/constants";
+import { API_URL, FACEBOOK_APP_ID, GOOGLE_CLIENT_ID } from "../../shared/utils/constants";
 import React, { Component } from "react";
 import {
   clearInputError,
@@ -39,8 +35,9 @@ import profile13 from "../../shared/images/sample_profile_pic_13.jpg";
 import profile15 from "../../shared/images/sample_profile_pic_15.jpg";
 import profile16 from "../../shared/images/sample_profile_pic_16.jpg";
 import profile17 from "../../shared/images/sample_profile_pic_17.jpg";
+import { withRouter } from "react-router-dom";
 
-class SignupForm extends Component {
+class SignUpForm extends Component {
   constructor(props) {
     super(props);
     this.state = { agreed: false };
@@ -89,7 +86,7 @@ class SignupForm extends Component {
 
   renderSideImages = () => {
     const { user } = this.props;
-    if (user.accountType === "employer") {
+    if (user.user_type === "EMP") {
       return (
         <td className="center" style={{ width: "61%" }}>
           <div
@@ -173,10 +170,7 @@ class SignupForm extends Component {
               alt="Logo"
             />
           </div>
-          <span
-            className="font-size-11px display-block"
-            style={{ marginTop: "-12em" }}
-          >
+          <span className="font-size-11px display-block" style={{ marginTop: "-12em" }}>
             Already User?{" "}
             <span
               className="bold blue all-links"
@@ -187,7 +181,7 @@ class SignupForm extends Component {
           </span>
         </td>
       );
-    } else if (user.accountType === "freelancer") {
+    } else if (user.user_type === "FRE") {
       return (
         <td className="center" style={{ width: "32em" }}>
           <div
@@ -277,7 +271,7 @@ class SignupForm extends Component {
 
   renderFormHeader = () => {
     const { user } = this.props;
-    if (user.accountType === "employer") {
+    if (user.user_type === "EMP") {
       return (
         <span
           className="display-block blue"
@@ -286,7 +280,7 @@ class SignupForm extends Component {
           Join Thousands of Companies That Use Athena Every Day !
         </span>
       );
-    } else if (user.accountType === "freelancer") {
+    } else if (user.user_type === "FRE") {
       return (
         <div>
           <span
@@ -347,12 +341,10 @@ class SignupForm extends Component {
 
   renderFormSection1 = () => {
     const { user } = this.props;
-    if (user.accountType === "freelancer") {
+    if (user.user_type === "FRE") {
       return (
         <div>
-          <span className="font-weight-600 font-size-11px display-block">
-            First Name
-          </span>
+          <span className="font-weight-600 font-size-11px display-block">First Name</span>
           <input
             onChange={this.handleInputChange}
             name="firstName"
@@ -365,9 +357,7 @@ class SignupForm extends Component {
               borderColor: "#EBECED"
             }}
           />
-          <span className="font-weight-600 font-size-11px display-block">
-            Last Name
-          </span>
+          <span className="font-weight-600 font-size-11px display-block">Last Name</span>
           <input
             onChange={this.handleInputChange}
             name="lastName"
@@ -387,7 +377,7 @@ class SignupForm extends Component {
 
   renderFormSection2 = () => {
     const { user } = this.props;
-    if (user.accountType === "employer") {
+    if (user.user_type === "EMP") {
       return (
         <div>
           <span className="font-weight-600 font-size-11px display-block">
@@ -455,8 +445,7 @@ class SignupForm extends Component {
     }
     if (!agreed) {
       setNotification({
-        message:
-          "Please agree with the Privacy Policy and Terms of Use to continue"
+        message: "Please agree with the Privacy Policy and Terms of Use to continue"
       });
       return;
     }
@@ -465,24 +454,16 @@ class SignupForm extends Component {
       email: emailAddress,
       password1: password,
       password2: passwordConfirmation,
-      user_type: user.accountType === "employer" ? "EMP" : "FRE"
+      user_type: user.user_type
     };
 
     setLoading({ isLoading: true, loadingText: "Signing up..." });
     axios
       .post(`${API_URL}/auth/register/`, data)
-      .then(res => {
-        console.log(res);
-        const {
-          data: { key }
-        } = res;
-
-        setLoading({ isLoading: false });
-        return key;
-      })
-      .then(key => {
-        this.getUserDetails(key);
+      .then(async response => {
+        await this.getUserDetails(response.data.key);
         removeSignOn();
+        this.props.history.push("/dashboard");
       })
       .catch(error => {
         setLoading({ isLoading: false });
@@ -490,29 +471,18 @@ class SignupForm extends Component {
       });
   };
 
-  getUserDetails = key => {
-    const url = `${API_URL}/auth/user/`;
-    const headers = { Authorization: `Token ${key}` };
-    const {
-      setUser,
-      setLoading,
-      setNotification,
-      createNewProfile
-    } = this.props;
+  getUserDetails = async key => {
+    const { setUser, createNewProfile } = this.props;
+    const response = await axios.get(`${API_URL}/auth/user/`, {
+      headers: { Authorization: `Token ${key}` }
+    });
 
-    axios
-      .get(url, { headers })
-      .then(response => {
-        let newUser = { ...response.data };
-        newUser.loggedIn = true;
-        newUser.key = key;
-        setUser(newUser);
-        createNewProfile(newUser.user_type, newUser.id, key);
-      })
-      .catch(error => {
-        setLoading({ isLoading: false });
-        showAPIErrors(error, setNotification);
-      });
+    const newUser = { ...response.data, loggedIn: true, key };
+    setUser(newUser);
+
+    setLoading({ isLoading: true, loadingText: "Creating Profile..." });
+    createNewProfile(newUser.user_type, newUser.id, key);
+    setLoading({ isLoading: false });
   };
 
   render() {
@@ -538,10 +508,7 @@ class SignupForm extends Component {
                   {this.renderFormSection1()}
                   <span className="font-weight-600 font-size-11px display-block">
                     Email Address
-                    <sup
-                      title="Required"
-                      style={{ color: "red", fontSize: "1em" }}
-                    >
+                    <sup title="Required" style={{ color: "red", fontSize: "1em" }}>
                       *
                     </sup>
                   </span>
@@ -560,10 +527,7 @@ class SignupForm extends Component {
                   {this.renderFormSection2()}
                   <span className="font-weight-600 font-size-11px display-block">
                     Password
-                    <sup
-                      title="Required"
-                      style={{ color: "red", fontSize: "1em" }}
-                    >
+                    <sup title="Required" style={{ color: "red", fontSize: "1em" }}>
                       *
                     </sup>
                   </span>
@@ -582,10 +546,7 @@ class SignupForm extends Component {
                   />
                   <span className="font-weight-600 font-size-11px display-block">
                     Confirm Password
-                    <sup
-                      title="Required"
-                      style={{ color: "red", fontSize: "1em" }}
-                    >
+                    <sup title="Required" style={{ color: "red", fontSize: "1em" }}>
                       *
                     </sup>
                   </span>
@@ -695,4 +656,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(createNewProfile(user_type, user_id, key))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);
+const SignUpFormWithRouter = withRouter(SignUpForm);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpFormWithRouter);

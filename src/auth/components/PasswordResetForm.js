@@ -7,12 +7,7 @@ import {
   showAPIErrors,
   validateEmail
 } from "../../shared/utils/helpers";
-import {
-  removeSignOn,
-  setLoading,
-  setNotification,
-  setUser
-} from "../reducers";
+import { removeSignOn, setLoading, setNotification, setUser } from "../reducers";
 
 import { API_URL } from "../../shared/utils/constants";
 import axios from "axios";
@@ -76,10 +71,7 @@ class PasswordResetForm extends Component {
         <span className="display-block" style={{ fontSize: "30px" }}>
           {signOn}
         </span>
-        <span
-          className="display-block"
-          style={{ fontSize: "12px", margin: "1em 0 2em" }}
-        >
+        <span className="display-block" style={{ fontSize: "12px", margin: "1em 0 2em" }}>
           Set email address to receive instructions
         </span>
         <div className="left">

@@ -28,6 +28,7 @@ const initialValues = {
   work_time: "Full-Time",
   location: ""
 };
+
 const validationSchema = yup.object().shape({
   title: yup.string().required("Required"),
   description: yup.string().required("Required"),
@@ -42,8 +43,9 @@ const validationSchema = yup.object().shape({
   currency: yup.string().required("Required"),
   location: yup.string().required("Required")
 });
+
 export default function CreateJobForm(props) {
-  const { profile_id, token, addJob, onClose } = props;
+  const { profileId, token, addJob, onClose } = props;
 
   return (
     <Container columns width="100%">
@@ -57,7 +59,7 @@ export default function CreateJobForm(props) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={values => {
-          addJob(profile_id, token, values);
+          addJob(profileId, token, values);
           onClose();
         }}
       >
@@ -131,13 +133,7 @@ export default function CreateJobForm(props) {
           />
 
           <RightAlign mt="3rem" mb="3rem">
-            <Button
-              mr="30px"
-              white
-              width="120px"
-              height="30px"
-              onClick={onClose}
-            >
+            <Button mr="30px" white width="120px" height="30px" onClick={onClose}>
               Cancel
             </Button>
             <Button width="120px" height="30px" type="submit">
@@ -153,6 +149,6 @@ export default function CreateJobForm(props) {
 CreateJobForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   addJob: PropTypes.func.isRequired,
-  profile_id: PropTypes.number.isRequired,
+  profileId: PropTypes.number.isRequired,
   token: PropTypes.string.isRequired
 };

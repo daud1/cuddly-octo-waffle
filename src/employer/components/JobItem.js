@@ -25,8 +25,7 @@ const JobItem = props => {
         </Container>
         <Container>
           <GrayTxt>
-            <i className="fa fa-map-marker"></i>&nbsp;&nbsp;
-            {location}
+            <i className="fa fa-map-marker"></i>&nbsp;&nbsp;{location}
           </GrayTxt>
         </Container>
       </Container>

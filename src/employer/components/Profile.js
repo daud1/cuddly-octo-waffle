@@ -47,11 +47,7 @@ function CompanyIntroSec(props) {
   return (
     <Container mb="20px" width="95%">
       <RightAlign width="35%">
-        {props.heading ? (
-          <h4>{props.heading}</h4>
-        ) : (
-          <GrayTxt>{props.fieldLabel}</GrayTxt>
-        )}
+        {props.heading ? <h4>{props.heading}</h4> : <GrayTxt>{props.fieldLabel}</GrayTxt>}
       </RightAlign>
       <Container width="65%" ml="40px">
         <GrayTxt>{props.fieldValue}</GrayTxt>
@@ -101,16 +97,7 @@ class Profile extends React.Component {
       github: "",
       website: ""
     };
-
-    const {
-      profile,
-      reviews,
-      awards,
-      addAward,
-      editProfile,
-      editAward
-    } = this.props;
-
+    const { profile, reviews, awards, addAward, editProfile, editAward } = this.props;
     const {
       showAddAwardForm,
       showEditDescriptionForm,
@@ -122,7 +109,7 @@ class Profile extends React.Component {
       <>
         <ProfileBanner
           editProfile={editProfile}
-          profile_id={profile.id}
+          profileId={profile.id}
           token={profile.key}
         />
         <Container bb columns>
@@ -147,6 +134,7 @@ class Profile extends React.Component {
                         Edit Company details
                       </SubTitle>
                     </Container>
+
                     <LabelledInput
                       label="Company Name"
                       type="text"
@@ -154,6 +142,7 @@ class Profile extends React.Component {
                       mb="10px"
                       gray
                     />
+
                     <LabelledInput
                       label="Number of Employees"
                       type="text"
@@ -161,6 +150,7 @@ class Profile extends React.Component {
                       mb="10px"
                       gray
                     />
+
                     <LabelledInput
                       label="Tel. No"
                       type="text"
@@ -168,6 +158,7 @@ class Profile extends React.Component {
                       mb="10px"
                       gray
                     />
+
                     <RightAlign mt="10px" mb="10px">
                       <Button
                         white
@@ -177,6 +168,7 @@ class Profile extends React.Component {
                       >
                         Cancel
                       </Button>
+
                       <Button width="60px" type="submit">
                         Save
                       </Button>
@@ -223,9 +215,7 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Formik
                 initialValues={{ social: profile.social }}
-                onSubmit={values =>
-                  editProfile(profile.id, profile.key, values)
-                }
+                onSubmit={values => editProfile(profile.id, profile.key, values)}
               >
                 <Container width="20%">
                   <Form>
@@ -307,11 +297,8 @@ class Profile extends React.Component {
                   >
                     <Form>
                       <Container columns mr="50px">
-                        <LabelledTextArea
-                          label="Description"
-                          name="description"
-                          gray
-                        />
+                        <LabelledTextArea label="Description" name="description" gray />
+
                         <LabelledInput
                           label="Field / Industry"
                           type="text"
@@ -319,12 +306,14 @@ class Profile extends React.Component {
                           mb="10px"
                           gray
                         />
+
                         <LabelledInput
                           label="Location"
                           type="text"
                           name="location"
                           gray
                         />
+
                         <RightAlign mt="25px" mb="30px">
                           <Button
                             white
@@ -334,6 +323,7 @@ class Profile extends React.Component {
                           >
                             Cancel
                           </Button>
+
                           <Button width="60px" type="submit">
                             Save
                           </Button>
@@ -344,7 +334,7 @@ class Profile extends React.Component {
                 ) : (
                   <>
                     <CompanyIntroSec
-                      heading="Moontheme Studio Inc."
+                      heading={profile.company_name}
                       fieldValue={profile.description || "--"}
                     />
                     <CompanyIntroSec
@@ -367,11 +357,7 @@ class Profile extends React.Component {
                     </SubTitle>
                   </Container>
                   <Absolute right="30px">
-                    <RoundButton
-                      blue
-                      type="button"
-                      onClick={this.toggleAddAwardForm}
-                    >
+                    <RoundButton blue type="button" onClick={this.toggleAddAwardForm}>
                       +
                     </RoundButton>
                   </Absolute>
@@ -395,11 +381,7 @@ class Profile extends React.Component {
 
                   {showAddAwardForm ? (
                     <Formik
-                      initialValues={{
-                        title: "",
-                        year: 2020,
-                        awarded_by: ""
-                      }}
+                      initialValues={{ title: "", year: 2020, awarded_by: "" }}
                       onSubmit={values => {
                         addAward(profile.id, profile.key, values);
                         this.toggleAddAwardForm();

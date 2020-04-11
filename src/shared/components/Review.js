@@ -10,14 +10,7 @@ const Review = props => {
   return (
     <Container mb="30px">
       <Container>
-        <Avatar
-          src={samplePic}
-          alt="profile"
-          rounded
-          border
-          width="80px"
-          height="80px"
-        />
+        <Avatar src={samplePic} alt="profile" rounded border width="80px" height="80px" />
       </Container>
       <Container ml="30px" columns>
         <SubTitle blue>{title}</SubTitle>
