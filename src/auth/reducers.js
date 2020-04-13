@@ -83,7 +83,7 @@ const authSlice = createSlice({
 export function createNewProfile(user_type, userId, key) {
   return dispatch => {
     const headers = { Authorization: `Token ${key}` };
-    const data = { userId: userId };
+    const data = { user_id: userId };
     const url =
       user_type === "EMP"
         ? `${API_URL}/employer/profile/`
@@ -124,7 +124,7 @@ export function fetchLoggedInProfile(userId, user_type, key) {
     return axios
       .get(url, { headers })
       .then(async response => {
-        async function fetchImages(response, key) {
+        async function fetchImages(response) {
           let p = [];
           const { cover_photo: coverUrl, profile_photo: profileUrl } = response;
 
@@ -140,11 +140,11 @@ export function fetchLoggedInProfile(userId, user_type, key) {
           await Promise.all(p);
         }
 
-        await fetchImages(response.data[0], key);
+        await fetchImages(response.data[0]);
 
         dispatch(
           fetchLoggedInProfileSuccess({
-            profile: response.data[0],
+            profile: { ...response.data[0], key },
             loading: { isLoading: false }
           })
         );
@@ -176,11 +176,11 @@ export function editLoggedInProfile(
             loading: { isLoading: false }
           })
         );
-
-        const fieldName =
-          contentType !== "application/json" ? changes.keys().next()["value"] : null;
+        const hasImage = contentType !== "application/json",
+          fieldName = hasImage ? changes.keys().next()["value"] : null;
 
         fieldName && imgToLocalStore(changes.get(fieldName), fieldName);
+        hasImage && window.location.reload(false);
       })
       .catch(error => {
         dispatch(

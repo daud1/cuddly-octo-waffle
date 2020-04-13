@@ -23,14 +23,13 @@ const PrivateRoute = props => {
 
 class RouteHandler extends React.Component {
   render() {
-    const { user } = this.props;
     return (
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/auth/reset-password/" component={PasswordResetConfirmation} />
-          <PrivateRoute path="/dashboard" component={Dashboard} user={user} />
-          <PrivateRoute path="/settings" component={Settings} user={user} />
+          <PrivateRoute path="/dashboard" component={Dashboard} user={this.props.user} />
+          <PrivateRoute path="/settings" component={Settings} user={this.props.user} />
         </Switch>
       </Router>
     );

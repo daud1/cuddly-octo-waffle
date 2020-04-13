@@ -476,12 +476,12 @@ class SignUpForm extends Component {
     const response = await axios.get(`${API_URL}/auth/user/`, {
       headers: { Authorization: `Token ${key}` }
     });
+    const { user_type, id } = response.data;
 
-    const newUser = { ...response.data, loggedIn: true, key };
-    setUser(newUser);
+    setUser({ ...response.data, loggedIn: true, key });
 
     setLoading({ isLoading: true, loadingText: "Creating Profile..." });
-    createNewProfile(newUser.user_type, newUser.id, key);
+    await createNewProfile(user_type, id, key);
     setLoading({ isLoading: false });
   };
 

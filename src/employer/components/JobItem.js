@@ -18,7 +18,7 @@ const JobItem = props => {
           </SubTitle>
         </Container>
         <Container mb="5px">
-          <GrayTxt>In {company}</GrayTxt>
+          <GrayTxt>At {company}</GrayTxt>
         </Container>
         <Container mb="5px">
           <span>{salary_range}</span>
