@@ -42,9 +42,7 @@ const authSlice = createSlice({
       state.loading = loading;
     },
     editLoggedInProfileSuccess(state, action) {
-      const { profile, loading } = action.payload;
-      state.loggedInProfile = profile;
-      state.loading = loading;
+      state.loggedInProfile = action.payload;
     },
     editLoggedInProfileError(state, action) {
       const { error, loading } = action.payload;
@@ -167,19 +165,19 @@ export function editLoggedInProfile(
   return dispatch => {
     const headers = { "Content-Type": contentType, Authorization: `Token ${key}` };
 
+    dispatch(setLoading({ isLoading: true, loadingText: "Making changes..." }));
     return axios
       .patch(`${API_URL}/employer/profile/${profileId}/`, changes, { headers })
       .then(response => {
-        dispatch(
-          editLoggedInProfileSuccess({
-            profile: { ...response.data, key },
-            loading: { isLoading: false }
-          })
-        );
+        dispatch(editLoggedInProfileSuccess({ ...response.data, key }));
         const hasImage = contentType !== "application/json",
           fieldName = hasImage ? changes.keys().next()["value"] : null;
 
         fieldName && imgToLocalStore(changes.get(fieldName), fieldName);
+
+        dispatch(setLoading({ isLoading: false }));
+        dispatch(setNotification({ message: "Changes Saved!" }));
+
         hasImage && window.location.reload(false);
       })
       .catch(error => {

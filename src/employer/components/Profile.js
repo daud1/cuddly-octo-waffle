@@ -215,7 +215,10 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Formik
                 initialValues={{ social: profile.social }}
-                onSubmit={values => editProfile(profile.id, profile.key, values)}
+                onSubmit={values => {
+                  editProfile(profile.id, profile.key, values);
+                  this.toggleEditSocialForm();
+                }}
               >
                 <Container width="20%">
                   <Form>
