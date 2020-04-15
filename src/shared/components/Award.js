@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 import {
   AwardIcon,
   Button,
@@ -7,14 +9,15 @@ import {
   InputLabel,
   LabelledInput,
   RightAlign,
-  SubTitle
+  SubTitle,
 } from "../../employer/components/Common";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 
 import _ from "lodash";
 
-export const YEAR_CHOICES = _.range(1980, new Date().getFullYear() + 1);
+export const currentYear = new Date().getFullYear(),
+  YEAR_CHOICES = _.range(1980, currentYear + 1);
 
 export function AwardForm(props) {
   const { onClose } = props;
@@ -63,9 +66,14 @@ export function Award(props) {
             initialValues={{
               title: title,
               awarded_by: awarded_by,
-              year: year
+              year: year,
             }}
-            onSubmit={values => {
+            validationSchema={yup.object().shape({
+              title: yup.string().required("Required"),
+              awarded_by: yup.string().required("Required"),
+              year: yup.number().required("Required"),
+            })}
+            onSubmit={(values) => {
               values.id = id;
               setAwardsFormVisibility(false);
               editAward(token, values);

@@ -45,7 +45,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier": "prettier \"*.@(js|json|md|css)\" \"@(src)/**/*.@(js|json|md|css)\"",
-    "prettier:write": "npm run prettier --write"
+    "prettier:write": "npm run prettier -- --write"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -74,5 +74,9 @@
   },
   "optionalDependencies": {
     "fsevents": "^2.1.2"
+  },
+  "prettier": {
+    "printWidth": 90,
+    "trailingComma": "es5"
   }
 }

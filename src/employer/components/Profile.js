@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 import {
   Absolute,
   BriefcaseIcon,
@@ -13,7 +15,7 @@ import {
   RightAlign,
   RoundButton,
   SocialIcon,
-  SubTitle
+  SubTitle,
 } from "./Common";
 import { Award, AwardForm } from "../../shared/components/Award";
 import { Form, Formik } from "formik";
@@ -62,11 +64,11 @@ class Profile extends React.Component {
     showAddAwardForm: false,
     showEditDescriptionForm: false,
     showEditNameForm: false,
-    showEditReviewsForm: false
+    showEditReviewsForm: false,
   };
 
   static propTypes = {
-    profile: PropTypes.shape({})
+    profile: PropTypes.shape({}),
   };
 
   toggleEditSocialForm = () => {
@@ -79,7 +81,7 @@ class Profile extends React.Component {
 
   toggleEditDescriptionForm = () => {
     this.setState({
-      showEditDescriptionForm: !this.state.showEditDescriptionForm
+      showEditDescriptionForm: !this.state.showEditDescriptionForm,
     });
   };
 
@@ -95,14 +97,14 @@ class Profile extends React.Component {
       behance: "",
       dribbble: "",
       github: "",
-      website: ""
+      website: "",
     };
     const { profile, reviews, awards, addAward, editProfile, editAward } = this.props;
     const {
       showAddAwardForm,
       showEditDescriptionForm,
       showEditNameForm,
-      showEditSocialForm
+      showEditSocialForm,
     } = this.state;
 
     return (
@@ -120,9 +122,17 @@ class Profile extends React.Component {
                 initialValues={{
                   company_name: profile.company_name,
                   number_of_employees: profile.number_of_employees,
-                  phone_number: profile.phone_number
+                  phone_number: profile.phone_number,
                 }}
-                onSubmit={values => {
+                validationSchema={yup.object().shape({
+                  company_name: yup.string().required("Required"),
+                  number_of_employees: yup.string().required("Required"),
+                  phone_number: yup
+                    .string()
+                    .matches(/^[+][0-9]{12}$/g, { message: "e.g. +256770123456" })
+                    .required("Required"),
+                })}
+                onSubmit={(values) => {
                   this.toggleEditNameForm();
                   editProfile(profile.id, profile.key, values);
                 }}
@@ -156,6 +166,7 @@ class Profile extends React.Component {
                       type="text"
                       name="phone_number"
                       mb="10px"
+                      placeholder="+256770123456"
                       gray
                     />
 
@@ -215,7 +226,7 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Formik
                 initialValues={{ social: profile.social }}
-                onSubmit={values => {
+                onSubmit={(values) => {
                   editProfile(profile.id, profile.key, values);
                   this.toggleEditSocialForm();
                 }}
@@ -227,7 +238,7 @@ class Profile extends React.Component {
                         Edit Social Links
                       </SubTitle>
                     </Container>
-                    {Object.keys(social).map(key => (
+                    {Object.keys(social).map((key) => (
                       <Input
                         name={`social[${key}]`}
                         placeholder={key}
@@ -291,9 +302,14 @@ class Profile extends React.Component {
                     initialValues={{
                       description: profile.description,
                       industry: profile.industry,
-                      location: profile.location
+                      location: profile.location,
                     }}
-                    onSubmit={values => {
+                    validationSchema={yup.object().shape({
+                      description: yup.string().required("Required"),
+                      industry: yup.string().required("Required"),
+                      location: yup.string().required("Required"),
+                    })}
+                    onSubmit={(values) => {
                       this.toggleEditDescriptionForm();
                       return editProfile(profile.id, profile.key, values);
                     }}
@@ -385,7 +401,7 @@ class Profile extends React.Component {
                   {showAddAwardForm ? (
                     <Formik
                       initialValues={{ title: "", year: 2020, awarded_by: "" }}
-                      onSubmit={values => {
+                      onSubmit={(values) => {
                         addAward(profile.id, profile.key, values);
                         this.toggleAddAwardForm();
                       }}
