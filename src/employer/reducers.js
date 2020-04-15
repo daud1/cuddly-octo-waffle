@@ -82,6 +82,7 @@ export function addAward(profileId, key, award) {
     const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
     award.employer = profileId;
 
+    dispatch(setLoading({isLoading:true, loadingText:"Working..."}))
     return axios
       .post(`${API_URL}/employer/awards/`, award, { headers })
       .then(response => {
@@ -148,6 +149,7 @@ export function addJob(profileId, key, job) {
     const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
     job.employer_id = profileId;
 
+    dispatch(setLoading({isLoading:true, loadingText:"Working..."}))
     return axios
       .post(`${API_URL}/jobs/`, job, { headers })
       .then(response => {

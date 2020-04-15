@@ -10,7 +10,7 @@ import {
   ListField,
   RightAlign,
   SelectField,
-  SubTitle
+  SubTitle,
 } from "./Common";
 import { Form, Formik } from "formik";
 
@@ -26,7 +26,7 @@ const initialValues = {
   salary_range: "",
   currency: "UGX",
   work_time: "Full-Time",
-  location: ""
+  location: "",
 };
 
 const validationSchema = yup.object().shape({
@@ -35,13 +35,10 @@ const validationSchema = yup.object().shape({
   skills_required: yup.array().of(yup.string()),
   other_roles: yup.array().of(yup.string()),
   primary_role: yup.string(),
-  work_time: yup
-    .string()
-    .oneOf(["Full-Time", "Part-Time"])
-    .required("Required"),
+  work_time: yup.string().oneOf(["Full-Time", "Part-Time"]).required("Required"),
   salary_range: yup.string(),
   currency: yup.string().required("Required"),
-  location: yup.string().required("Required")
+  location: yup.string().required("Required"),
 });
 
 export default function CreateJobForm(props) {
@@ -58,7 +55,7 @@ export default function CreateJobForm(props) {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={values => {
+        onSubmit={(values) => {
           addJob(profileId, token, values);
           onClose();
         }}
@@ -150,5 +147,5 @@ CreateJobForm.propTypes = {
   onClose: PropTypes.func.isRequired,
   addJob: PropTypes.func.isRequired,
   profileId: PropTypes.number.isRequired,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
 };
