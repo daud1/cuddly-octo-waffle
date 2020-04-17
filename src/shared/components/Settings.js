@@ -7,7 +7,7 @@ import {
   openRoute,
   scrollToElement,
   setInputError,
-  showAPIErrors
+  showAPIErrors,
 } from "../utils/helpers";
 import { removeUser, setLoading, setNotification } from "../../auth/reducers";
 
@@ -78,7 +78,7 @@ class Settings extends Component {
       case "Password":
         return {
           new_password1: password,
-          new_password2: passwordConfirmation
+          new_password2: passwordConfirmation,
         };
       default:
         break;
@@ -98,7 +98,7 @@ class Settings extends Component {
       .post(url, data, { headers })
       .then(res => {
         const {
-          data: { detail }
+          data: { detail },
         } = res;
         setLoading({ isLoading: false });
         setNotification({ message: detail });
@@ -139,7 +139,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -156,7 +156,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -181,7 +181,7 @@ class Settings extends Component {
                   this.getDataFromState(name),
                   {
                     "content-type": "application/json",
-                    Authorization: `Token ${user.key}`
+                    Authorization: `Token ${user.key}`,
                   }
                 )
               }
@@ -211,7 +211,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -226,7 +226,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -243,7 +243,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -258,7 +258,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -274,7 +274,7 @@ class Settings extends Component {
               fontSize: "10px",
               padding: "0.5em 2em",
               margin: "0.5em 0",
-              borderColor: "#EBECED"
+              borderColor: "#EBECED",
             }}
           />
           <table>
@@ -291,7 +291,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -306,7 +306,7 @@ class Settings extends Component {
                       fontSize: "10px",
                       padding: "0.5em 2em",
                       margin: "0.5em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                 </td>
@@ -323,7 +323,7 @@ class Settings extends Component {
               fontSize: "10px",
               padding: "0.5em 2em",
               margin: "0.5em 0",
-              borderColor: "#EBECED"
+              borderColor: "#EBECED",
             }}
           />
 
@@ -342,7 +342,7 @@ class Settings extends Component {
                       display: "inline-block",
                       width: "4.5em",
                       height: "4.5em",
-                      margin: "1em 0"
+                      margin: "1em 0",
                     }}
                   >
                     <img
@@ -553,13 +553,13 @@ class Settings extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   setLoading: loading => dispatch(setLoading(loading)),
   setNotification: notification => dispatch(setNotification(notification)),
-  removeUser: () => dispatch(removeUser())
+  removeUser: () => dispatch(removeUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

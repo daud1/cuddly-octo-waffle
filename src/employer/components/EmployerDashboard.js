@@ -24,7 +24,7 @@ export default function EmployerDashboard(props) {
     editLoggedInProfile,
     editAward,
     addAward,
-    addJob
+    addJob,
   } = props;
 
   return (

@@ -44,7 +44,7 @@ Projects.propTypes = {
       title: PropTypes.string,
       company: PropTypes.string,
       salary_range: PropTypes.string,
-      location: PropTypes.string
+      location: PropTypes.string,
     })
-  )
+  ),
 };

@@ -30,7 +30,7 @@ export const insertAndExecute = (domelement, text) => {
 export const nodeName = (elem, name) =>
   elem.nodeName && elem.nodeName.toUpperCase() === name.toUpperCase();
 
-export const evalScript = (elem) => {
+export const evalScript = elem => {
   var data = elem.text || elem.textContent || elem.innerHTML || "";
 
   var head = document.getElementsByTagName("head")[0] || document.documentElement,
@@ -58,7 +58,7 @@ export const includeHTML = () => {
       /*make an HTTP request using the attribute value as the file name:*/
       xhttp = new XMLHttpRequest();
       // eslint-disable-next-line
-      xhttp.onreadystatechange = function () {
+      xhttp.onreadystatechange = function() {
         if (this.readyState === 4) {
           // if (this.status === 200) { elmnt.innerHTML = this.responseText; }
           // if (this.status === 404) { elmnt.innerHTML = "Page not found."; }
@@ -198,7 +198,7 @@ export const selectSingleRadioButton = (event, callback = null) => {
   return;
 };
 
-export const renderTooltip = (event) => {
+export const renderTooltip = event => {
   if (event) {
     var elementRect = event.currentTarget.getBoundingClientRect(),
       bodyRect = document.body.getBoundingClientRect(),
@@ -252,7 +252,7 @@ export const dismissOverlay = (event, overlayIds = null) => {
   return;
 };
 
-export const stopPropagation = (event) => {
+export const stopPropagation = event => {
   if (event) {
     event.stopPropagation();
   }
@@ -296,11 +296,11 @@ export const toggleVideoPlay = (videoId, buttonId) => {
   return;
 };
 
-export const isEmpty = (testCollection) => _.isEmpty(testCollection);
+export const isEmpty = testCollection => _.isEmpty(testCollection);
 
-export const isLoggedIn = (user) => user && !isEmpty(user) && user.loggedIn;
+export const isLoggedIn = user => user && !isEmpty(user) && user.loggedIn;
 
-export const validateEmail = (email) => {
+export const validateEmail = email => {
   // eslint-disable-next-line
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
@@ -317,7 +317,7 @@ export const setInputError = (name, message) => {
   }
 };
 
-export const clearInputError = (name) => {
+export const clearInputError = name => {
   const inputWithError = $(`[name="${name}"]`);
   const errorLabel = $(`#${name}-error`);
   inputWithError.css({ borderColor: "#ebeced" });
@@ -332,15 +332,18 @@ export const comparePasswords = () => {
   return password === passwordConfirmation;
 };
 
-export const inputHasValue = (name) => {
+export const inputHasValue = name => {
   const value = $(`[name="${name}"]`).val();
   return value !== "";
 };
 
-export const scrollToElement = (name) => {
+export const scrollToElement = name => {
   $([document.documentElement, document.body]).animate(
     {
-      scrollTop: $(`[name="${name}"]`).prev().offset().top - 10,
+      scrollTop:
+        $(`[name="${name}"]`)
+          .prev()
+          .offset().top - 10,
     },
     "slow"
   );
@@ -367,12 +370,12 @@ export const showAPIErrors = (error, setNotification) => {
         setNotification({ message: errors });
         return;
       }
-      errors.map((resError) => setNotification({ message: resError }));
+      errors.map(resError => setNotification({ message: resError }));
     }
   }
 };
 
-export const getNameFromUser = (user) => {
+export const getNameFromUser = user => {
   const { name } = user;
   if (name) return name;
 
@@ -397,7 +400,7 @@ export const getNameFromUser = (user) => {
   return `${firstName ? firstName : ""} ${lastName ? lastName : ""}`;
 };
 
-export const getTitleFromUser = (user) => {
+export const getTitleFromUser = user => {
   const newUser = { ...user };
   let { user_type, companyName } = newUser;
   if (user_type === "FRE" || (user_type === "EMP" && !companyName)) {
@@ -413,7 +416,7 @@ export const openRoute = (event, route) => {
   window.location.href = route;
 };
 
-export const getUrlParameter = (name) => {
+export const getUrlParameter = name => {
   // eslint-disable-next-line
   name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
   var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
@@ -434,7 +437,7 @@ export const forceHTTPS = () => {
   }
 };
 
-export const getUserImage = (user) => {
+export const getUserImage = user => {
   const { image } = user;
   if (image) return image;
   return sampleProfilePic;
@@ -484,7 +487,7 @@ export const googleSignOn = (response, props) => {
 export function imgToLocalStore(file, fieldName) {
   const reader = new FileReader();
   reader.readAsDataURL(file);
-  reader.onloadend = function () {
+  reader.onloadend = function() {
     localStorage.setItem(fieldName, reader.result);
   };
 }

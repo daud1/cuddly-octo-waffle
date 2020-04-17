@@ -11,7 +11,7 @@ import {
   selectSingleRadioButton,
   setInputError,
   showAPIErrors,
-  validateEmail
+  validateEmail,
 } from "../../shared/utils/helpers";
 import {
   createNewProfile,
@@ -19,7 +19,7 @@ import {
   setLoading,
   setNotification,
   setSignOn,
-  setUser
+  setUser,
 } from "../reducers";
 
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
@@ -95,7 +95,7 @@ class SignUpForm extends Component {
               height: "15em",
               borderRadius: "50%",
               overflow: "hidden",
-              margin: "auto"
+              margin: "auto",
             }}
           >
             <img
@@ -111,7 +111,7 @@ class SignUpForm extends Component {
               height: "5em",
               borderRadius: "50%",
               overflow: "hidden",
-              margin: "-10em auto 0"
+              margin: "-10em auto 0",
             }}
           >
             <img
@@ -141,7 +141,7 @@ class SignUpForm extends Component {
               overflow: "hidden",
               position: "relative",
               top: "-19em",
-              right: "-6em"
+              right: "-6em",
             }}
           >
             <img
@@ -160,7 +160,7 @@ class SignUpForm extends Component {
               overflow: "hidden",
               position: "relative",
               top: "-17em",
-              right: "-23.8em"
+              right: "-23.8em",
             }}
           >
             <img
@@ -190,7 +190,7 @@ class SignUpForm extends Component {
               height: "5em",
               borderRadius: "56% 43% 62% 36% / 51% 30% 72% 49%",
               overflow: "hidden",
-              margin: "-12em 0 -2em 14em"
+              margin: "-12em 0 -2em 14em",
             }}
           >
             <img
@@ -208,7 +208,7 @@ class SignUpForm extends Component {
               overflow: "hidden",
               display: "inline-block",
               margin: "1em 15em 0 0",
-              borderRadius: "32% 68% 82% 18% / 78% 76% 24% 22%"
+              borderRadius: "32% 68% 82% 18% / 78% 76% 24% 22%",
             }}
           >
             <img
@@ -226,7 +226,7 @@ class SignUpForm extends Component {
               borderRadius: "69% 30% 26% 74% / 32% 50% 49% 80%",
               overflow: "hidden",
               position: "relative",
-              right: "-18em"
+              right: "-18em",
             }}
           >
             <img
@@ -245,7 +245,7 @@ class SignUpForm extends Component {
               overflow: "hidden",
               position: "relative",
               top: "-17em",
-              right: "-23.8em"
+              right: "-23.8em",
             }}
           >
             <img
@@ -354,7 +354,7 @@ class SignUpForm extends Component {
               fontSize: "10px",
               padding: "1em 2em",
               margin: "1em 0 2em 0",
-              borderColor: "#EBECED"
+              borderColor: "#EBECED",
             }}
           />
           <span className="font-weight-600 font-size-11px display-block">Last Name</span>
@@ -367,7 +367,7 @@ class SignUpForm extends Component {
               fontSize: "10px",
               padding: "1em 2em",
               margin: "1em 0 2em 0",
-              borderColor: "#EBECED"
+              borderColor: "#EBECED",
             }}
           />
         </div>
@@ -392,7 +392,7 @@ class SignUpForm extends Component {
               fontSize: "10px",
               padding: "1em 2em",
               margin: "1em 0 2em 0",
-              borderColor: "#EBECED"
+              borderColor: "#EBECED",
             }}
           />
           <span className="font-weight-600 font-size-11px display-block">
@@ -406,7 +406,7 @@ class SignUpForm extends Component {
             style={{
               fontSize: "10px",
               padding: "1em 2em",
-              margin: "1em 0 2em 0"
+              margin: "1em 0 2em 0",
             }}
           />
         </div>
@@ -445,7 +445,7 @@ class SignUpForm extends Component {
     }
     if (!agreed) {
       setNotification({
-        message: "Please agree with the Privacy Policy and Terms of Use to continue"
+        message: "Please agree with the Privacy Policy and Terms of Use to continue",
       });
       return;
     }
@@ -454,7 +454,7 @@ class SignUpForm extends Component {
       email: emailAddress,
       password1: password,
       password2: passwordConfirmation,
-      user_type: user.user_type
+      user_type: user.user_type,
     };
 
     setLoading({ isLoading: true, loadingText: "Signing up..." });
@@ -474,7 +474,7 @@ class SignUpForm extends Component {
   getUserDetails = async key => {
     const { setUser, createNewProfile } = this.props;
     const response = await axios.get(`${API_URL}/auth/user/`, {
-      headers: { Authorization: `Token ${key}` }
+      headers: { Authorization: `Token ${key}` },
     });
     const { user_type, id } = response.data;
 
@@ -521,7 +521,7 @@ class SignUpForm extends Component {
                       fontSize: "10px",
                       padding: "1em 2em",
                       margin: "1em 0 2em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                   {this.renderFormSection2()}
@@ -541,7 +541,7 @@ class SignUpForm extends Component {
                       fontSize: "10px",
                       padding: "1em 2em",
                       margin: "1em 0 2em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                   <span className="font-weight-600 font-size-11px display-block">
@@ -560,7 +560,7 @@ class SignUpForm extends Component {
                       fontSize: "10px",
                       padding: "1em 2em",
                       margin: "1em 0 2em 0",
-                      borderColor: "#EBECED"
+                      borderColor: "#EBECED",
                     }}
                   />
                   <div style={{ margin: "1em 0" }}>
@@ -616,7 +616,7 @@ class SignUpForm extends Component {
                       style={{
                         margin: "1em 0 2em 0",
                         width: "100%",
-                        padding: "1em"
+                        padding: "1em",
                       }}
                     >
                       Sign Up
@@ -643,7 +643,7 @@ class SignUpForm extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signOn: state.auth.signOn
+  signOn: state.auth.signOn,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -653,7 +653,7 @@ const mapDispatchToProps = dispatch => ({
   setLoading: loading => dispatch(setLoading(loading)),
   removeSignOn: () => dispatch(removeSignOn()),
   createNewProfile: (user_type, user_id, key) =>
-    dispatch(createNewProfile(user_type, user_id, key))
+    dispatch(createNewProfile(user_type, user_id, key)),
 });
 
 const SignUpFormWithRouter = withRouter(SignUpForm);

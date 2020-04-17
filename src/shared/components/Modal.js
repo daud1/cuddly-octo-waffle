@@ -46,7 +46,7 @@ const Modal = props => {
 
 Modal.propTypes = {
   render: PropTypes.func.isRequired,
-  openButton: PropTypes.func.isRequired
+  openButton: PropTypes.func.isRequired,
 };
 
 export default Modal;

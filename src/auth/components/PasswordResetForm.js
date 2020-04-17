@@ -5,7 +5,7 @@ import {
   scrollToElement,
   setInputError,
   showAPIErrors,
-  validateEmail
+  validateEmail,
 } from "../../shared/utils/helpers";
 import { removeSignOn, setLoading, setNotification, setUser } from "../reducers";
 
@@ -17,7 +17,7 @@ class PasswordResetForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emailSent: false
+      emailSent: false,
     };
   }
 
@@ -49,7 +49,7 @@ class PasswordResetForm extends Component {
             width: "23em",
             margin: "3em auto",
             minHeight: "19em",
-            display: "table"
+            display: "table",
           }}
         >
           <div style={{ display: "table-cell", verticalAlign: "middle" }}>
@@ -90,7 +90,7 @@ class PasswordResetForm extends Component {
               fontSize: "10px",
               padding: "1em 2em",
               margin: "1em 0 2em 0",
-              borderColor: "#EBECED"
+              borderColor: "#EBECED",
             }}
           />
         </div>
@@ -164,14 +164,14 @@ class PasswordResetForm extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  signOn: state.signOn
+  signOn: state.signOn,
 });
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUser(user)),
   setLoading: loading => dispatch(setLoading(loading)),
   setNotification: notification => dispatch(setNotification(notification)),
-  removeSignon: () => dispatch(removeSignOn())
+  removeSignon: () => dispatch(removeSignOn()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordResetForm);

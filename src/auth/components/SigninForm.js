@@ -9,7 +9,7 @@ import {
   selectSingleRadioButton,
   setInputError,
   showAPIErrors,
-  validateEmail
+  validateEmail,
 } from "../../shared/utils/helpers";
 import {
   fetchLoggedInProfile,
@@ -18,7 +18,7 @@ import {
   setNotification,
   setRememberMe,
   setSignOn,
-  setUser
+  setUser,
 } from "../reducers";
 
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
@@ -33,7 +33,7 @@ class SignInForm extends Component {
   getUserDetails = async key => {
     const { fetchLoggedInProfile, setUser } = this.props;
     const response = await axios.get(`${API_URL}/auth/user/`, {
-      headers: { Authorization: `Token ${key}` }
+      headers: { Authorization: `Token ${key}` },
     });
     const loggedInUser = { ...response.data, loggedIn: true, key: key };
 
@@ -64,7 +64,7 @@ class SignInForm extends Component {
     const { setLoading, setNotification, removeSignOn } = this.props;
     const data = {
       email: emailAddress,
-      password
+      password,
     };
 
     setLoading({ isLoading: true, loadingText: "Signing in..." });
@@ -142,7 +142,7 @@ class SignInForm extends Component {
                   style={{
                     background: "#3A5999",
                     padding: "0.8em 2em",
-                    margin: "0em 0.25em 0em 0em"
+                    margin: "0em 0.25em 0em 0em",
                   }}
                 >
                   <i
@@ -165,7 +165,7 @@ class SignInForm extends Component {
                   style={{
                     background: "#DA4538",
                     padding: "0.8em 2em",
-                    margin: "0em 0em 0em 0.25em"
+                    margin: "0em 0em 0em 0.25em",
                   }}
                 >
                   <i
@@ -203,7 +203,7 @@ class SignInForm extends Component {
       user: { user_type },
       signOn,
       setRememberMe,
-      rememberMe
+      rememberMe,
     } = this.props;
     const rememberMeClasses = `border-radio-button ${rememberMe ? "active" : ""}`;
     return (
@@ -233,7 +233,7 @@ class SignInForm extends Component {
                 fontSize: "10px",
                 padding: "1em 2em",
                 margin: "1em 0 2em 0",
-                borderColor: "#EBECED"
+                borderColor: "#EBECED",
               }}
             />
             <span className="font-weight-600 font-size-11px display-block">
@@ -252,7 +252,7 @@ class SignInForm extends Component {
                 fontSize: "10px",
                 padding: "1em 2em",
                 margin: "1em 0 2em 0",
-                borderColor: "#EBECED"
+                borderColor: "#EBECED",
               }}
             />
             <div style={{ margin: "1em 0" }}>
@@ -324,7 +324,7 @@ class SignInForm extends Component {
 const mapStateToProps = state => ({
   user: state.auth.user,
   signOn: state.auth.signOn,
-  rememberMe: state.auth.rememberMe
+  rememberMe: state.auth.rememberMe,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -335,7 +335,7 @@ const mapDispatchToProps = dispatch => ({
   removeSignOn: () => dispatch(removeSignOn()),
   setRememberMe: rememberMe => dispatch(setRememberMe(rememberMe)),
   fetchLoggedInProfile: (id, user_type, key) =>
-    dispatch(fetchLoggedInProfile(id, user_type, key))
+    dispatch(fetchLoggedInProfile(id, user_type, key)),
 });
 
 const SignInFormWithRouter = withRouter(SignInForm);

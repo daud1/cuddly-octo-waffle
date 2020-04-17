@@ -43,12 +43,12 @@ const mapStateToProps = state => ({
   notification: state.auth.notification,
   rememberMe: state.auth.rememberMe,
   loading: state.auth.loading,
-  user: state.auth.user
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   clearNotification: () => dispatch(clearNotification()),
-  removeUser: () => dispatch(removeUser())
+  removeUser: () => dispatch(removeUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

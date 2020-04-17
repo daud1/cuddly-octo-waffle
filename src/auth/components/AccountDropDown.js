@@ -4,7 +4,7 @@ import {
   getUserImage,
   openRoute,
   showAPIErrors,
-  stopPropagation
+  stopPropagation,
 } from "../../shared/utils/helpers";
 import { removeUser, setLoading, setNotification } from "../reducers";
 
@@ -31,13 +31,13 @@ function AccountDropDown(props) {
 
     const headers = {
       "content-type": "application/json",
-      Authorization: `Token ${user.key}`
+      Authorization: `Token ${user.key}`,
     };
     axios
       .post(`${API_URL}/auth/logout/`, { headers })
       .then(res => {
         const {
-          data: { detail }
+          data: { detail },
         } = res;
         setLoading({ isLoading: false });
         removeUser();
@@ -69,7 +69,7 @@ function AccountDropDown(props) {
               border: "3px solid white",
               width: "5em",
               height: "5em",
-              margin: "-2.5em auto 0.4em"
+              margin: "-2.5em auto 0.4em",
             }}
           >
             <img
@@ -124,13 +124,13 @@ function AccountDropDown(props) {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user
+  user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
   removeUser: () => dispatch(removeUser()),
   setLoading: loading => dispatch(setLoading(loading)),
-  setNotification: notification => dispatch(setNotification(notification))
+  setNotification: notification => dispatch(setNotification(notification)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountDropDown);

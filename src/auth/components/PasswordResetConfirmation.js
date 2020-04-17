@@ -8,7 +8,7 @@ import {
   openRoute,
   scrollToElement,
   setInputError,
-  showAPIErrors
+  showAPIErrors,
 } from "../../shared/utils/helpers";
 import { setLoading, setNotification, setSignOn, setUser } from "../reducers";
 
@@ -148,7 +148,7 @@ class PasswordResetConfirmation extends Component {
                   fontSize: "10px",
                   padding: "1em 2em",
                   margin: "1em 0 2em 0",
-                  borderColor: "#EBECED"
+                  borderColor: "#EBECED",
                 }}
               />
               <span className="font-weight-600 font-size-11px display-block">
@@ -167,7 +167,7 @@ class PasswordResetConfirmation extends Component {
                   fontSize: "10px",
                   padding: "1em 2em",
                   margin: "1em 0 2em 0",
-                  borderColor: "#EBECED"
+                  borderColor: "#EBECED",
                 }}
               />
             </div>
@@ -190,14 +190,14 @@ class PasswordResetConfirmation extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signOn: state.auth.signOn
+  signOn: state.auth.signOn,
 });
 
 const mapDispatchToProps = dispatch => ({
   setUser: user => dispatch(setUser(user)),
   setLoading: loading => dispatch(setLoading(loading)),
   setNotification: notification => dispatch(setNotification(notification)),
-  setSignOn: signOn => dispatch(setSignOn(signOn))
+  setSignOn: signOn => dispatch(setSignOn(signOn)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordResetConfirmation);

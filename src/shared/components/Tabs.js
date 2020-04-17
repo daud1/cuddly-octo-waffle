@@ -17,11 +17,11 @@ const TabList = styled.ul`
 
 class Tabs extends React.Component {
   state = {
-    activeTab: this.props.children[0].props.label
+    activeTab: this.props.children[0].props.label,
   };
 
   static propTypes = {
-    children: PropTypes.instanceOf(Array).isRequired
+    children: PropTypes.instanceOf(Array).isRequired,
   };
 
   onClickTab = tab => {

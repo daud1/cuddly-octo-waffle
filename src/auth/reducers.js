@@ -2,7 +2,7 @@ import {
   getImage,
   getObjName,
   imgToLocalStore,
-  showAPIErrors
+  showAPIErrors,
 } from "../shared/utils/helpers";
 
 import { API_URL } from "../shared/utils/constants";
@@ -18,7 +18,7 @@ const authSlice = createSlice({
     signOn: "",
     user: {},
     notification: {},
-    error: null
+    error: null,
   },
   reducers: {
     createNewProfileSuccess(state, action) {
@@ -74,8 +74,8 @@ const authSlice = createSlice({
     },
     clearNotification(state) {
       state.notification = {};
-    }
-  }
+    },
+  },
 });
 
 export function createNewProfile(user_type, userId, key) {
@@ -93,7 +93,7 @@ export function createNewProfile(user_type, userId, key) {
         dispatch(
           createNewProfileSuccess({
             profile: { ...response.data, key },
-            loading: { isLoading: false }
+            loading: { isLoading: false },
           })
         );
       })
@@ -112,7 +112,7 @@ export function fetchLoggedInProfile(userId, user_type, key) {
 
     const headers = {
       "content-type": "application/json, image/*",
-      Authorization: `Token ${key}`
+      Authorization: `Token ${key}`,
     };
     const url =
       user_type === "EMP"
@@ -143,7 +143,7 @@ export function fetchLoggedInProfile(userId, user_type, key) {
         dispatch(
           fetchLoggedInProfileSuccess({
             profile: { ...response.data[0], key },
-            loading: { isLoading: false }
+            loading: { isLoading: false },
           })
         );
       })
@@ -203,7 +203,7 @@ export const {
   fetchLoggedInProfileError,
   fetchLoggedInProfileSuccess,
   editLoggedInProfileSuccess,
-  editLoggedInProfileError
+  editLoggedInProfileError,
 } = authSlice.actions;
 
 export default authSlice.reducer;

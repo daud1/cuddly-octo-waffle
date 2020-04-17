@@ -65,7 +65,7 @@ function EditProfilePhoto(props) {
   return (
     <Formik
       initialValues={{ profile_photo: null }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         let form = new FormData();
 
         form.append("profile_photo", values.profile_photo);
@@ -79,11 +79,11 @@ function EditProfilePhoto(props) {
         profile_photo: yup
           .mixed()
           .required("Required!")
-          .test("fileSize", "File too large", (value) => value && value.size <= FILE_SIZE)
+          .test("fileSize", "File too large", value => value && value.size <= FILE_SIZE)
           .test(
             "fileFormat",
             "Unsupported Format",
-            (value) => value && SUPPORTED_FORMATS.includes(value.type)
+            value => value && SUPPORTED_FORMATS.includes(value.type)
           ),
       })}
     >
@@ -99,7 +99,7 @@ function EditProfilePhoto(props) {
               type="file"
               accept="image/jpeg, image/jpg"
               name="profile_photo"
-              onChange={(e) => setFieldValue("profile_photo", e.currentTarget.files[0])}
+              onChange={e => setFieldValue("profile_photo", e.currentTarget.files[0])}
             />
             <ErrorMessage name="profile_photo" component={Error} />
             <ActionButtons onClose={onClose} />
@@ -116,7 +116,7 @@ function EditCoverPhoto(props) {
   return (
     <Formik
       initialValues={{ cover_photo: null }}
-      onSubmit={(values) => {
+      onSubmit={values => {
         let form = new FormData();
 
         form.append("cover_photo", values.cover_photo);
@@ -130,11 +130,11 @@ function EditCoverPhoto(props) {
         cover_photo: yup
           .mixed()
           .required("Required!")
-          .test("fileSize", "File too large", (value) => value && value.size <= FILE_SIZE)
+          .test("fileSize", "File too large", value => value && value.size <= FILE_SIZE)
           .test(
             "fileFormat",
             "Unsupported Format",
-            (value) => value && SUPPORTED_FORMATS.includes(value.type)
+            value => value && SUPPORTED_FORMATS.includes(value.type)
           ),
       })}
     >
@@ -149,7 +149,7 @@ function EditCoverPhoto(props) {
             mb="8px"
             accept="image/jpeg, image/jpg"
             name="cover_photo"
-            onChange={(e) => setFieldValue("cover_photo", e.currentTarget.files[0])}
+            onChange={e => setFieldValue("cover_photo", e.currentTarget.files[0])}
           />
           <ErrorMessage name="cover_photo" component={Error} />
           <ActionButtons onClose={onClose} />
@@ -175,7 +175,7 @@ export default function ProfileBanner(props) {
       <Modal
         {...props}
         render={EditProfilePhoto}
-        openButton={(props) => (
+        openButton={props => (
           <Absolute width="100%" xCenter bottom="30px" left="40px">
             <ProfilePicButton onClick={props.onClose}>
               <CameraIcon className="fa fa-camera-retro"></CameraIcon>
@@ -188,7 +188,7 @@ export default function ProfileBanner(props) {
       <Modal
         {...props}
         render={EditCoverPhoto}
-        openButton={(props) => (
+        openButton={props => (
           <Absolute bottom="30px" right="30px">
             <CoverPhotoButton onClick={props.onClose}>
               <CameraIcon className="fa fa-camera-retro" small mr="10px"></CameraIcon>

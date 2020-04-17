@@ -8,7 +8,7 @@ class AccountToggle extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
     };
   }
 
@@ -64,7 +64,7 @@ class AccountToggle extends Component {
             width: "30%",
             padding: "2em",
             borderRadius: "0.5em",
-            margin: "auto"
+            margin: "auto",
           }}
         >
           <span className="center display-block" style={{ fontSize: "34px" }}>
@@ -146,7 +146,7 @@ class AccountToggle extends Component {
               style={{
                 backgroundColor: "#242527",
                 padding: "0.8em 5em",
-                margin: "2em 9em"
+                margin: "2em 9em",
               }}
             >
               Next
@@ -160,11 +160,11 @@ class AccountToggle extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signOn: state.auth.signOn
+  signOn: state.auth.signOn,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setUser: user => dispatch(setUser(user))
+  setUser: user => dispatch(setUser(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountToggle);

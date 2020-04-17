@@ -22,7 +22,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      renderForms: false
+      renderForms: false,
     };
   }
 
@@ -116,7 +116,7 @@ class Home extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signOn: state.auth.signOn
+  signOn: state.auth.signOn,
 });
 
 export default connect(mapStateToProps)(Home);

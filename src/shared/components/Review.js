@@ -38,10 +38,10 @@ Review.propTypes = {
     rating: PropTypes.number.isRequired,
     author: PropTypes.shape({
       first_name: PropTypes.string.isRequired,
-      last_name: PropTypes.string.isRequired
+      last_name: PropTypes.string.isRequired,
     }),
-    date_posted: PropTypes.string.isRequired //check data type
-  })
+    date_posted: PropTypes.string.isRequired, //check data type
+  }),
 };
 
 export default Review;

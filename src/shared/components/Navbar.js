@@ -6,7 +6,7 @@ import {
   isLoggedIn,
   openRoute,
   showOverlay,
-  stopPropagation
+  stopPropagation,
 } from "../utils/helpers";
 import { removeSignOn, removeUser, setSignOn } from "../../auth/reducers";
 
@@ -204,7 +204,7 @@ class Navbar extends Component {
                   "notification-tray",
                   "message-dropdown",
                   "job-feed-dropdown",
-                  "connections-dropdown"
+                  "connections-dropdown",
                 ]);
               }}
             >
@@ -228,7 +228,7 @@ class Navbar extends Component {
                   "notification-tray",
                   "message-dropdown",
                   "job-feed-dropdown",
-                  "freelancers-dropdown"
+                  "freelancers-dropdown",
                 ]);
               }}
             >
@@ -272,7 +272,7 @@ class Navbar extends Component {
                   "notification-tray",
                   "message-dropdown",
                   "freelancers-dropdown",
-                  "connections-dropdown"
+                  "connections-dropdown",
                 ]);
               }}
               className="all-links"
@@ -291,7 +291,7 @@ class Navbar extends Component {
                   "notification-tray",
                   "job-feed-dropdown",
                   "freelancers-dropdown",
-                  "connections-dropdown"
+                  "connections-dropdown",
                 ]);
               }}
               className="all-links"
@@ -310,7 +310,7 @@ class Navbar extends Component {
                   "job-feed-dropdown",
                   "message-dropdown",
                   "freelancers-dropdown",
-                  "connections-dropdown"
+                  "connections-dropdown",
                 ]);
               }}
               className="badge"
@@ -330,7 +330,7 @@ class Navbar extends Component {
                   "job-feed-dropdown",
                   "message-dropdown",
                   "freelancers-dropdown",
-                  "connections-dropdown"
+                  "connections-dropdown",
                 ]);
               }}
               className="badge-no-data all-links"
@@ -374,13 +374,13 @@ class Navbar extends Component {
 
 const mapStateToProps = state => ({
   user: state.auth.user,
-  signOn: state.auth.signOn
+  signOn: state.auth.signOn,
 });
 
 const mapDispatchToProps = dispatch => ({
   setSignOn: signOn => dispatch(setSignOn(signOn)),
   removeUser: () => dispatch(removeUser()),
-  removeSignOn: () => dispatch(removeSignOn())
+  removeSignOn: () => dispatch(removeSignOn()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

@@ -4,7 +4,7 @@ import {
   editAward,
   fetchAwards,
   fetchJobs,
-  fetchReviews
+  fetchReviews,
 } from "../../employer/reducers";
 import { editLoggedInProfile, fetchLoggedInProfile } from "../../auth/reducers";
 
@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
       fetchJobs,
       fetchReviews,
       profile: { id: profileId },
-      user: { key, user_type }
+      user: { key, user_type },
     } = this.props;
 
     function fetchEmpData(profileId, key) {
@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
       jobs,
       profile,
       reviews,
-      user
+      user,
     } = this.props;
 
     return user.user_type === "EMP" ? (
@@ -90,7 +90,7 @@ const mapStateToProps = state => ({
   awards: state.employer.awards.awards,
   jobs: state.employer.jobs.jobs,
   user: state.auth.user,
-  notification: state.auth.notification
+  notification: state.auth.notification,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -104,7 +104,7 @@ const mapDispatchToProps = dispatch => ({
   fetchAwards: (profileId, key) => dispatch(fetchAwards(profileId, key)),
   fetchJobs: profileId => dispatch(fetchJobs(profileId)),
   editAward: (key, awardEdits) => dispatch(editAward(key, awardEdits)),
-  clearNotifications: () => dispatch(clearNotification())
+  clearNotifications: () => dispatch(clearNotification()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

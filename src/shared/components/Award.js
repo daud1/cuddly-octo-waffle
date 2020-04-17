@@ -29,7 +29,7 @@ export function AwardForm(props) {
         awarded_by: yup.string().required("Required"),
         year: yup.number().required("Required"),
       })}
-      onSubmit={(values) => {
+      onSubmit={values => {
         if (awardId) values.id = awardId;
         showForm(false);
         handleSubmit(...args, values);

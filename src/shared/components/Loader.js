@@ -4,7 +4,7 @@ import React from "react";
 function Loader(props) {
   const {
     loading: { isLoading, loadingText },
-    children
+    children,
   } = props;
   return (
     <LoadingOverlay active={isLoading} spinner text={loadingText}>

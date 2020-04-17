@@ -6,7 +6,7 @@ import {
   REGISTER,
   REHYDRATE,
   persistReducer,
-  persistStore
+  persistStore,
 } from "redux-persist";
 import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
@@ -23,9 +23,9 @@ const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-    }
-  })
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 });
 
 const persistor = persistStore(store);

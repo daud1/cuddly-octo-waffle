@@ -134,7 +134,7 @@ class Profile extends React.Component {
                     .matches(/^[+][0-9]{12}$/g, { message: "e.g. +256770123456" })
                     .nullable(),
                 })}
-                onSubmit={(values) => {
+                onSubmit={values => {
                   this.toggleEditNameForm();
                   editProfile(profile.id, profile.key, values);
                 }}
@@ -268,8 +268,8 @@ class Profile extends React.Component {
                       ),
                   }),
                 })}
-                onSubmit={(values) => {
-                  Object.keys(values.social).forEach((key) => {
+                onSubmit={values => {
+                  Object.keys(values.social).forEach(key => {
                     if (!values.social[key].trim()) delete values.social[key];
                   });
                   editProfile(profile.id, profile.key, values);
@@ -362,7 +362,7 @@ class Profile extends React.Component {
                       industry: yup.string().nullable(),
                       location: yup.string().nullable(),
                     })}
-                    onSubmit={(values) => {
+                    onSubmit={values => {
                       this.toggleEditDescriptionForm();
                       return editProfile(profile.id, profile.key, values);
                     }}
