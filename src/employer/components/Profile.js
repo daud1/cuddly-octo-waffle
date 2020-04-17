@@ -106,6 +106,7 @@ class Profile extends React.Component {
       showEditNameForm,
       showEditSocialForm,
     } = this.state;
+    const keys = Object.keys(profile.social);
 
     return (
       <>
@@ -238,12 +239,13 @@ class Profile extends React.Component {
                         Edit Social Links
                       </SubTitle>
                     </Container>
-                    {Object.keys(social).map((key) => (
+                    {Object.keys(social).map((key, idx) => (
                       <Input
                         name={`social[${key}]`}
                         placeholder={key}
                         mb="8px"
                         width="100%"
+                        key={idx}
                       />
                     ))}
                     <RightAlign mt="15px">
@@ -262,15 +264,13 @@ class Profile extends React.Component {
               </Formik>
             ) : (
               <Container xCenter>
-                {profile.social ? (
-                  profile.social &&
-                  Object.keys(profile.social).map((key, index) => (
-                    // TODO: check and don't render icons for fields with no links/empty string
+                {keys.length ? (
+                  keys.map((key, idx) => (
                     <a
-                      href={social[key]}
+                      href={profile.social[key]}
                       target="_blank"
-                      rel="noopener noreferrer"
-                      key={index}
+                      rel="noreferrer noopener"
+                      key={idx}
                     >
                       <SocialIcon className={`fa fa-${key}`}></SocialIcon>
                     </a>
@@ -386,7 +386,7 @@ class Profile extends React.Component {
                     awards.map((award, _) => (
                       <Award
                         key={award.id}
-                        id={award.id}
+                        awardId={award.id}
                         token={profile.key}
                         title={award.title}
                         year={award.year}
@@ -399,15 +399,12 @@ class Profile extends React.Component {
                   )}
 
                   {showAddAwardForm ? (
-                    <Formik
+                    <AwardForm
+                      showForm={this.toggleAddAwardForm}
+                      args={[profile.id, profile.key]}
+                      handleSubmit={addAward}
                       initialValues={{ title: "", year: 2020, awarded_by: "" }}
-                      onSubmit={(values) => {
-                        addAward(profile.id, profile.key, values);
-                        this.toggleAddAwardForm();
-                      }}
-                    >
-                      <AwardForm onClose={this.toggleAddAwardForm} />
-                    </Formik>
+                    />
                   ) : null}
                 </Container>
               </Container>
