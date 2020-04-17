@@ -1,9 +1,10 @@
 import * as yup from "yup";
 
 import { Absolute, Avatar, CameraIcon, Relative, RightAlign, SubTitle } from "./Common";
-import { Form, Formik } from "formik";
+import { FILE_SIZE, SUPPORTED_FORMATS } from "../../shared/utils/constants";
+import { Form, Formik, ErrorMessage } from "formik";
 
-import { Button } from "./Common";
+import { Button, Error } from "./Common";
 import Modal from "../../shared/components/Modal";
 import React from "react";
 import styled from "styled-components";
@@ -56,7 +57,7 @@ function EditProfilePhoto(props) {
   return (
     <Formik
       initialValues={{ profile_photo: null }}
-      onSubmit={values => {
+      onSubmit={(values) => {
         let form = new FormData();
 
         form.append("profile_photo", values.profile_photo);
@@ -66,7 +67,17 @@ function EditProfilePhoto(props) {
         editProfile(profileId, token, form, "multipart/form-data, application/json");
         onClose();
       }}
-      validationSchema={yup.object().shape({ profile_photo: yup.mixed().required() })}
+      validationSchema={yup.object().shape({
+        profile_photo: yup
+          .mixed()
+          .required("Required!")
+          .test("fileSize", "File too large", (value) => value && value.size <= FILE_SIZE)
+          .test(
+            "fileFormat",
+            "Unsupported Format",
+            (value) => value && SUPPORTED_FORMATS.includes(value.type)
+          ),
+      })}
     >
       {({ setFieldValue }) => {
         return (
@@ -74,17 +85,14 @@ function EditProfilePhoto(props) {
             <SubTitle bold blue>
               Edit profile photo
             </SubTitle>
-
             <input
               mt="15px"
               type="file"
               accept="image/*"
               name="profile_photo"
-              onChange={event =>
-                setFieldValue("profile_photo", event.currentTarget.files[0])
-              }
+              onChange={(e) => setFieldValue("profile_photo", e.currentTarget.files[0])}
             />
-
+            <ErrorMessage name="profile_photo" component={Error} />
             <ActionButtons onClose={onClose} />
           </Form>
         );
@@ -99,7 +107,7 @@ function EditCoverPhoto(props) {
   return (
     <Formik
       initialValues={{ cover_photo: null }}
-      onSubmit={values => {
+      onSubmit={(values) => {
         let form = new FormData();
 
         form.append("cover_photo", values.cover_photo);
@@ -109,22 +117,31 @@ function EditCoverPhoto(props) {
         editProfile(profileId, token, form, "multipart/form-data, application/json");
         onClose();
       }}
-      validationSchema={yup.object().shape({ cover_photo: yup.mixed().required() })}
+      validationSchema={yup.object().shape({
+        cover_photo: yup
+          .mixed()
+          .required("Required!")
+          .test("fileSize", "File too large", (value) => value && value.size <= FILE_SIZE)
+          .test(
+            "fileFormat",
+            "Unsupported Format",
+            (value) => value && SUPPORTED_FORMATS.includes(value.type)
+          ),
+      })}
     >
       {({ setFieldValue }) => (
         <Form>
           <SubTitle bold blue>
             Edit cover photo
           </SubTitle>
-
           <input
             mt="15px"
             type="file"
             accept="image/*"
             name="cover_photo"
-            onChange={event => setFieldValue("cover_photo", event.currentTarget.files[0])}
+            onChange={(e) => setFieldValue("cover_photo", e.currentTarget.files[0])}
           />
-
+          <ErrorMessage name="cover_photo" component={Error} />
           <ActionButtons onClose={onClose} />
         </Form>
       )}
@@ -148,7 +165,7 @@ export default function ProfileBanner(props) {
       <Modal
         {...props}
         render={EditProfilePhoto}
-        openButton={props => (
+        openButton={(props) => (
           <Absolute width="100%" xCenter bottom="30px" left="40px">
             <ProfilePicButton onClick={props.onClose}>
               <CameraIcon className="fa fa-camera-retro"></CameraIcon>
@@ -161,7 +178,7 @@ export default function ProfileBanner(props) {
       <Modal
         {...props}
         render={EditCoverPhoto}
-        openButton={props => (
+        openButton={(props) => (
           <Absolute bottom="30px" right="30px">
             <CoverPhotoButton onClick={props.onClose}>
               <CameraIcon className="fa fa-camera-retro" small mr="10px"></CameraIcon>

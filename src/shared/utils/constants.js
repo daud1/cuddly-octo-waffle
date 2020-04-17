@@ -10,3 +10,5 @@ export const BUCKET_REGION = process.env.REACT_APP_BUCKET_REGION;
 export const S3_KEY = process.env.REACT_APP_S3_KEY;
 export const BUCKET_NAME = process.env.REACT_APP_BUCKET_NAME;
 export const S3_SECRET = process.env.REACT_APP_S3_SECRET;
+export const FILE_SIZE = 2621440;
+export const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
