@@ -1,6 +1,14 @@
 import * as yup from "yup";
 
-import { Absolute, Avatar, CameraIcon, Relative, RightAlign, SubTitle } from "./Common";
+import {
+  Absolute,
+  Avatar,
+  CameraIcon,
+  Relative,
+  RightAlign,
+  SubTitle,
+  CustomisableInput,
+} from "./Common";
 import { FILE_SIZE, SUPPORTED_FORMATS } from "../../shared/utils/constants";
 import { Form, Formik, ErrorMessage } from "formik";
 
@@ -85,10 +93,11 @@ function EditProfilePhoto(props) {
             <SubTitle bold blue>
               Edit profile photo
             </SubTitle>
-            <input
+            <CustomisableInput
               mt="15px"
+              mb="8px"
               type="file"
-              accept="image/*"
+              accept="image/jpeg, image/jpg"
               name="profile_photo"
               onChange={(e) => setFieldValue("profile_photo", e.currentTarget.files[0])}
             />
@@ -134,10 +143,11 @@ function EditCoverPhoto(props) {
           <SubTitle bold blue>
             Edit cover photo
           </SubTitle>
-          <input
+          <CustomisableInput
             mt="15px"
             type="file"
-            accept="image/*"
+            mb="8px"
+            accept="image/jpeg, image/jpg"
             name="cover_photo"
             onChange={(e) => setFieldValue("cover_photo", e.currentTarget.files[0])}
           />

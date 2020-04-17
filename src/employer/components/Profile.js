@@ -8,6 +8,7 @@ import {
   EditIcon,
   GrayTxt,
   Input,
+  Error,
   LabelledInput,
   LabelledTextArea,
   NothingToDisplay,
@@ -18,7 +19,7 @@ import {
   SubTitle,
 } from "./Common";
 import { Award, AwardForm } from "../../shared/components/Award";
-import { Form, Formik } from "formik";
+import { Form, Formik, ErrorMessage } from "formik";
 
 import ProfileBanner from "./ProfileBanner";
 import PropTypes from "prop-types";
@@ -126,12 +127,12 @@ class Profile extends React.Component {
                   phone_number: profile.phone_number,
                 }}
                 validationSchema={yup.object().shape({
-                  company_name: yup.string().required("Required"),
-                  number_of_employees: yup.string().required("Required"),
+                  company_name: yup.string().nullable(),
+                  number_of_employees: yup.string().nullable(),
                   phone_number: yup
                     .string()
                     .matches(/^[+][0-9]{12}$/g, { message: "e.g. +256770123456" })
-                    .required("Required"),
+                    .nullable(),
                 })}
                 onSubmit={(values) => {
                   this.toggleEditNameForm();
@@ -227,27 +228,79 @@ class Profile extends React.Component {
             {showEditSocialForm ? (
               <Formik
                 initialValues={{ social: profile.social }}
+                validationSchema={yup.object().shape({
+                  social: yup.object().shape({
+                    facebook: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/facebook.com\/[\w.-/]+)$/g, {
+                        message: "eg. https://facebook.com/myProfile",
+                      }),
+                    twitter: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/twitter.com\/[\w.-/]+)$/g, {
+                        message: "eg. https://twitter.com/myProfile",
+                      }),
+                    linkedin: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
+                        message: "eg. https://linkedin.com/in/myProfile",
+                      }),
+                    behance: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/behance.com\/[\w.-/]+)$/g, {
+                        message: "eg. https://behance.com/myProfile",
+                      }),
+                    dribbble: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/dribbble.com\/[\w.-/]+)$/g, {
+                        message: "eg. https://dribbble.com/myProfile",
+                      }),
+                    github: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
+                        message: "eg. https://github.com/myProfile",
+                      }),
+                    website: yup
+                      .string()
+                      .matches(
+                        /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/g,
+                        { message: "eg. https://www.mywebsite.com/ or www.website.com" }
+                      ),
+                  }),
+                })}
                 onSubmit={(values) => {
+                  Object.keys(values.social).forEach((key) => {
+                    if (!values.social[key].trim()) delete values.social[key];
+                  });
                   editProfile(profile.id, profile.key, values);
                   this.toggleEditSocialForm();
                 }}
               >
-                <Container width="20%">
+                <Container width="30%" xCenter>
                   <Form>
-                    <Container mb="10px">
+                    <Container mb="10px" xCenter>
                       <SubTitle blue bold>
                         Edit Social Links
                       </SubTitle>
                     </Container>
-                    {Object.keys(social).map((key, idx) => (
-                      <Input
-                        name={`social[${key}]`}
-                        placeholder={key}
-                        mb="8px"
-                        width="100%"
-                        key={idx}
-                      />
-                    ))}
+                    {Object.keys(social).map((key, idx) => {
+                      const field = `social.${key}`;
+                      return (
+                        <>
+                          <Input
+                            name={field}
+                            placeholder={key}
+                            mb="8px"
+                            mt="8px"
+                            width="270px"
+                            key={idx}
+                          />
+                          <div>
+                            <ErrorMessage component={Error} name={field} />
+                          </div>
+                        </>
+                      );
+                    })}
                     <RightAlign mt="15px">
                       <Button
                         white
@@ -305,9 +358,9 @@ class Profile extends React.Component {
                       location: profile.location,
                     }}
                     validationSchema={yup.object().shape({
-                      description: yup.string().required("Required"),
-                      industry: yup.string().required("Required"),
-                      location: yup.string().required("Required"),
+                      description: yup.string().nullable(),
+                      industry: yup.string().nullable(),
+                      location: yup.string().nullable(),
                     })}
                     onSubmit={(values) => {
                       this.toggleEditDescriptionForm();
