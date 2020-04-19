@@ -131,7 +131,8 @@ class Profile extends React.Component {
                   number_of_employees: yup.string().nullable(),
                   phone_number: yup
                     .string()
-                    .matches(/^[+][0-9]{12}$/g, { message: "e.g. +256770123456" })
+                    .length(13)
+                    .matches(/^\+[0-9]{12}$/g, { message: "e.g. +256770123456" })
                     .nullable(),
                 })}
                 onSubmit={values => {
