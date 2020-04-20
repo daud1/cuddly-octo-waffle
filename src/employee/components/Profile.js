@@ -1,0 +1,345 @@
+import * as yup from "yup";
+
+import {
+  Absolute,
+  Button,
+  Container,
+  EditIcon,
+  GrayTxt,
+  Input,
+  InputLabel,
+  IntroSec,
+  LabelledInput,
+  LabelledTextArea,
+  NothingToDisplay,
+  Relative,
+  RightAlign,
+  RoundButton,
+  SectionHeading,
+  SocialIcon,
+  SubTitle,
+} from "../../shared/components/StyledComponents";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Qualification, QualificationForm } from "./Qualification";
+
+import ProfileBanner from "../../shared/components/ProfileBanner";
+import React from "react";
+import { Review } from "./Review";
+
+const EXP_CHOICES = ["0 - 2 years", "2 - 4 years", "4 - 8 years", "8+ years"];
+export default class Profile extends React.Component {
+  state = {
+    showEditContactForm: false, // website, github, linked_in
+    showEditBioForm: false, // name, profession(s), yearsOfExperience
+    showAddQualificationForm: false,
+  };
+
+  toggleEditContactForm = () => {
+    this.setState({ showEditContactForm: !this.state.showEditContactForm });
+  };
+  toggleEditBioForm = () => {
+    this.setState({ showEditBioForm: !this.state.showEditBioForm });
+  };
+  toggleAddQualificationForm = () => {
+    this.setState({ showEditQualificationsForm: !this.state.showEditQualificationsForm });
+  };
+
+  render() {
+    const {
+      profile,
+      reviews,
+      qualifications,
+      editProfile,
+      editReview,
+      addQualification,
+      editQualification,
+    } = this.props;
+    const { showEditContactForm, showEditBioForm, showAddQualificationForm } = this.state;
+    const social = { linkedin: "", behance: "", dribbble: "", github: "", website: "" },
+      keys = Object.keys(social);
+
+    return (
+      <>
+        <ProfileBanner
+          editProfile={editProfile}
+          profileId={profile.id}
+          token={profile.key}
+        />
+
+        <Container bb columns>
+          {/**Name and Social */}
+          <Container mt="100px" xCenter>
+            {showEditContactForm ? (
+              <Formik
+                initialValues={{
+                  name: profile.name,
+                  social: profile.social,
+                }}
+                validationSchema={yup.object().shape({
+                  name: yup.string().nullable(),
+                  social: yup.object().shape({
+                    linkedin: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
+                        message: "eg. https://linkedin.com/in/myProfile",
+                      }),
+                    behance: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/behance.com\/[\w.-/]+)$/g, {
+                        message: "eg. https://behance.com/myProfile",
+                      }),
+                    dribbble: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/dribbble.com\/[\w.-/]+)$/g, {
+                        message: "eg. https://dribbble.com/myProfile",
+                      }),
+                    github: yup
+                      .string()
+                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
+                        message: "eg. https://github.com/myProfile",
+                      }),
+                    website: yup
+                      .string()
+                      .matches(
+                        /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/g,
+                        { message: "eg. https://www.mywebsite.com/ or www.website.com" }
+                      ),
+                  }),
+                })}
+                onSubmit={values => {
+                  this.toggleEditNameForm();
+                  editProfile(profile.id, profile.key, values);
+                }}
+              >
+                <Container columns mt="5px" width="20%">
+                  <Form>
+                    <Container mb="15px">
+                      <SubTitle blue bold>
+                        Edit Company details
+                      </SubTitle>
+                    </Container>
+
+                    <LabelledInput label="Name" type="text" name="name" mb="10px" gray />
+
+                    {Object.keys(social).map((key, idx) => {
+                      const field = ` social.${key}`;
+                      return (
+                        <>
+                          <Input
+                            name={field}
+                            placeholder={key}
+                            mb="8px"
+                            mt="8px"
+                            width="270px"
+                            key={idx}
+                          />
+                          <div>
+                            <ErrorMessage component={Error} name={field} />
+                          </div>
+                        </>
+                      );
+                    })}
+
+                    <RightAlign mt="10px" mb="10px">
+                      <Button
+                        white
+                        width="60px"
+                        mr="15px"
+                        onClick={this.toggleEditNameForm}
+                      >
+                        Cancel
+                      </Button>
+
+                      <Button width="60px" type="submit">
+                        Save
+                      </Button>
+                    </RightAlign>
+                  </Form>
+                </Container>
+              </Formik>
+            ) : (
+              <>
+                {profile.name ? (
+                  <SubTitle bold blue>
+                    {profile.name}
+                  </SubTitle>
+                ) : (
+                  <GrayTxt>Add your name</GrayTxt>
+                )}
+
+                <Container xCenter>
+                  {keys.length ? (
+                    keys.map((key, idx) => (
+                      <a
+                        href={profile.social[key]}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        key={idx}
+                      >
+                        <SocialIcon className={`fa fa-${key}`}></SocialIcon>
+                      </a>
+                    ))
+                  ) : (
+                    <GrayTxt>Add links</GrayTxt>
+                  )}
+                </Container>
+
+                <EditIcon
+                  className="fa fa-pencil"
+                  ml="20px"
+                  onClick={this.toggleEditContactForm}
+                ></EditIcon>
+              </>
+            )}
+          </Container>
+        </Container>
+
+        <Container mb="30px" bb>
+          <Container className="container">
+            <Container columns br width="75%" pb="30px">
+              {/** Bio/Resume */}
+              <Container columns bb pb="10px">
+                <SectionHeading
+                  label="About Me"
+                  editOption
+                  onClick={this.toggleEditBioForm}
+                />
+                {showEditBioForm ? (
+                  <Formik
+                    initialValues={{
+                      intro: profile.intro,
+                      industry: profile.industry,
+                      yearsOfExperience: profile.location,
+                      phone_number: profile.phone_number,
+                    }}
+                    validationSchema={yup.object().shape({
+                      intro: yup.string().nullable(),
+                      industry: yup.string().nullable(),
+                      yearsOfExperience: yup.string().nullable(),
+                      phone_number: yup
+                        .string()
+                        .length(13)
+                        .matches(/^\+[0-9]{12}$/g, { message: "e.g. +256770123456" })
+                        .nullable(),
+                    })}
+                    onSubmit={values => {
+                      this.toggleEditBioForm();
+                      return editProfile(profile.id, profile.key, values);
+                    }}
+                  >
+                    <Form>
+                      <Container columns mr="50px">
+                        <LabelledTextArea label="About Me" name="intro" gray />
+
+                        <LabelledInput
+                          label="Field / Industry"
+                          type="text"
+                          name="industry"
+                          mb="10px"
+                          gray
+                        />
+
+                        <InputLabel gray>Experience</InputLabel>
+                        <Field as="select" name="yearsOfExperience">
+                          {EXP_CHOICES.map((exp, idx) => (
+                            <option value={exp} key={idx}>
+                              {exp}
+                            </option>
+                          ))}
+                        </Field>
+
+                        <RightAlign mt="25px" mb="30px">
+                          <Button
+                            white
+                            width="60px"
+                            mr="15px"
+                            onClick={this.toggleEditBioForm}
+                          >
+                            Cancel
+                          </Button>
+
+                          <Button width="60px" type="submit">
+                            Save
+                          </Button>
+                        </RightAlign>
+                      </Container>
+                    </Form>
+                  </Formik>
+                ) : (
+                  <>
+                    <IntroSec heading={profile.name} fieldValue={profile.intro || "--"} />
+                    <IntroSec
+                      fieldLabel="FIELD / INDUSTRY"
+                      fieldValue={profile.industry || "--"}
+                    />
+                    <IntroSec
+                      fieldLabel="EXPERIENCE"
+                      fieldValue={profile.yearsOfExperience || "--"}
+                    />
+                  </>
+                )}
+              </Container>
+              {/** Qualifications */}
+              <Container columns bb pb="20px">
+                <Relative mt="30px" mb="30px">
+                  <SectionHeading label="QUALIFICATIONS" />
+                  <Absolute right="30px">
+                    <RoundButton
+                      blue
+                      type="button"
+                      onClick={this.toggleAddQualificationForm}
+                    >
+                      +
+                    </RoundButton>
+                  </Absolute>
+                </Relative>
+                <Container width="100%" flexWrap>
+                  {qualifications.length > 0 ? (
+                    qualifications.map((qualification, idx) => (
+                      <Qualification
+                        qualification={qualification}
+                        key={idx}
+                        editQualification={editQualification}
+                        token={profile.key}
+                      />
+                    ))
+                  ) : (
+                    <NothingToDisplay />
+                  )}
+
+                  {showAddQualificationForm ? (
+                    <QualificationForm
+                      showForm={this.toggleAddQualificationForm}
+                      args={[profile.id, profile.key]}
+                      handleSubmit={addQualification}
+                      initialValues={{ title: "", year: 2020, awarded_by: "" }}
+                    />
+                  ) : null}
+                </Container>
+              </Container>
+              {/** Reviews */}
+              <Container columns bb pb="20px">
+                <SectionHeading label="RECENT REVIEWS" />
+                <Container columns>
+                  {reviews.length > 0 ? (
+                    reviews.map((review, idx) => (
+                      <Review
+                        review={review}
+                        key={idx}
+                        editReview={editReview}
+                        token={profile.key}
+                      />
+                    ))
+                  ) : (
+                    <NothingToDisplay />
+                  )}
+                </Container>
+              </Container>
+            </Container>
+            <Container pd="30px">Who Viewed Me</Container>
+          </Container>
+        </Container>
+      </>
+    );
+  }
+}

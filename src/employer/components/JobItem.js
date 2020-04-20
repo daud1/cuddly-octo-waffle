@@ -1,4 +1,9 @@
-import { Avatar, Container, GrayTxt, SubTitle } from "./Common";
+import {
+  Avatar,
+  Container,
+  GrayTxt,
+  SubTitle,
+} from "../../shared/components/StyledComponents";
 
 import PropTypes from "prop-types";
 import React from "react";

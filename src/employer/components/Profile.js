@@ -17,49 +17,17 @@ import {
   RoundButton,
   SocialIcon,
   SubTitle,
-} from "./Common";
+} from "../../shared/components/StyledComponents";
 import { Award, AwardForm } from "../../shared/components/Award";
 import { Form, Formik, ErrorMessage } from "formik";
 
-import ProfileBanner from "./ProfileBanner";
+import ProfileBanner from "../../shared/components/ProfileBanner";
 import PropTypes from "prop-types";
 import React from "react";
-import Review from "../../shared/components/Review";
+import Review from "./Review";
+import { SectionHeading, IntroSec } from "../../shared/components/StyledComponents";
 
-function SectionHeading(props) {
-  const { onClick, editOption } = props;
-  return (
-    <Relative mt="30px" mb="30px">
-      <Container>
-        <SubTitle bold blue>
-          {props.label}
-        </SubTitle>
-      </Container>
-      {editOption ? (
-        <Absolute right="30px">
-          <EditIcon onClick={onClick} className="fa fa-pencil"></EditIcon>
-        </Absolute>
-      ) : (
-        ""
-      )}
-    </Relative>
-  );
-}
-
-function CompanyIntroSec(props) {
-  return (
-    <Container mb="20px" width="95%">
-      <RightAlign width="35%">
-        {props.heading ? <h4>{props.heading}</h4> : <GrayTxt>{props.fieldLabel}</GrayTxt>}
-      </RightAlign>
-      <Container width="65%" ml="40px">
-        <GrayTxt>{props.fieldValue}</GrayTxt>
-      </Container>
-    </Container>
-  );
-}
-
-class Profile extends React.Component {
+export default class Profile extends React.Component {
   state = {
     showEditSocialForm: false,
     showAddAwardForm: false,
@@ -258,7 +226,7 @@ class Profile extends React.Component {
                       }),
                     github: yup
                       .string()
-                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
+                      .matches(/^(?:http(s)?:\/\/github.com\/[\w.-/]+)$/g, {
                         message: "eg. https://github.com/myProfile",
                       }),
                     website: yup
@@ -344,7 +312,7 @@ class Profile extends React.Component {
         <Container mb="30px" bb>
           <Container className="container">
             <Container columns br width="75%" pb="30px">
-              {/* Company-Intro section */}
+              {/* Company-Intro */}
               <Container columns bb pb="10px">
                 <SectionHeading
                   label="COMPANY INTRODUCTION"
@@ -406,22 +374,22 @@ class Profile extends React.Component {
                   </Formik>
                 ) : (
                   <>
-                    <CompanyIntroSec
+                    <IntroSec
                       heading={profile.company_name}
                       fieldValue={profile.description || "--"}
                     />
-                    <CompanyIntroSec
+                    <IntroSec
                       fieldLabel="FIELD / INDUSTRY"
                       fieldValue={profile.industry || "--"}
                     />
-                    <CompanyIntroSec
+                    <IntroSec
                       fieldLabel="LOCATION"
                       fieldValue={profile.location || "--"}
                     />
                   </>
                 )}
               </Container>
-              {/* Awards section */}
+              {/* Awards */}
               <Container columns bb pb="20px">
                 <Relative mt="30px" mb="30px">
                   <Container>
@@ -437,14 +405,11 @@ class Profile extends React.Component {
                 </Relative>
                 <Container width="100%" flexWrap>
                   {awards.length > 0 ? (
-                    awards.map((award, _) => (
+                    awards.map((award, idx) => (
                       <Award
-                        key={award.id}
-                        awardId={award.id}
+                        key={idx}
+                        award={award}
                         token={profile.key}
-                        title={award.title}
-                        year={award.year}
-                        awarded_by={award.awarded_by}
                         editAward={editAward}
                       />
                     ))
@@ -462,7 +427,7 @@ class Profile extends React.Component {
                   ) : null}
                 </Container>
               </Container>
-              {/* Reviews section */}
+              {/* Reviews */}
               <Container columns>
                 <SectionHeading label="RECENT REVIEWS" />
                 <Container columns>
@@ -476,12 +441,10 @@ class Profile extends React.Component {
                 </Container>
               </Container>
             </Container>
-            <Container pd="30px">Who viewed me</Container>
+            <Container pd="30px">Who Viewed Me</Container>
           </Container>
         </Container>
       </>
     );
   }
 }
-
-export default Profile;

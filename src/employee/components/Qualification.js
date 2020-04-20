@@ -10,7 +10,7 @@ import {
   LabelledInput,
   RightAlign,
   SubTitle,
-} from "./StyledComponents";
+} from "../../shared/components/StyledComponents";
 import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 
@@ -20,8 +20,8 @@ import _ from "lodash";
 export const currentYear = new Date().getFullYear(),
   YEAR_CHOICES = _.range(1980, currentYear + 1);
 
-export function AwardForm(props) {
-  const { handleSubmit, initialValues, showForm, args, awardId } = props;
+export function QualificationForm(props) {
+  const { handleSubmit, initialValues, showForm, args, qualificationId } = props;
   return (
     <Formik
       initialValues={{ ...initialValues }}
@@ -31,7 +31,7 @@ export function AwardForm(props) {
         year: yup.number().required("Required"),
       })}
       onSubmit={values => {
-        if (awardId) values.id = awardId;
+        if (qualificationId) values.id = qualificationId;
         showForm(false);
         handleSubmit(...args, values);
       }}
@@ -68,13 +68,13 @@ export function AwardForm(props) {
   );
 }
 
-export function Award(props) {
+export function Qualification(props) {
   const [display, setDisplay] = useState(false);
-  const [awardForm, setAwardFormVisibility] = useState(false);
+  const [qualificationForm, setFormVisibility] = useState(false);
 
   const {
-    editAward,
-    award: { title, awarded_by, year, id: awardId },
+    editQualification,
+    qualification: { title, awarded_by, year, id: qualificationId },
     token,
   } = props;
 
@@ -86,11 +86,11 @@ export function Award(props) {
         onMouseEnter={() => setDisplay(true)}
         onMouseLeave={() => setDisplay(false)}
       >
-        {awardForm ? (
-          <AwardForm
-            showForm={setAwardFormVisibility}
-            handleSubmit={editAward}
-            awardId={awardId}
+        {qualificationForm ? (
+          <QualificationForm
+            showForm={setFormVisibility}
+            handleSubmit={editQualification}
+            qualificationId={qualificationId}
             initialValues={{ year, awarded_by, title }}
             args={[token]}
           />
@@ -108,7 +108,7 @@ export function Award(props) {
               {display ? (
                 <EditIcon
                   className="fa fa-pencil"
-                  onClick={() => setAwardFormVisibility(true)}
+                  onClick={() => setFormVisibility(true)}
                 ></EditIcon>
               ) : (
                 ""
@@ -121,13 +121,13 @@ export function Award(props) {
   );
 }
 
-Award.propTypes = {
-  award: PropTypes.shape({
+Qualification.propTypes = {
+  qualification: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     awarded_by: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
   }),
   token: PropTypes.string.isRequired,
-  editAward: PropTypes.func.isRequired,
+  editQualification: PropTypes.func.isRequired,
 };

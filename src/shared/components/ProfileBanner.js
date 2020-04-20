@@ -3,17 +3,18 @@ import * as yup from "yup";
 import {
   Absolute,
   Avatar,
+  Button,
   CameraIcon,
+  CustomisableInput,
+  Error,
   Relative,
   RightAlign,
   SubTitle,
-  CustomisableInput,
-} from "./Common";
-import { FILE_SIZE, SUPPORTED_FORMATS } from "../../shared/utils/constants";
-import { Form, Formik, ErrorMessage } from "formik";
+} from "./StyledComponents";
+import { ErrorMessage, Form, Formik } from "formik";
+import { FILE_SIZE, SUPPORTED_FORMATS } from "../utils/constants";
 
-import { Button, Error } from "./Common";
-import Modal from "../../shared/components/Modal";
+import Modal from "./Modal";
 import React from "react";
 import styled from "styled-components";
 

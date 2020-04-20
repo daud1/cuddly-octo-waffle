@@ -1,4 +1,4 @@
-import { Container, NothingToDisplay } from "./Common";
+import { Container, NothingToDisplay } from "../../shared/components/StyledComponents";
 
 import JobItem from "./JobItem";
 import React from "react";

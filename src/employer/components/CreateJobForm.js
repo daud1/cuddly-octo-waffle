@@ -11,7 +11,7 @@ import {
   RightAlign,
   SelectField,
   SubTitle,
-} from "./Common";
+} from "../../shared/components/StyledComponents";
 import { Form, Formik } from "formik";
 
 import PropTypes from "prop-types";
