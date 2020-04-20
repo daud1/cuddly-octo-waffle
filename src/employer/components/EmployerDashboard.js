@@ -1,13 +1,12 @@
-import React from "react";
-
 import AccountDropDown from "../../auth/components/AccountDropDown";
 import CreateJobForm from "./CreateJobForm";
 import Footer from "../../shared/components/Footer";
 import Modal from "../../shared/components/Modal";
 import NavBar from "../../shared/components/Navbar";
-import { PostButton } from "./Common";
+import { PostButton } from "../../shared/components/StyledComponents";
 import Profile from "./Profile";
 import Projects from "./Projects";
+import React from "react";
 import Tabs from "../../shared/components/Tabs";
 import styled from "styled-components";
 
@@ -41,6 +40,7 @@ export default function EmployerDashboard(props) {
         render={props => CreateJobForm(props)}
         openButton={props => <PostButton onClick={props.onClose}>Post a Job</PostButton>}
       />
+
       <Tabs>
         <div label="Profile">
           <Profile

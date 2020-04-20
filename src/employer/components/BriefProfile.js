@@ -1,4 +1,10 @@
-import { Avatar, Button, Container, GrayTxt, SubTitle } from "./Common";
+import {
+  Avatar,
+  Button,
+  Container,
+  GrayTxt,
+  SubTitle,
+} from "../../shared/components/StyledComponents";
 
 import React from "react";
 import profileImage from "../../shared/images/sample_profile_pic.jpg";
