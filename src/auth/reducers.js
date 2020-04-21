@@ -1,9 +1,4 @@
-import {
-  getImage,
-  getObjName,
-  imgToLocalStore,
-  showAPIErrors,
-} from "../shared/utils/helpers";
+import { fetchImages, imgToLocalStore, showAPIErrors } from "../shared/utils/helpers";
 
 import { API_URL } from "../shared/utils/constants";
 import axios from "axios";
@@ -122,22 +117,6 @@ export function fetchLoggedInProfile(userId, user_type, key) {
     return axios
       .get(url, { headers })
       .then(async response => {
-        async function fetchImages(response) {
-          let p = [];
-          const { cover_photo: coverUrl, profile_photo: profileUrl } = response;
-
-          if (coverUrl) {
-            p.push(getImage(coverUrl, "cover_photo"));
-            response.cover_photo = getObjName(coverUrl);
-          }
-          if (profileUrl) {
-            p.push(getImage(profileUrl, "profile_photo"));
-            response.profile_photo = getObjName(profileUrl);
-          }
-
-          await Promise.all(p);
-        }
-
         await fetchImages(response.data[0]);
 
         dispatch(

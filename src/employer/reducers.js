@@ -1,9 +1,10 @@
+import { showAPIErrors, fetchImages } from "../shared/utils/helpers";
+import { setLoading, setNotification } from "../auth/reducers";
+
 import { API_URL } from "../shared/utils/constants";
 import axios from "axios";
 import { combineReducers } from "redux";
 import { createSlice } from "@reduxjs/toolkit";
-import { setNotification, setLoading } from "../auth/reducers";
-import { showAPIErrors } from "../shared/utils/helpers";
 
 const awardsSlice = createSlice({
   name: "awards",
@@ -206,15 +207,18 @@ export function fetchProfile(userId, key) {
 
     const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
 
+    dispatch(setLoading({ isLoading: true, loadingText: "Working..." }));
     return axios
       .get(`${API_URL}/employer/profile/?user=${userId}`, { headers })
-      .then(response => {
-        dispatch(fetchProfileSuccess({ profile: response.data[0] }));
+      .then(async response => {
+        await fetchImages(response.data[0]);
+
+        dispatch(fetchProfileSuccess({ profile: { ...response.data[0], key } }));
         dispatch(setLoading({ isLoading: false }));
       })
       .catch(error => {
-        dispatch(setLoading({ isLoading: false }));
         dispatch(fetchProfileError({ error: error.data }));
+        dispatch(setLoading({ isLoading: false }));
         showAPIErrors(error, setNotification);
       });
   };

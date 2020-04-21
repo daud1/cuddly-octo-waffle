@@ -510,3 +510,19 @@ export function getObjName(url) {
   let new_re = /^((http[s]?|ftp):\/)?\/?([^:/\s]+)((\/\w+)*\/)([\w-.]+[^#?\s]+)(.*)?(#[\w-]+)?$/;
   return new_re.exec(url)[6];
 }
+
+export async function fetchImages(response) {
+  let p = [];
+  const { cover_photo: coverUrl, profile_photo: profileUrl } = response;
+
+  if (coverUrl) {
+    p.push(getImage(coverUrl, "cover_photo"));
+    response.cover_photo = getObjName(coverUrl);
+  }
+  if (profileUrl) {
+    p.push(getImage(profileUrl, "profile_photo"));
+    response.profile_photo = getObjName(profileUrl);
+  }
+
+  await Promise.all(p);
+}
