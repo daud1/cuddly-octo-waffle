@@ -6,10 +6,18 @@ import {
   fetchJobs,
   fetchReviews,
 } from "../../employer/reducers";
+import {
+  applyForJob,
+  editApplication,
+  editReview,
+  fetchApplications,
+  fetchQualifications,
+  getReviews,
+} from "../../employee/reducers";
 import { editLoggedInProfile, fetchLoggedInProfile } from "../../auth/reducers";
 
-import EmployerDashboard from "../../employer/components/EmployerDashboard";
 import EmployeeDashboard from "../../employee/components/EmployeeDashboard";
+import EmployerDashboard from "../../employer/components/EmployerDashboard";
 import React from "react";
 import { clearNotification } from "../../auth/reducers";
 import { connect } from "react-redux";
@@ -43,9 +51,18 @@ class Dashboard extends React.Component {
       fetchReviews(profileId, key);
     }
 
+    function fetchFreData(profileId, key) {
+      fetchApplications(profileId, key);
+      fetchQualifications(profileId, key);
+      getReviews(profileId, key);
+    }
+
     switch (user_type) {
       case "EMP":
         fetchEmpData(profileId, key);
+        break;
+      case "FRE":
+        fetchFreData(profileId, key);
         break;
 
       default:
@@ -64,6 +81,13 @@ class Dashboard extends React.Component {
       profile,
       reviews,
       user,
+      qualifications,
+      applications,
+      fReviews,
+      addReview,
+      editReview,
+      editApplication,
+      applyForJob,
     } = this.props;
 
     return user.user_type === "EMP" ? (
@@ -79,7 +103,16 @@ class Dashboard extends React.Component {
         user={user}
       />
     ) : (
-      <EmployeeDashboard />
+      <EmployeeDashboard
+        qualifications={qualifications}
+        applications={applications}
+        reviews={fReviews}
+        editLoggedInProfile={editLoggedInProfile}
+        addReview={addReview}
+        editReview={editReview}
+        editApplication={editApplication}
+        applyForJob={applyForJob}
+      />
     );
   }
 }
@@ -87,6 +120,9 @@ class Dashboard extends React.Component {
 const mapStateToProps = state => ({
   profile: state.auth.loggedInProfile,
   reviews: state.employer.reviews.reviews,
+  fReviews: state.employee.reviews.reviews,
+  qualifications: state.employee.qualifications.qualifications,
+  applications: state.employee.applications.applications,
   awards: state.employer.awards.awards,
   jobs: state.employer.jobs.jobs,
   user: state.auth.user,
@@ -103,6 +139,12 @@ const mapDispatchToProps = dispatch => ({
   fetchReviews: (profileId, key) => dispatch(fetchReviews(profileId, key)),
   fetchAwards: (profileId, key) => dispatch(fetchAwards(profileId, key)),
   fetchJobs: profileId => dispatch(fetchJobs(profileId)),
+  getReviews: (profileId, key) => dispatch(getReviews(profileId, key)),
+  editReview: (profileId, key) => dispatch(editReview(profileId, key)),
+  fetchQualifications: (profileId, key) => dispatch(fetchQualifications(profileId, key)),
+  fetchApplications: (profileId, key) => dispatch(fetchApplications(profileId, key)),
+  editApplication: (profileId, key) => dispatch(editApplication(profileId, key)),
+  applyForJob: (profileId, key) => dispatch(applyForJob(profileId, key)),
   editAward: (key, awardEdits) => dispatch(editAward(key, awardEdits)),
   clearNotifications: () => dispatch(clearNotification()),
 });
