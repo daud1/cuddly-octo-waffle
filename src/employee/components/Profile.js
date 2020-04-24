@@ -30,7 +30,7 @@ const EXP_CHOICES = ["0 - 2 years", "2 - 4 years", "4 - 8 years", "8+ years"];
 export default class Profile extends React.Component {
   state = {
     showEditContactForm: false, // website, github, linked_in
-    showEditBioForm: false, // name, profession(s), yearsOfExperience
+    showEditBioForm: false, // name, profession(s), years_of_experience
     showAddQualificationForm: false,
   };
 
@@ -209,13 +209,13 @@ export default class Profile extends React.Component {
                     initialValues={{
                       intro: profile.intro,
                       industry: profile.industry,
-                      yearsOfExperience: profile.location,
+                      years_of_experience: profile.location,
                       phone_number: profile.phone_number,
                     }}
                     validationSchema={yup.object().shape({
                       intro: yup.string().nullable(),
                       industry: yup.string().nullable(),
-                      yearsOfExperience: yup.string().nullable(),
+                      years_of_experience: yup.string().nullable(),
                       phone_number: yup
                         .string()
                         .length(13)
@@ -240,7 +240,7 @@ export default class Profile extends React.Component {
                         />
 
                         <InputLabel gray>Experience</InputLabel>
-                        <Field as="select" name="yearsOfExperience">
+                        <Field as="select" name="years_of_experience">
                           {EXP_CHOICES.map((exp, idx) => (
                             <option value={exp} key={idx}>
                               {exp}
@@ -274,7 +274,7 @@ export default class Profile extends React.Component {
                     />
                     <IntroSec
                       fieldLabel="EXPERIENCE"
-                      fieldValue={profile.yearsOfExperience || "--"}
+                      fieldValue={profile.years_of_experience || "--"}
                     />
                   </>
                 )}
