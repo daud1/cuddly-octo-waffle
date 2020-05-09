@@ -321,7 +321,7 @@ export const {
 } = applicationsSlice.actions;
 
 export default combineReducers({
-  applicatons: applicationsSlice.reducer,
+  applications: applicationsSlice.reducer,
   reviews: reviewsSlice.reducer,
   qualifications: qualificationsSlice.reducer,
 });

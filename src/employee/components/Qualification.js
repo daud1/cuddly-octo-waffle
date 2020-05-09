@@ -21,7 +21,7 @@ export const currentYear = new Date().getFullYear(),
   YEAR_CHOICES = _.range(1980, currentYear + 1);
 
 export function QualificationForm(props) {
-  const { handleSubmit, initialValues, showForm, args, qualificationId } = props;
+  const { handleSubmit, initialValues, toggleForm, args, qualificationId } = props;
   return (
     <Formik
       initialValues={{ ...initialValues }}
@@ -32,7 +32,7 @@ export function QualificationForm(props) {
       })}
       onSubmit={values => {
         if (qualificationId) values.id = qualificationId;
-        showForm(false);
+        toggleForm(false);
         handleSubmit(...args, values);
       }}
     >
@@ -55,7 +55,7 @@ export function QualificationForm(props) {
             ))}
           </Field>
           <RightAlign mt="20px">
-            <Button white width="60px" mr="15px" onClick={() => showForm(false)}>
+            <Button white width="60px" mr="15px" onClick={() => toggleForm(false)}>
               Cancel
             </Button>
             <Button width="60px" type="submit">
@@ -88,7 +88,7 @@ export function Qualification(props) {
       >
         {qualificationForm ? (
           <QualificationForm
-            showForm={setFormVisibility}
+            toggleForm={setFormVisibility}
             handleSubmit={editQualification}
             qualificationId={qualificationId}
             initialValues={{ year, awarded_by, title }}
