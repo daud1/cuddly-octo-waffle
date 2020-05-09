@@ -106,6 +106,7 @@ class Dashboard extends React.Component {
       <EmployeeDashboard
         qualifications={qualifications}
         applications={applications}
+        profile={profile}
         reviews={fReviews}
         editLoggedInProfile={editLoggedInProfile}
         addReview={addReview}

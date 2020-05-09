@@ -7,8 +7,6 @@ import {
   Container,
   EditIcon,
   GrayTxt,
-  Input,
-  Error,
   LabelledInput,
   LabelledTextArea,
   NothingToDisplay,
@@ -19,13 +17,14 @@ import {
   SubTitle,
 } from "../../shared/components/StyledComponents";
 import { Award, AwardForm } from "../../shared/components/Award";
-import { Form, Formik, ErrorMessage } from "formik";
+import { Form, Formik } from "formik";
+import { IntroSec, SectionHeading } from "../../shared/components/StyledComponents";
 
+import EditSocialForm from "../../shared/components/EditSocialForm";
 import ProfileBanner from "../../shared/components/ProfileBanner";
 import PropTypes from "prop-types";
 import React from "react";
 import Review from "./Review";
-import { SectionHeading, IntroSec } from "../../shared/components/StyledComponents";
 
 export default class Profile extends React.Component {
   state = {
@@ -59,15 +58,6 @@ export default class Profile extends React.Component {
   };
 
   render() {
-    const social = {
-      facebook: "",
-      twitter: "",
-      linkedin: "",
-      behance: "",
-      dribbble: "",
-      github: "",
-      website: "",
-    };
     const { profile, reviews, awards, addAward, editProfile, editAward } = this.props;
     const {
       showAddAwardForm,
@@ -195,48 +185,9 @@ export default class Profile extends React.Component {
           {/*Social Links & Contact Info */}
           <Container xCenter mt="20px" mb="50px">
             {showEditSocialForm ? (
-              <Formik
+              <EditSocialForm
                 initialValues={{ social: profile.social }}
-                validationSchema={yup.object().shape({
-                  social: yup.object().shape({
-                    facebook: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/facebook.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://facebook.com/myProfile",
-                      }),
-                    twitter: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/twitter.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://twitter.com/myProfile",
-                      }),
-                    linkedin: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
-                        message: "eg. https://linkedin.com/in/myProfile",
-                      }),
-                    behance: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/behance.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://behance.com/myProfile",
-                      }),
-                    dribbble: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/dribbble.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://dribbble.com/myProfile",
-                      }),
-                    github: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/github.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://github.com/myProfile",
-                      }),
-                    website: yup
-                      .string()
-                      .matches(
-                        /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/g,
-                        { message: "eg. https://www.mywebsite.com/ or www.website.com" }
-                      ),
-                  }),
-                })}
+                toggleForm={this.toggleEditSocialForm}
                 onSubmit={values => {
                   Object.keys(values.social).forEach(key => {
                     if (!values.social[key].trim()) delete values.social[key];
@@ -244,46 +195,7 @@ export default class Profile extends React.Component {
                   editProfile(profile.id, profile.key, values);
                   this.toggleEditSocialForm();
                 }}
-              >
-                <Container width="30%" xCenter>
-                  <Form>
-                    <Container mb="10px" xCenter>
-                      <SubTitle blue bold>
-                        Edit Social Links
-                      </SubTitle>
-                    </Container>
-                    {Object.keys(social).map((key, idx) => {
-                      const field = `social.${key}`;
-                      return (
-                        <>
-                          <Input
-                            name={field}
-                            placeholder={key}
-                            mb="8px"
-                            mt="8px"
-                            width="270px"
-                            key={idx}
-                          />
-                          <div>
-                            <ErrorMessage component={Error} name={field} />
-                          </div>
-                        </>
-                      );
-                    })}
-                    <RightAlign mt="15px">
-                      <Button
-                        white
-                        width="60px"
-                        mr="15px"
-                        onClick={this.toggleEditSocialForm}
-                      >
-                        Cancel
-                      </Button>
-                      <Button width="60px">Save</Button>
-                    </RightAlign>
-                  </Form>
-                </Container>
-              </Formik>
+              />
             ) : (
               <Container xCenter>
                 {keys.length ? (

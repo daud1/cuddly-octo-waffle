@@ -6,7 +6,6 @@ import {
   Container,
   EditIcon,
   GrayTxt,
-  Input,
   InputLabel,
   IntroSec,
   LabelledInput,
@@ -19,9 +18,10 @@ import {
   SocialIcon,
   SubTitle,
 } from "../../shared/components/StyledComponents";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { Qualification, QualificationForm } from "./Qualification";
 
+import EditSocialForm from "../../shared/components/EditSocialForm";
 import ProfileBanner from "../../shared/components/ProfileBanner";
 import React from "react";
 import { Review } from "./Review";
@@ -29,19 +29,23 @@ import { Review } from "./Review";
 const EXP_CHOICES = ["0 - 2 years", "2 - 4 years", "4 - 8 years", "8+ years"];
 export default class Profile extends React.Component {
   state = {
-    showEditContactForm: false, // website, github, linked_in
-    showEditBioForm: false, // name, profession(s), years_of_experience
-    showAddQualificationForm: false,
+    showEditSocialForm: false, // website, github, linked_in
+    showEditBioForm: false, // intro, profession(s), years_of_experience
+    showAddQualificationForm: false, //certificates et al.
+    showEditNameForm: false, // name and phone_number
   };
 
-  toggleEditContactForm = () => {
-    this.setState({ showEditContactForm: !this.state.showEditContactForm });
+  toggleEditSocialForm = () => {
+    this.setState({ showEditSocialForm: !this.state.showEditSocialForm });
   };
   toggleEditBioForm = () => {
     this.setState({ showEditBioForm: !this.state.showEditBioForm });
   };
   toggleAddQualificationForm = () => {
-    this.setState({ showEditQualificationsForm: !this.state.showEditQualificationsForm });
+    this.setState({ showAddQualificationForm: !this.state.showAddQualificationForm });
+  };
+  toggleEditNameForm = () => {
+    this.setState({ showEditNameForm: !this.state.showEditNameForm });
   };
 
   render() {
@@ -54,7 +58,12 @@ export default class Profile extends React.Component {
       addQualification,
       editQualification,
     } = this.props;
-    const { showEditContactForm, showEditBioForm, showAddQualificationForm } = this.state;
+    const {
+      showEditSocialForm,
+      showEditBioForm,
+      showAddQualificationForm,
+      showEditNameForm,
+    } = this.state;
     const social = { linkedin: "", behance: "", dribbble: "", github: "", website: "" },
       keys = Object.keys(social);
 
@@ -67,44 +76,15 @@ export default class Profile extends React.Component {
         />
 
         <Container bb columns>
-          {/**Name and Social */}
-          <Container mt="100px" xCenter>
-            {showEditContactForm ? (
+          {/*Name*/}
+          <Container mt="100px" mb="20px" xCenter>
+            {showEditNameForm ? (
               <Formik
                 initialValues={{
                   name: profile.name,
-                  social: profile.social,
                 }}
                 validationSchema={yup.object().shape({
-                  name: yup.string().nullable(),
-                  social: yup.object().shape({
-                    linkedin: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
-                        message: "eg. https://linkedin.com/in/myProfile",
-                      }),
-                    behance: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/behance.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://behance.com/myProfile",
-                      }),
-                    dribbble: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/dribbble.com\/[\w.-/]+)$/g, {
-                        message: "eg. https://dribbble.com/myProfile",
-                      }),
-                    github: yup
-                      .string()
-                      .matches(/^(?:http(s)?:\/\/linkedin.com\/in\/[\w.-/]+)$/g, {
-                        message: "eg. https://github.com/myProfile",
-                      }),
-                    website: yup
-                      .string()
-                      .matches(
-                        /^(?:http(s)?:\/\/)[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/g,
-                        { message: "eg. https://www.mywebsite.com/ or www.website.com" }
-                      ),
-                  }),
+                  name: yup.string().required("Required!"),
                 })}
                 onSubmit={values => {
                   this.toggleEditNameForm();
@@ -115,30 +95,11 @@ export default class Profile extends React.Component {
                   <Form>
                     <Container mb="15px">
                       <SubTitle blue bold>
-                        Edit Company details
+                        Edit your details
                       </SubTitle>
                     </Container>
 
                     <LabelledInput label="Name" type="text" name="name" mb="10px" gray />
-
-                    {Object.keys(social).map((key, idx) => {
-                      const field = ` social.${key}`;
-                      return (
-                        <>
-                          <Input
-                            name={field}
-                            placeholder={key}
-                            mb="8px"
-                            mt="8px"
-                            width="270px"
-                            key={idx}
-                          />
-                          <div>
-                            <ErrorMessage component={Error} name={field} />
-                          </div>
-                        </>
-                      );
-                    })}
 
                     <RightAlign mt="10px" mb="10px">
                       <Button
@@ -166,41 +127,58 @@ export default class Profile extends React.Component {
                 ) : (
                   <GrayTxt>Add your name</GrayTxt>
                 )}
-
-                <Container xCenter>
-                  {keys.length ? (
-                    keys.map((key, idx) => (
-                      <a
-                        href={profile.social[key]}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        key={idx}
-                      >
-                        <SocialIcon className={`fa fa-${key}`}></SocialIcon>
-                      </a>
-                    ))
-                  ) : (
-                    <GrayTxt>Add links</GrayTxt>
-                  )}
-                </Container>
-
                 <EditIcon
                   className="fa fa-pencil"
                   ml="20px"
-                  onClick={this.toggleEditContactForm}
+                  onClick={this.toggleEditNameForm}
                 ></EditIcon>
               </>
             )}
+          </Container>
+
+          {/* Social Links */}
+          <Container mt="10px" mb="20px" xCenter>
+            {showEditSocialForm ? (
+              <EditSocialForm
+                initialValues={{ social: profile.social }}
+                toggleForm={this.toggleEditSocialForm}
+                onSubmit={values => {
+                  Object.keys(values.social).forEach(key => {
+                    if (!values.social[key].trim()) delete values.social[key];
+                  });
+                  editProfile(profile.id, profile.key, values);
+                  this.toggleEditSocialForm();
+                }}
+              />
+            ) : keys.length ? (
+              keys.map((key, idx) => (
+                <a
+                  href={profile.social[key]}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  key={idx}
+                >
+                  <SocialIcon className={`fa fa-${key}`}></SocialIcon>
+                </a>
+              ))
+            ) : (
+              <GrayTxt>Add links</GrayTxt>
+            )}
+            <EditIcon
+              ml="10px"
+              className="fa fa-pencil"
+              onClick={this.toggleEditSocialForm}
+            ></EditIcon>
           </Container>
         </Container>
 
         <Container mb="30px" bb>
           <Container className="container">
             <Container columns br width="75%" pb="30px">
-              {/** Bio/Resume */}
+              {/*Bio/Resume */}
               <Container columns bb pb="10px">
                 <SectionHeading
-                  label="About Me"
+                  label="ABOUT ME"
                   editOption
                   onClick={this.toggleEditBioForm}
                 />
@@ -267,7 +245,10 @@ export default class Profile extends React.Component {
                   </Formik>
                 ) : (
                   <>
-                    <IntroSec heading={profile.name} fieldValue={profile.intro || "--"} />
+                    <IntroSec
+                      heading={profile.name || "NAME"}
+                      fieldValue={profile.intro || "--"}
+                    />
                     <IntroSec
                       fieldLabel="FIELD / INDUSTRY"
                       fieldValue={profile.industry || "--"}
@@ -276,13 +257,23 @@ export default class Profile extends React.Component {
                       fieldLabel="EXPERIENCE"
                       fieldValue={profile.years_of_experience || "--"}
                     />
+                    <IntroSec
+                      fieldLabel="PHONE NUMBER"
+                      fieldValue={profile.phone_number || "--"}
+                    />
                   </>
                 )}
               </Container>
+
               {/** Qualifications */}
               <Container columns bb pb="20px">
                 <Relative mt="30px" mb="30px">
-                  <SectionHeading label="QUALIFICATIONS" />
+                  <Container>
+                    <SubTitle bold blue>
+                      QUALIFICATIONS
+                    </SubTitle>
+                  </Container>
+
                   <Absolute right="30px">
                     <RoundButton
                       blue
@@ -293,6 +284,7 @@ export default class Profile extends React.Component {
                     </RoundButton>
                   </Absolute>
                 </Relative>
+
                 <Container width="100%" flexWrap>
                   {qualifications.length > 0 ? (
                     qualifications.map((qualification, idx) => (
@@ -309,7 +301,7 @@ export default class Profile extends React.Component {
 
                   {showAddQualificationForm ? (
                     <QualificationForm
-                      showForm={this.toggleAddQualificationForm}
+                      toggleForm={this.toggleAddQualificationForm}
                       args={[profile.id, profile.key]}
                       handleSubmit={addQualification}
                       initialValues={{ title: "", year: 2020, awarded_by: "" }}
@@ -317,6 +309,7 @@ export default class Profile extends React.Component {
                   ) : null}
                 </Container>
               </Container>
+
               {/** Reviews */}
               <Container columns bb pb="20px">
                 <SectionHeading label="RECENT REVIEWS" />
