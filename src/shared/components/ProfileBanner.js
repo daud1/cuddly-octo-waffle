@@ -61,7 +61,7 @@ function ActionButtons(props) {
 }
 
 function EditProfilePhoto(props) {
-  const { profileId, token, editProfile, onClose } = props;
+  const { profileId, token, editProfile, userType, onClose } = props;
 
   return (
     <Formik
@@ -73,7 +73,13 @@ function EditProfilePhoto(props) {
         form.append("file_name", values.profile_photo.name);
         form.append("file_type", values.profile_photo.type);
 
-        editProfile(profileId, token, form, "multipart/form-data, application/json");
+        editProfile(
+          profileId,
+          userType,
+          token,
+          form,
+          "multipart/form-data, application/json"
+        );
         onClose();
       }}
       validationSchema={yup.object().shape({
@@ -112,7 +118,7 @@ function EditProfilePhoto(props) {
 }
 
 function EditCoverPhoto(props) {
-  const { profileId, token, editProfile, onClose } = props;
+  const { profileId, token, editProfile, userType, onClose } = props;
 
   return (
     <Formik
@@ -124,7 +130,13 @@ function EditCoverPhoto(props) {
         form.append("file_name", values.cover_photo.name);
         form.append("file_type", values.cover_photo.type);
 
-        editProfile(profileId, token, form, "multipart/form-data, application/json");
+        editProfile(
+          profileId,
+          userType,
+          token,
+          form,
+          "multipart/form-data, application/json"
+        );
         onClose();
       }}
       validationSchema={yup.object().shape({
@@ -161,8 +173,8 @@ function EditCoverPhoto(props) {
 }
 
 export default function ProfileBanner(props) {
-  const coverPhoto = localStorage.getItem("cover_photo");
-  const profilePhoto = localStorage.getItem("profile_photo");
+  const coverPhoto = localStorage.getItem("cover_photo"),
+    profilePhoto = localStorage.getItem("profile_photo");
 
   return (
     <Relative columns>

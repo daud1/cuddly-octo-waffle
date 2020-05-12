@@ -72,6 +72,7 @@ export default class Profile extends React.Component {
         <ProfileBanner
           editProfile={editProfile}
           profileId={profile.id}
+          userType={profile.user.user_type}
           token={profile.key}
         />
         <Container bb columns>
@@ -95,7 +96,7 @@ export default class Profile extends React.Component {
                 })}
                 onSubmit={values => {
                   this.toggleEditNameForm();
-                  editProfile(profile.id, profile.key, values);
+                  editProfile(profile.id, profile.user.user_type, profile.key, values);
                 }}
               >
                 <Container columns mt="5px" width="20%">
@@ -192,7 +193,7 @@ export default class Profile extends React.Component {
                   Object.keys(values.social).forEach(key => {
                     if (!values.social[key].trim()) delete values.social[key];
                   });
-                  editProfile(profile.id, profile.key, values);
+                  editProfile(profile.id, profile.user.user_type, profile.key, values);
                   this.toggleEditSocialForm();
                 }}
               />
@@ -245,7 +246,12 @@ export default class Profile extends React.Component {
                     })}
                     onSubmit={values => {
                       this.toggleEditDescriptionForm();
-                      return editProfile(profile.id, profile.key, values);
+                      return editProfile(
+                        profile.id,
+                        profile.user.user_type,
+                        profile.key,
+                        values
+                      );
                     }}
                   >
                     <Form>

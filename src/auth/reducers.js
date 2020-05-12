@@ -73,14 +73,13 @@ const authSlice = createSlice({
   },
 });
 
-export function createNewProfile(user_type, userId, key) {
+export function createNewProfile(userType, userId, key) {
   return dispatch => {
     const headers = { Authorization: `Token ${key}` };
     const data = { user_id: userId };
-    const url =
-      user_type === "EMP"
-        ? `${API_URL}/employer/profile/`
-        : `${API_URL}/employee/profile/`;
+    const url = `${API_URL}/employe${
+      userType === "EMP" ? "r" : "e"
+    }/profile/?user=${userId}`;
 
     return axios
       .post(url, data, { headers })
@@ -101,7 +100,7 @@ export function createNewProfile(user_type, userId, key) {
   };
 }
 
-export function fetchLoggedInProfile(userId, user_type, key) {
+export function fetchLoggedInProfile(userId, userType, key) {
   return dispatch => {
     dispatch(setLoading({ isLoading: true, loadingText: "Fetching Profile..." }));
 
@@ -109,10 +108,9 @@ export function fetchLoggedInProfile(userId, user_type, key) {
       "content-type": "application/json, image/*",
       Authorization: `Token ${key}`,
     };
-    const url =
-      user_type === "EMP"
-        ? `${API_URL}/employer/profile/?user=${userId}`
-        : `${API_URL}/employee/profile/?user=${userId}`;
+    const url = `${API_URL}/employe${
+      userType === "EMP" ? "r" : "e"
+    }/profile/?user=${userId}`;
 
     return axios
       .get(url, { headers })
@@ -137,16 +135,22 @@ export function fetchLoggedInProfile(userId, user_type, key) {
 
 export function editLoggedInProfile(
   profileId,
+  userType,
   key,
   changes,
   contentType = "application/json"
 ) {
   return dispatch => {
     const headers = { "Content-Type": contentType, Authorization: `Token ${key}` };
+    
+    const url = `${API_URL}/employe${
+      userType === "EMP" ? "r" : "e"
+    }/profile/${profileId}/`;
 
     dispatch(setLoading({ isLoading: true, loadingText: "Making changes..." }));
+    
     return axios
-      .patch(`${API_URL}/employer/profile/${profileId}/`, changes, { headers })
+      .patch(url, changes, { headers })
       .then(response => {
         dispatch(editLoggedInProfileSuccess({ ...response.data, key }));
         const hasImage = contentType !== "application/json",
