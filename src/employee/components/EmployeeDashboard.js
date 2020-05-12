@@ -21,6 +21,8 @@ export default function EmployeeDashboard(props) {
     editReview,
     addReview,
     editLoggedInProfile,
+    addQualification,
+    editQualification,
   } = props;
 
   return (
@@ -36,6 +38,8 @@ export default function EmployeeDashboard(props) {
             reviews={reviews}
             editProfile={editLoggedInProfile}
             qualifications={qualifications}
+            addQualification={addQualification}
+            editQualification={editQualification}
             profile={profile}
           />
         </div>

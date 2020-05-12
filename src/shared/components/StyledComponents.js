@@ -225,7 +225,7 @@ export const CustomisableInput = styled.input`
 export const TextArea = styled.textarea`
   border: solid 1px #f1f1f1;
   border-radius: 5px;
-  height: ${props => (props.height ? `${props.height}` : "12rem")};
+  height: ${props => (props.height ? `${props.height}` : "18rem")};
   padding: 1rem;
   margin: 8px 0;
 
@@ -349,7 +349,7 @@ export function IntroSec(props) {
       <RightAlign width="35%">
         {props.heading ? <h4>{props.heading}</h4> : <GrayTxt>{props.fieldLabel}</GrayTxt>}
       </RightAlign>
-      <Container width="65%" ml="40px">
+      <Container width="65%" ml="40px" scrollable={props.scrollable ? true : false}>
         <GrayTxt>{props.fieldValue}</GrayTxt>
       </Container>
     </Container>

@@ -7,8 +7,10 @@ import {
   fetchReviews,
 } from "../../employer/reducers";
 import {
+  addQualification,
   applyForJob,
   editApplication,
+  editQualification,
   editReview,
   fetchApplications,
   fetchQualifications,
@@ -82,6 +84,8 @@ class Dashboard extends React.Component {
       reviews,
       user,
       qualifications,
+      editQualification,
+      addQualification,
       applications,
       fReviews,
       addReview,
@@ -105,6 +109,8 @@ class Dashboard extends React.Component {
     ) : (
       <EmployeeDashboard
         qualifications={qualifications}
+        editQualification={editQualification}
+        addQualification={addQualification}
         applications={applications}
         profile={profile}
         reviews={fReviews}
@@ -133,8 +139,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchLoggedInProfile: (userId, user_type, key) =>
     dispatch(fetchLoggedInProfile(userId, user_type, key)),
-  editLoggedInProfile: (profileId, key, changes, contentType) =>
-    dispatch(editLoggedInProfile(profileId, key, changes, contentType)),
+  editLoggedInProfile: (profileId, userType, key, changes, contentType) =>
+    dispatch(editLoggedInProfile(profileId, userType, key, changes, contentType)),
+  addQualification: (profileId, key, qualification) =>
+    dispatch(addQualification(profileId, key, qualification)),
   addAward: (profileId, key, award) => dispatch(addAward(profileId, key, award)),
   addJob: (profileId, key, job) => dispatch(addJob(profileId, key, job)),
   fetchReviews: (profileId, key) => dispatch(fetchReviews(profileId, key)),
@@ -143,10 +151,11 @@ const mapDispatchToProps = dispatch => ({
   getReviews: (profileId, key) => dispatch(getReviews(profileId, key)),
   editReview: (profileId, key) => dispatch(editReview(profileId, key)),
   fetchQualifications: (profileId, key) => dispatch(fetchQualifications(profileId, key)),
+  editQualification: (key, changes) => dispatch(editQualification(key, changes)),
   fetchApplications: (profileId, key) => dispatch(fetchApplications(profileId, key)),
   editApplication: (profileId, key) => dispatch(editApplication(profileId, key)),
   applyForJob: (profileId, key) => dispatch(applyForJob(profileId, key)),
-  editAward: (key, awardEdits) => dispatch(editAward(key, awardEdits)),
+  editAward: (key, changes) => dispatch(editAward(key, changes)),
   clearNotifications: () => dispatch(clearNotification()),
 });
 

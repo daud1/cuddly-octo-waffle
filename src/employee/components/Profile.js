@@ -58,6 +58,7 @@ export default class Profile extends React.Component {
       addQualification,
       editQualification,
     } = this.props;
+
     const {
       showEditSocialForm,
       showEditBioForm,
@@ -72,6 +73,7 @@ export default class Profile extends React.Component {
         <ProfileBanner
           editProfile={editProfile}
           profileId={profile.id}
+          userType={profile.user.user_type}
           token={profile.key}
         />
 
@@ -88,7 +90,7 @@ export default class Profile extends React.Component {
                 })}
                 onSubmit={values => {
                   this.toggleEditNameForm();
-                  editProfile(profile.id, profile.key, values);
+                  editProfile(profile.id, profile.user.user_type, profile.key, values);
                 }}
               >
                 <Container columns mt="5px" width="20%">
@@ -146,7 +148,7 @@ export default class Profile extends React.Component {
                   Object.keys(values.social).forEach(key => {
                     if (!values.social[key].trim()) delete values.social[key];
                   });
-                  editProfile(profile.id, profile.key, values);
+                  editProfile(profile.id, profile.user.user_type, profile.key, values);
                   this.toggleEditSocialForm();
                 }}
               />
@@ -202,7 +204,12 @@ export default class Profile extends React.Component {
                     })}
                     onSubmit={values => {
                       this.toggleEditBioForm();
-                      return editProfile(profile.id, profile.key, values);
+                      return editProfile(
+                        profile.id,
+                        profile.user.user_type,
+                        profile.key,
+                        values
+                      );
                     }}
                   >
                     <Form>
@@ -248,6 +255,7 @@ export default class Profile extends React.Component {
                     <IntroSec
                       heading={profile.name || "NAME"}
                       fieldValue={profile.intro || "--"}
+                      scrollable
                     />
                     <IntroSec
                       fieldLabel="FIELD / INDUSTRY"

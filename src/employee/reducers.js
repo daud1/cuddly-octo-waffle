@@ -208,7 +208,6 @@ export function addQualification(profileId, key, qualification) {
   return dispatch => {
     const headers = { "content-type": "application/json", Authorization: `Token ${key}` };
     qualification.employee = profileId;
-
     dispatch(setLoading({ isLoading: true, loadingText: "Working..." }));
     return axios
       .post(`${API_URL}/employee/qualifications/`, qualification, { headers })
