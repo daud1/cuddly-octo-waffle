@@ -1,6 +1,6 @@
 import BriefProfile from "./BriefProfile";
 import { Container } from "../../shared/components/StyledComponents";
-import JobList from "./JobList";
+import JobList from "../../shared/components/JobList";
 import PropTypes from "prop-types";
 import React from "react";
 

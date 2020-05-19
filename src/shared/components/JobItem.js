@@ -3,11 +3,11 @@ import {
   Container,
   GrayTxt,
   SubTitle,
-} from "../../shared/components/StyledComponents";
+} from "./StyledComponents";
 
 import PropTypes from "prop-types";
 import React from "react";
-import profilePic from "../../shared/images/sample_profile_pic.jpg";
+import profilePic from "../images/sample_profile_pic.jpg";
 
 const JobItem = props => {
   const { title, company, salary_range, location } = props;
