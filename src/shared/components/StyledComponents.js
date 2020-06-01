@@ -116,6 +116,7 @@ export const Button = styled.button`
   color: ${props => (props.white ? "#989898" : "#fff")};
   background-color: ${props => (props.white ? "#fff" : "#5355F0")};
   box-shadow: ${props => (props.white ? "0px 0px 20px 8px #E8E7FB" : "")};
+  margin: 5px;
   margin-left: ${props => props.ml};
   margin-right: ${props => props.mr};
 `;
@@ -204,6 +205,7 @@ export const Input = styled(Field)`
   border-radius: 20px;
   width: ${props => props.width};
   height: 3rem;
+  margin: 5px;
   margin-top: ${props => props.mt};
   margin-bottom: ${props => props.mb};
   border: solid 1px #f1f1f1;
@@ -337,7 +339,7 @@ export const ListField = (arrayHelpers, values, { ...props }) => {
 
 export function NothingToDisplay(props) {
   return (
-    <Container mt={props.mt}>
+    <Container mt={props.mt} xCenter>
       <GrayTxt>Nothing to display</GrayTxt>
     </Container>
   );
